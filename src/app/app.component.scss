@@ -76,3 +76,17 @@ nz-content {
   font-size: 16px; // puedes ajustar el tamaño según lo que necesites
   font-weight: 700;
 }
+
+.menu-logout {
+  position: relative;
+  color: #fff;
+  width: 100%;
+  background: transparent;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 15px;
+  text-align: center;
+  &:hover {
+    background: rgba(139, 139, 139, 0.39);
+  }
+}

@@ -6,7 +6,7 @@
   <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
     [nzTrigger]="null">
     <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
+      <a target="_blank">
         <img src="assets/UPC_logo_transparente.png" alt="logo">
         <h1>SmartBonder</h1>
       </a>
@@ -28,6 +28,10 @@
             <a routerLink="/configuracion">Configuración del Sistema</a>
           </li>
         </ul>
+      </li>
+      <li class="menu-logout" nz-menu-item (click)="logout()">
+        <span style="font-size: 15px;" nz-icon nzType="poweroff"></span>
+        <span style="font-size: 15px">Salir</span>
       </li>
     </ul>
   </nz-sider>

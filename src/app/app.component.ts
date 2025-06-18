@@ -25,6 +25,10 @@ export class AppComponent {
   isLoginPage(): boolean {
     return this.router.url === '/login' || this.router.url === '/';
   }
+
+  logout(): void {
+    this.router.navigate(['/login']);
+  }
 }
 
 
