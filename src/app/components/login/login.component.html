@@ -1,0 +1,57 @@
+
+<div class="main-wrapper">
+  <div class="container" [class.active]="isActive" id="container">
+    <!-- Formulario de registro -->
+    <div class="form-container sign-up">
+      <form>
+        <h1 style="text-align: center">Cree una nueva cuenta</h1>
+        <div class="social-icons">
+          <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+          <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+          <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+        <span>o utilice su correo electrónico para registrarte</span>
+        <input placeholder="Nombre">
+        <input placeholder="Correo">
+        <input placeholder="Contraseña">
+        <button type="button">Registrate</button>      </form>
+    </div>
+  
+    <!-- Formulario de inicio de sesión -->
+    <div class="form-container sign-in">
+      <form (ngSubmit)="login()">
+        <h1>Iniciar Sesión</h1>
+        <div class="social-icons">
+          <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+          <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+          <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+        </div>
+        <span>o use su correo</span>
+        <input [(ngModel)]="email" name="email" placeholder="Correo">
+        <input [(ngModel)]="contrasenia" name="contraseña" placeholder="Contraseña">
+        <a href="#">Olvidaste tu contraseña?</a>        
+        <button (click)="login()" type="submit">Iniciar Sesión</button>
+      </form>
+    </div>
+  
+    <!-- Panel de alternancia -->
+    <div class="toggle-container">
+      <div class="toggle">
+        <div class="toggle-panel toggle-left">
+          <h1>Bienvenido de vuelta!</h1>
+          <p>Introduzca sus datos personales para utilizar todas las funciones del sitio</p>
+          <button (click)="transicionLogin()" class="hidden" id="login">Inicie Sesión</button>
+        </div>
+        <div class="toggle-panel toggle-right">
+          <h1>Bienvenido!</h1>
+          <p>Regístrese con sus datos personales para utilizar todas las funciones del sitio.</p>
+          <button (click)="transicionRegister()" class="hidden" id="register">Registrate</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -1,0 +1,98 @@
+<div class="container">
+    <div class="content-wrapper">
+
+        <!-- Formulario -->
+        <div class="form-section">
+            <h2>Registro de Valoración de Bono</h2>
+            <form (ngSubmit)="onSubmit()" #bonoForm="ngForm">
+                <!-- Campos del formulario -->
+                <label>Nombre del bono</label>
+                <input type="text" [(ngModel)]="bono.nombreBono" name="nombreBono" required />
+
+                <label>Monto nominal</label>
+                <input type="number" [(ngModel)]="bono.montoNominal" name="montoNominal" required />
+
+                <label>Plazo (años)</label>
+                <input type="number" [(ngModel)]="bono.plazo" name="plazo" required />
+
+                <label>Frecuencia de pago</label>
+                <select [(ngModel)]="bono.frecuenciaPago" name="frecuenciaPago" required>
+                    <option value="anual">Anual</option>
+                    <option value="semestral">Semestral</option>
+                    <option value="trimestral">Trimestral</option>
+                </select>
+
+                <label>Tasa de interés (%)</label>
+                <input type="number" [(ngModel)]="bono.tasaInteres" name="tasaInteres" required />
+
+                <label>Tipo de tasa</label>
+                <select [(ngModel)]="bono.tasaInteresTipo" name="tasaInteresTipo">
+                    <option value="efectiva">Efectiva</option>
+                    <option value="nominal">Nominal</option>
+                </select>
+
+                <label *ngIf="bono.tasaInteresTipo === 'nominal'">Capitalización</label>
+                <input *ngIf="bono.tasaInteresTipo === 'nominal'" type="number" [(ngModel)]="bono.capitalizacion"
+                    name="capitalizacion" />
+
+                <label>Fecha de emisión</label>
+                <input type="date" [(ngModel)]="bono.fechaEmision" name="fechaEmision" required />
+
+                <label>Plazos de gracia</label>
+                <select [(ngModel)]="bono.plazosGracia" name="plazosGracia">
+                    <option value="total">Total</option>
+                    <option value="parcial">Parcial</option>
+                </select>
+
+                <button type="submit">Calcular y Guardar</button>
+            </form>
+        </div>
+
+        <!-- Resultados y tabla -->
+        <div class="result-section">
+            <h3>Resultados</h3>
+            <ul *ngIf="resultados; else sinResultados">
+                <li><strong>TCEA:</strong> {{ resultados.tcea }}%</li>
+                <li><strong>TREA:</strong> {{ resultados.trea }}%</li>
+                <li><strong>Convexidad:</strong> {{ resultados.convexidad }}</li>
+                <li><strong>Duración:</strong> {{ resultados.duracion }}</li>
+                <li><strong>Duración Modificada:</strong> {{ resultados.duracionModificada }}</li>
+                <li><strong>Precio Máximo:</strong> S/ {{ resultados.precioMaximo }}</li>
+            </ul>
+            <ng-template #sinResultados>
+                <p>Aún no se han calculado los resultados.</p>
+            </ng-template>
+
+            <h3>Tabla de Amortización</h3>
+            <div class="tabla-scroll">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Periodo</th>
+                            <th>Pago</th>
+                            <th>Interés</th>
+                            <th>Amortización</th>
+                            <th>Saldo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="!tablaAmortizacion || tablaAmortizacion.length === 0">
+                            <td colspan="5">Aún no hay registros en la tabla de amortización.</td>
+                        </tr>
+                        <tr *ngFor="let fila of tablaAmortizacion">
+                            <td>{{ fila.periodo }}</td>
+                            <td>{{ fila.pago }}</td>
+                            <td>{{ fila.interes }}</td>
+                            <td>{{ fila.amortizacion }}</td>
+                            <td>{{ fila.saldo }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <ng-template #sinAmortizacion>
+                <p>Aún no hay registros en la tabla de amortización.</p>
+            </ng-template>
+        </div>
+    </div>
+</div>

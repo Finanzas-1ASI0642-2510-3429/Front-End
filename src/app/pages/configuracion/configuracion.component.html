@@ -1,0 +1,34 @@
+<div class="config-container">
+  <h2>Configuración del Sistema</h2>
+
+  <form class="config-form">
+    <div class="form-group">
+      <label for="moneda">Moneda</label>
+      <select id="moneda" [(ngModel)]="config.moneda" name="moneda">
+        <option value="PEN">PEN - Soles</option>
+        <option value="USD">USD - Dólares</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="tipoTasa">Tipo de tasa</label>
+      <select id="tipoTasa" [(ngModel)]="config.tipoTasa" name="tipoTasa">
+        <option value="nominal">Nominal</option>
+        <option value="efectiva">Efectiva</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="capitalizacion">Capitalización</label>
+      <select id="capitalizacion" [(ngModel)]="config.capitalizacion" name="capitalizacion">
+        <option value="mensual">Mensual</option>
+        <option value="bimestral">Bimestral</option>
+        <option value="trimestral">Trimestral</option>
+        <option value="semestral">Semestral</option>
+        <option value="anual">Anual</option>
+      </select>
+    </div>
+
+    <button type="button" (click)="guardarConfiguracion()">Guardar configuración</button>
+  </form>
+</div>

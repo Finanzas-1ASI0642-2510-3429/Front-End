@@ -1,0 +1,34 @@
+<div class="lista-bonos-container">
+  <h2>Lista de Valoraciones Guardadas</h2>
+
+  <table class="tabla-bonos">
+    <thead>
+      <tr>
+        <th>Nombre del Bono</th>
+        <th>Monto Nominal</th>
+        <th>Plazo (años)</th>
+        <th>Frecuencia</th>
+        <th>Interés (%)</th>
+        <th>Fecha Emisión</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let bono of bonos">
+        <td>{{ bono.nombreBono }}</td>
+        <td>S/ {{ bono.montoNominal }}</td>
+        <td>{{ bono.plazo }}</td>
+        <td>{{ bono.frecuenciaPago }}</td>
+        <td>{{ bono.tasaInteres }}</td>
+        <td>{{ bono.fechaEmision | date: 'dd/MM/yyyy' }}</td>
+        <td class="acciones">
+          <button class="accion ver" (click)="verDetalle(bono)" title="Ver"><span nz-icon nzType="eye"></span></button>
+          <button class="accion editar" (click)="editarBono(bono)" title="Editar"><span nz-icon nzType="edit"></span></button>
+          <button class="accion eliminar" (click)="eliminarBono(bono)" title="Eliminar"><span nz-icon nzType="delete"></span></button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="bonos.length === 0" class="sin-registros">Aún no hay valoraciones guardadas.</p>
+</div>
