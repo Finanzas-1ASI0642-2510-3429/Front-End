@@ -8,6 +8,8 @@
   z-index: 10;
   min-height: 100vh;
   box-shadow: 2px 0 6px rgba(0,21,41,.35);
+  background-color: #1d436b !important;
+
 }
 
 .header-trigger {
@@ -28,8 +30,12 @@
   padding-left: 24px;
   overflow: hidden;
   line-height: 64px;
-  background: #001529;
+  background: #1d436b;
   transition: all .3s;
+}
+
+.icon_fold{
+  color: #fff !important;
 }
 
 .sidebar-logo img {
@@ -58,7 +64,7 @@ nz-header {
   position: relative;
   height: 64px;
   padding: 0;
-  background: #fff;
+  background: #1d436b;
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
 }
 
@@ -73,7 +79,7 @@ nz-content {
 }
 
 .titulo-principal {
-  font-size: 16px; // puedes ajustar el tamaño según lo que necesites
+  font-size: 16px;
   font-weight: 700;
 }
 
@@ -89,4 +95,17 @@ nz-content {
   &:hover {
     background: rgba(139, 139, 139, 0.39);
   }
+}
+
+.ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub {
+  color: rgba(255, 255, 255, 0.65);
+  background: #1d436b;
+}
+
+.ant-menu-light .ant-menu-item-active,
+.ant-menu-light .ant-menu-item:hover,
+.ant-menu-light .ant-menu-submenu-active,
+.ant-menu-light .ant-menu-submenu-title:hover,
+.ant-menu-light .ant-menu:not(.ant-menu-inline) .ant-menu-submenu-open {
+  color: #1d436b;
 }

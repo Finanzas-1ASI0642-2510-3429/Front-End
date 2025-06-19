@@ -14,7 +14,9 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent {
   isCollapsed = false;
-
+  avatarInicial: string = "";
+  avatarColor: string = "";
+  abrirDrop = false;
 
   constructor(
     private router: Router,
@@ -29,6 +31,12 @@ export class AppComponent {
   logout(): void {
     this.router.navigate(['/login']);
   }
+
+  toggleDropdown(event: Event) {
+    event.stopPropagation();
+    this.abrirDrop = !this.abrirDrop;
+  }
+
 }
 
 
