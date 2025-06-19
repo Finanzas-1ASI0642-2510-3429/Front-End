@@ -14,7 +14,6 @@ export class ModalRecuperarPasswordComponent {
   @Output() cerrar = new EventEmitter<void>();
 
   enviarReset() {
-    console.log('Recuperar contraseña para:', this.email);
     this.cerrar.emit();
   }
 

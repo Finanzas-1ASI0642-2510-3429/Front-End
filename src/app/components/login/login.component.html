@@ -1,6 +1,23 @@
 <div class="main-wrapper">
-  <div class="container" [class.active]="isActive" id="container">
-    <div class="form-container sign-up">
+
+  <div class="background-wrapper-left" [ngClass]="{
+    'slide-in-left': !isActive && !movIzq,
+    'slide-out-left': isActive && !movIzq,
+    'hidden2': movIzq
+  }">
+    <img src="assets/chica1.png" class="background-image-2" />
+  </div>
+
+  <div class="background-wrapper" [ngClass]="{
+    'slide-in-right': isActive && !movDer,
+    'slide-out-right': !isActive && !movDer,
+    'hidden2': movDer
+  }">
+    <img src="assets/img-chico.png" class="background-image" />
+  </div>
+
+  <div class="container" id="container" [class.active]="isActive" [class.animate-in]="animarEntrada">
+    <div class="form-container sign-up ">
       <form>
         <img src="assets/logoSmart.png" alt="Login Icon" class="login-image" />
         <h1 class="titu">Cree una nueva cuenta</h1>
@@ -14,12 +31,20 @@
 
     <div class="form-container sign-in">
       <form (ngSubmit)="login()">
-        <img src="assets/logoSmart.png" alt="Login Icon" class="login-image" />
+        <img src="assets/logoSmart.png" alt="Login Ico  n" class="login-image" />
         <h1 class="titu-ini">Iniciar Sesión</h1>
         <span>o use su correo</span>
-        <input [(ngModel)]="email" name="email" placeholder="Correo">
-        <input [(ngModel)]="contrasenia" name="contraseña" placeholder="Contraseña">
-        <a href="#" (click)="showModalRecuperar = true">¿Olvidaste tu contraseña?</a>
+        <input [(ngModel)]="email" name="email" placeholder="Nombre de Usuario o Correo">
+        <input [(ngModel)]="contrasenia" name="contraseña" type="password" placeholder="Contraseña">
+        <div class="remember-container">
+          <label class="custom-checkbox">
+            <input type="checkbox" [(ngModel)]="recordarme" name="recordarme" />
+            <span class="checkmark"></span>
+             <span class="txt-check">Recuérdame</span> 
+          </label>
+        </div>
+        
+        <a (click)="showModalPassword = true">¿Olvidaste tu contraseña?</a>
         <button (click)="login()" class="btn-accion" type="submit">Iniciar Sesión</button>
       </form>
     </div>
@@ -39,19 +64,17 @@
       </div>
     </div>
   </div>
- 
-  
+
+
   <div class="login-footer poppins-regular">
     <span class="copyright">
       <i nz-icon nzType="copyright-circle"></i> 2025 - SmartBonder - Todos los derechos reservados - Dmon
     </span>
-    <span class="version">
+    <span style="color: white;" class="version">
       <i class="mdi mdi-information-outline"></i> v 1.0
     </span>
   </div>
 </div>
 
-<app-modal-recuperar-password
-  *ngIf="showModalRecuperar"
-  (cerrar)="showModalRecuperar = false">
+<app-modal-recuperar-password *ngIf="showModalPassword" (cerrar)="showModalPassword = false">
 </app-modal-recuperar-password>
