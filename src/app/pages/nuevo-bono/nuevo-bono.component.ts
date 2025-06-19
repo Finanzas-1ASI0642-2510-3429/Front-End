@@ -1,16 +1,15 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // Asegúrate de importar FormsModule
+import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-welcome',
+  selector: 'app-nuevo-bono',
   standalone: true,
-  templateUrl: './welcome.component.html',
-  styleUrl: './welcome.component.scss',
-  imports: [FormsModule, CommonModule]  // Importa FormsModule aquí para usar ngForm
-
+  imports: [FormsModule, CommonModule],
+  templateUrl: './nuevo-bono.component.html',
+  styleUrl: './nuevo-bono.component.scss'
 })
-export class WelcomeComponent {
+export class NuevoBonoComponent {
   bono = {
     nombreBono: '',
     montoNominal: 0,
@@ -26,8 +25,6 @@ export class WelcomeComponent {
   resultados: any = null;
   tablaAmortizacion: any[] = [];
   constructor() { }
-
-
   onSubmit() {
     // Aquí calculas los valores y la tabla de amortización
     this.calcularResultados();

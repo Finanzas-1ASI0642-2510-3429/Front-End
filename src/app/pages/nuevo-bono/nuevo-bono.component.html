@@ -1,11 +1,9 @@
 <div class="container">
     <div class="content-wrapper">
 
-        <!-- Formulario -->
         <div class="form-section">
-            <h2>Registro de Valoración de Bono</h2>
+            <h2 class="tit">Registro de Valoración de Bono</h2>
             <form (ngSubmit)="onSubmit()" #bonoForm="ngForm">
-                <!-- Campos del formulario -->
                 <label>Nombre del bono</label>
                 <input type="text" [(ngModel)]="bono.nombreBono" name="nombreBono" required />
 
@@ -48,7 +46,6 @@
             </form>
         </div>
 
-        <!-- Resultados y tabla -->
         <div class="result-section">
             <h3>Resultados</h3>
             <ul *ngIf="resultados; else sinResultados">

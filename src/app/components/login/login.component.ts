@@ -19,12 +19,9 @@ export class LoginComponent implements OnInit{
   isActive = false;
   movIzq = false;
   movDer = false;  
-  email: string = '';
-  contrasenia: string = '';
-  nombre: string = '';
+
   animarEntrada = false;
   showModalPassword = false;
-  recordarme: boolean = false;
 
   constructor(private router: Router,
   ) { }
@@ -32,16 +29,6 @@ export class LoginComponent implements OnInit{
   ngOnInit(): void {
     this.animarEntrada = true;   
     this.movDer = true;
-
-    const recordarEmail = localStorage.getItem('savedEmail');
-    const recordarPassword = localStorage.getItem('savedPassword');
-    const recordarFlag = localStorage.getItem('rememberMe');
-
-    if (recordarFlag === 'true') {
-      this.recordarme = true;
-      this.email = recordarEmail ?? '';
-      this.contrasenia = recordarPassword ?? '';
-    }
   }
 
   transicionLogin() {
@@ -60,18 +47,7 @@ export class LoginComponent implements OnInit{
 
   login() {
 
-    if (!this.email || !this.contrasenia) return;
-
-    if (this.recordarme) {
-      localStorage.setItem('savedEmail', this.email);
-      localStorage.setItem('savedPassword', this.contrasenia);
-      localStorage.setItem('rememberMe', 'true');
-    } else {
-      localStorage.removeItem('savedEmail');
-      localStorage.removeItem('savedPassword');
-      localStorage.removeItem('rememberMe');
-    }
-    this.router.navigate(['/welcome']);
+    this.router.navigate(['/nuevo-bono']);
   };
 
   showResetForm = false;

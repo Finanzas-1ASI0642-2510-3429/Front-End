@@ -5,3 +5,125 @@
 * {
   font-family: 'Poppins', sans-serif;
 }
+
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+  background: #1E4569 !important;
+}
+
+
+body.dark-mode {
+  background-color: #1e1e1e !important;
+
+  .app-header {
+    background-color: #202020f8 !important;
+    box-shadow: 0 1px 4px rgba(255, 255, 255, 0.08);
+  }
+
+  .ant-menu-dark .ant-menu-inline.ant-menu-sub {
+    background: rgba(32, 32, 32, 0.9725490196) !important;
+  }
+
+  .ant-menu.ant-menu-dark,
+  .ant-menu-dark .ant-menu-sub,
+  .ant-menu.ant-menu-dark .ant-menu-sub {
+    color: rgb(255, 255, 255) !important;
+    background: rgba(32, 32, 32, 0.9725490196) !important;
+  }
+
+  .menu-sidebar {
+    background-color: #202020f8 !important;
+  }
+
+  .sidebar-logo h1 {
+    color: white !important;
+  }
+
+  .sidebar-logo {
+    background-color: #202020f8 !important;
+  }
+
+  .menu-logout {
+    background: rgba(231, 229, 229, 0.075) !important;
+  }
+
+  ul[nz-menu] {
+    background-color: #202020f8 !important;
+  }
+
+  li[nz-menu-item] {
+    color: rgba(255, 255, 255, 0.85) !important;
+    font-family: 'Poppins', sans-serif;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+  }
+
+  .ant-layout {
+    background-color: #00000007 !important;
+    color: #ffffff !important;
+  }
+
+  nz-content {
+    background-color: #202020f8 !important;
+  }
+
+  .inner-content {
+    background-color: #202020f8 !important;
+  }
+
+  .outside-icon {
+    color: #ccc !important;
+
+    &.sun.active {
+      color: #f7d046 !important;
+    }
+
+    &.moon.active {
+      color: #4c9aff !important;
+    }
+  }
+
+  .ant-menu {
+    background-color: #202020f8 !important;
+  }
+
+  .ant-menu-item,
+  .ant-menu-submenu-title {
+    color: rgba(255, 255, 255, 0.85) !important;
+  }
+
+  .ant-menu-item:hover,
+  .ant-menu-item-active,
+  .ant-menu-submenu-title:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+  }
+
+  .ant-menu-inline,
+  .ant-menu-vertical,
+  .ant-menu-vertical-left {
+    border-right: 1px solid transparent;
+  }
+
+  .ant-menu-item a {
+    color: rgba(165, 165, 165, 0.911) !important;
+    text-decoration: none;
+  }
+
+  .ant-menu-item a:hover {
+    color: #cecece !important;
+  }
+
+  .ant-menu-submenu-arrow,
+  .ant-menu-submenu-expand-icon {
+    color: #cecece !important;
+  }
+
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: rgba(63, 63, 63, 0.247) !important;
+  }
+
+  .tit{
+    color: #ffffff !important;
+  }
+}

@@ -3,51 +3,62 @@
 </div>
 <ng-template #mainLayout>
   <nz-layout class="app-layout">
-  <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null">
-    <div class="sidebar-logo">
-      <a target="_blank">
-        <img src="assets/UPC_logo_transparente.png" alt="logo">
-        <h1>SmartBonder</h1>
-      </a>
-    </div>
-    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Bonos" nzIcon="dollar">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/welcome">Nuevo Bono</a>
-          </li>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/lista-bonos">Lista de Bonos</a>
-          </li>
-        </ul>
-      </li>
-      <li nz-submenu nzOpen nzTitle="Mantenimiento" nzIcon="form">
-        <ul>
-          <li nz-menu-item nzMatchRouter>
-            <a routerLink="/configuracion">Configuración del Sistema</a>
-          </li>
-        </ul>
-      </li>
-      <li class="menu-logout" nz-menu-item (click)="logout()">
-        <span style="font-size: 15px;" nz-icon nzType="poweroff"></span>
-        <span style="font-size: 15px">Salir</span>
-      </li>
-    </ul>
-  </nz-sider>
-  <nz-layout>
-    <nz-header>
-      <div class="app-header">
-        <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-          <nz-icon class="trigger; icon_fold" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" />
-        </span>
+    <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+      [nzTrigger]="null">
+      <div class="sidebar-logo">
+        <a target="_blank">
+          <img src="assets/UPC_logo_transparente.png" alt="logo">
+          <h1>SmartBonder</h1>
+        </a>
       </div>
-    </nz-header>
-    <nz-content>
-      <div class="inner-content">
-        <router-outlet></router-outlet>
-      </div>
-    </nz-content>
+      <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+        <li>
+        </li>
+        <li nz-submenu nzOpen nzTitle="Bonos" nzIcon="dollar">
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <a routerLink="/nuevo-bono">Nuevo Bono</a>
+            </li>
+            <li nz-menu-item nzMatchRouter>
+              <a routerLink="/lista-bonos">Lista de Bonos</a>
+            </li>
+          </ul>
+        </li>
+        <li nz-submenu nzOpen nzTitle="Mantenimiento" nzIcon="form">
+          <ul>
+            <li nz-menu-item nzMatchRouter>
+              <a routerLink="/configuracion">Configuración del Sistema</a>
+            </li>
+          </ul>
+        </li>
+        <li nz-menu-item (click)="logout()">
+          <span nz-icon nzType="poweroff"></span>
+          <span  *ngIf="!isCollapsed">Salir</span>
+        </li>
+
+        <li nz-menu-item class="menu-dark-mode" nz-tooltip nzTooltipTitle="Modo Oscuro">
+          <div class="theme-switch" *ngIf="!isCollapsed">
+            <span nz-icon nzType="sun" [class.dark]="esOscuro" class="outside-icon-sun"></span>
+            <nz-switch [(ngModel)]="esOscuro" (ngModelChange)="toggleTheme($event)" class="custom-switch"></nz-switch>
+            <span nz-icon nzType="moon" [class.dark]="esOscuro" class="outside-icon-moon"></span>
+          </div>
+        </li>
+      </ul>
+
+    </nz-sider>
+    <nz-layout>
+      <nz-header>
+        <div class="app-header">
+          <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+            <nz-icon class="trigger; icon_fold" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" />
+          </span>
+        </div>
+      </nz-header>
+      <nz-content>
+        <div class="inner-content">
+          <router-outlet></router-outlet>
+        </div>
+      </nz-content>
+    </nz-layout>
   </nz-layout>
-</nz-layout>
-</ng-template >
+</ng-template>
