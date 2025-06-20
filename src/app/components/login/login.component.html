@@ -53,47 +53,55 @@
     <div class="toggle-container">
       <div class="toggle">
         <div class="toggle-panel toggle-left">
-          <h1 class="titu-2">{{ 'BIENVENIDO' | translate }}</h1>
+          <h1 class="titu-2">{{ 'BIENVENIDO_DE_VUELTA' | translate }}</h1>
           <p>{{ 'INTRODUCIR DATOS' | translate }}</p>
-          <button (click)="transicionLogin()" class="btn-accion hidden" id="login">{{ 'INICIE_SESION' | translate }}</button>
+          <button (click)="transicionLogin()" class="btn-accion hidden" id="login">{{ 'INICIE_SESION' | translate
+            }}</button>
         </div>
         <div class="toggle-panel toggle-right">
-          <h1 class="titu-2">Bienvenido!</h1>
+          <h1 class="titu-2">{{ 'BIENVENIDO' | translate }}</h1>
           <p>{{ 'REGiSTRESE_DATOS' | translate }}</p>
-          <button (click)="transicionRegister()" class="btn-accion hidden" id="register">{{ 'REGISTRATE' | translate }}</button>
+          <button (click)="transicionRegister()" class="btn-accion hidden" id="register">{{ 'REGISTRATE' | translate
+            }}</button>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="login-footer poppins-regular">
+    <span class="copyright">
+      <i nz-icon nzType="copyright-circle"></i> 2025 - SmartBonder - {{ 'DERECHOS' | translate }} - Dmon - v 1.0
+    </span>
+  </div>
 
   <div class="menu-idiomas">
-    <div class="idioma-boton principal" (click)="toggleIdiomas()">{{ idiomaActual }}</div>
-  
-    <div
-      class="idioma-boton opcion"
-      *ngIf="mostrarEN && idiomaActual !== 'EN'"
-      (click)="cambiarIdioma('EN')">
+
+    <div class="idioma-boton principal" [ngClass]="{ 'bandera-qc': idiomaActual === 'QC' }" (click)="toggleIdiomas()">
+      {{ idiomaActual }}
+    </div>
+
+    <div class="idioma-boton opcion" *ngIf="mostrarEN && idiomaActual !== 'EN'" (click)="cambiarIdioma('EN')">
       EN
     </div>
-  
-    <div
-      class="idioma-boton opcion"
-      *ngIf="mostrarPT && idiomaActual !== 'PT'"
-      (click)="cambiarIdioma('PT')">
+
+    <div class="idioma-boton opcion" *ngIf="mostrarPT && idiomaActual !== 'PT'" (click)="cambiarIdioma('PT')">
       PT
     </div>
-  
-    <div
-      class="idioma-boton opcion"
-      *ngIf="mostrarES && idiomaActual !== 'ES'"
-      (click)="cambiarIdioma('ES')">
+
+    <div class="idioma-boton opcion" *ngIf="mostrarES && idiomaActual !== 'ES'" (click)="cambiarIdioma('ES')">
       ES
     </div>
+
+    <div class="idioma-boton  idioma-qc" *ngIf="mostrarQC && idiomaActual !== 'QC'" (click)="cambiarIdioma('QC')">
+      QC
+    </div>
   </div>
-  
+
 </div>
 
+<div class="mensaje-qc" *ngIf="mostrarMensajeQC" [ngClass]="{ 'fade-out': mensajeDesapareciendo }">
+  Mana jolljepajchu jaripa chaninninja.
+</div>
 
 <app-modal-recuperar-password *ngIf="showModalPassword" (cerrar)="showModalPassword = false">
 </app-modal-recuperar-password>

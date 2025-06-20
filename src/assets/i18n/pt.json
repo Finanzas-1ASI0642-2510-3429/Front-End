@@ -9,11 +9,16 @@
     "CREA_CUENTA": "Crie uma nova conta",
     "SUBTITULO_REGISTRO": "ou use seu e-mail para registrar-se",
     "CORREO": "Correspondência",
-    "BIENVENIDO" : "Bem vindo de volta!",
+    "BIENVENIDO_DE_VUELTA" : "Bem vindo de volta!",
     "INTRODUCIR DATOS": "Insira seus dados pessoais para usar todos os recursos do site",
     "INICIE_SESION": "Entrar",
     "NOMBRE_USUARIO": "Nome de usuário ou e-mail",
-    "REGiSTRESE_DATOS": "Por favor, registre-se com seus dados pessoais para usar todos os recursos do site."
-
+    "REGiSTRESE_DATOS": "Por favor, registre-se com seus dados pessoais para usar todos os recursos do site.",
+    "BIENVENIDO": "Bem-vindo!",
+    "RECUPERAR_PASS": "Recuperar senha",
+    "INGRESE_CORREO_RECUPERACION": "Digite seu e-mail para receber o link de recuperação",
+    "ENVIAR": "Enviar",
+    "CANCELAR": "Cancelar",
+    "DERECHOS": "Todos os direitos reservados"
   }
   

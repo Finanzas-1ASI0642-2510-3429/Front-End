@@ -6,7 +6,7 @@ import { NzFloatButtonModule } from 'ng-zorro-antd/float-button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { ModalRecuperarPasswordComponent } from '../modales/modal-recuperar-password/modal-recuperar-password.component';
 import { TranslateService } from '@ngx-translate/core';
-import { TranslateModule } from '@ngx-translate/core'; // <-- Agrega esto arriba
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @Component({
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   isActive = false;
   movIzq = false;
   movDer = false;
-
+  mostrarMensajeQC = false;
   animarEntrada = false;
   showModalPassword = false;
 
@@ -38,8 +38,18 @@ export class LoginComponent implements OnInit {
     const idioma = idiomaGuardado ? idiomaGuardado.toUpperCase() : 'ES';
   
     this.idiomaActual = idioma;
-    this.translate.use(idioma.toLowerCase()); // Aplicar traducción
-    this.actualizarOpciones(false); // Ocultar el botón duplicado
+    this.translate.use(idioma.toLowerCase());
+    this.actualizarOpciones(false);
+
+    if (this.idiomaActual === 'QC') {
+      this.mostrarMensajeQC = true;
+      setTimeout(() => {
+        this.mensajeDesapareciendo = true;
+        setTimeout(() => {
+          this.mostrarMensajeQC = false;
+          this.mensajeDesapareciendo = false;
+        }, 400);
+      }, 3000);    }
   }
 
   transicionLogin() {
@@ -80,6 +90,8 @@ export class LoginComponent implements OnInit {
   mostrarEN = false;
   mostrarPT = false;
   mostrarES = false;
+  mostrarQC = false;
+  mensajeDesapareciendo = false;
 
   toggleIdiomas(): void {
     this.idiomasAbierto = !this.idiomasAbierto;
@@ -90,10 +102,12 @@ export class LoginComponent implements OnInit {
     this.mostrarEN = valor;
     this.mostrarPT = valor;
     this.mostrarES = valor;
+    this.mostrarQC = valor;
   
     if (this.idiomaActual === 'EN') this.mostrarEN = false;
     if (this.idiomaActual === 'PT') this.mostrarPT = false;
     if (this.idiomaActual === 'ES') this.mostrarES = false;
+    if (this.idiomaActual === 'QC') this.mostrarQC = false;
   }
   
   cambiarIdioma(idioma: string): void {
@@ -105,9 +119,20 @@ export class LoginComponent implements OnInit {
   
     this.idiomasAbierto = false;
     this.actualizarOpciones(false);
+
+    if (this.idiomaActual === 'QC') {
+      this.mostrarMensajeQC = true;
+      this.mensajeDesapareciendo = false;
+  
+      setTimeout(() => {
+        this.mensajeDesapareciendo = true;
+        setTimeout(() => {
+          this.mostrarMensajeQC = false;
+          this.mensajeDesapareciendo = false;
+        }, 400);
+      }, 3000);
+    }
   }
-
-
 }
 
 

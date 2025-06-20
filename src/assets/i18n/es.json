@@ -8,10 +8,16 @@
     "REGISTRATE": "Regístrate",
     "CREA_CUENTA": "Cree una nueva cuenta",
     "SUBTITULO_REGISTRO": "o utilice su correo electrónico para registrarte",
-    "CORREO": "Correo",
-    "BIENVENIDO" : "Bienvenido de vuelta!",
+    "CORREO": "Correo electrónico",
+    "BIENVENIDO_DE_VUELTA" : "Bienvenido de vuelta!",
     "INTRODUCIR DATOS": "Introduzca sus datos personales para utilizar todas las funciones del sitio",
     "INICIE_SESION": "Inicie Sesión",
     "NOMBRE_USUARIO": "Nombre de Usuario o Correo",
-    "REGiSTRESE_DATOS": "Por favor, regístrese con sus datos personales para utilizar todas las funciones del sitio."
+    "REGiSTRESE_DATOS": "Por favor, regístrese con sus datos personales para utilizar todas las funciones del sitio.",
+    "BIENVENIDO": "Bienvenido!",
+    "RECUPERAR_PASS": "Recuperar contraseña",
+    "INGRESE_CORREO_RECUPERACION": "Ingrese su correo para recibir el enlace de recuperación",
+    "ENVIAR": "Enviar",
+    "CANCELAR": "Cancelar",
+    "DERECHOS": "Todos los derechos reservados"
   }

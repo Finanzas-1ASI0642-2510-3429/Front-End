@@ -8,12 +8,17 @@
     "REGISTRATE": "Sign Up",
     "CREA_CUENTA": "Create a new account",
     "SUBTITULO_REGISTRO": "or use your email for registration",
-    "CORREO": "Mail",
-    "BIENVENIDO": "Welcome back!",
+    "CORREO": "E-mail",
+    "BIENVENIDO_DE_VUELTA": "Welcome back!",
     "INTRODUCIR DATOS": "Enter your personal details to use all the features of the site",
     "INICIE_SESION": "Sign In",
     "NOMBRE_USUARIO": "Username or Email",
-    "REGiSTRESE_DATOS": "Please register with your personal details to use all the features of the site."
-
+    "REGiSTRESE_DATOS": "Please register with your personal details to use all the features of the site.",
+    "BIENVENIDO": "Welcome!",
+    "RECUPERAR_PASS": "Recover Password",
+    "INGRESE_CORREO_RECUPERACION": "Enter your email to receive the recovery link",
+    "ENVIAR": "Send",
+    "CANCELAR": "Cancel",
+    "DERECHOS": "All rights reserved"
   }
   
