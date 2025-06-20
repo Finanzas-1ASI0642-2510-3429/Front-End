@@ -29,9 +29,9 @@
 .titu-ini {
   color: rgba(0, 0, 0, 0.85);
   font-weight: 600;
-  font-size: 32px;
+  font-size: 30px;
   text-align: center;
-  padding-bottom: 12px;
+  padding-bottom: 10px;
 }
 
 .titu-2 {
@@ -442,7 +442,7 @@
   }
 }
 
-.txt-check{
+.txt-check {
   font-size: 14px !important;
   margin-top: -2px;
 }
@@ -513,4 +513,50 @@
 
 .hidden2 {
   display: none !important;
+}
+
+.menu-idiomas {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 10px;
+  z-index: 9999;
+
+  .idioma-boton {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    opacity: 1;
+  }
+
+  .principal {
+    background-color: #1d436b;
+    color: white;
+    z-index: 2;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
+  .opcion {
+    background-color: white;
+    color: #1d436b;
+
+    &:hover {
+      background-color: #e6eef9;
+    }
+  }
+
 }
