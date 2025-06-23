@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; 
+import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { UsuarioService } from '../../services/usuario.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-nuevo-bono',
   standalone: true,
@@ -9,25 +11,88 @@ import { CommonModule } from '@angular/common';
   templateUrl: './nuevo-bono.component.html',
   styleUrl: './nuevo-bono.component.scss'
 })
-export class NuevoBonoComponent {
+export class NuevoBonoComponent implements OnInit {
   bono = {
-    nombreBono: '',
+    nombre: '',
     montoNominal: 0,
-    plazo: 0,
+    plazoAnios: 0,
     frecuenciaPago: 'anual',
-    tasaInteres: 0,
-    tasaInteresTipo: 'efectiva',  // 'efectiva' o 'nominal'
-    capitalizacion: 0,
-    fechaEmision: '',
-    plazosGracia: 'parcial',
+    tipoTasa: 'efectiva',
+    capitalizacion: 'anual', 
+    tipoTasaBase: 'efectiva',
+    tasaBase: 0,
+    tipoMoneda: 'PEN',
+    periodoGracia: 0,
+    tipoGracia: 'ninguna'
   };
 
   resultados: any = null;
   tablaAmortizacion: any[] = [];
-  constructor() { }
+
+  constructor(private bonoService: UsuarioService, private http: HttpClient) {
+
+  }
+
+  ngOnInit(): void {
+    this.verificarConexionBackend();
+    this.obtenerBonos();
+
+  }
+
   onSubmit() {
-    // Aquí calculas los valores y la tabla de amortización
-    this.calcularResultados();
+  console.log('📤 Enviando bono al backend:', this.bono);
+
+  this.bonoService.registrarBono(this.bono).subscribe({
+    next: (respuesta) => {
+      console.log('✅ Bono registrado:', respuesta);
+      
+      this.obtenerBonos();
+
+      // 🧹 Limpia el formulario si quieres
+      this.bono = {
+        nombre: '',
+        montoNominal: 0,
+        plazoAnios: 0,
+        frecuenciaPago: 'anual',
+        tipoTasa: 'efectiva',
+        capitalizacion: 'anual',
+        tipoTasaBase: 'efectiva',
+        tasaBase: 0,
+        tipoMoneda: 'PEN',
+        periodoGracia: 0,
+        tipoGracia: 'ninguna'
+      };
+    },
+    error: (err) => {
+      console.error('Error al registrar el bono:', err);
+      if (err.error) {
+        console.error('error del backend:', err.error);
+      }
+    }
+  });
+}
+
+  listaBonos: any[] = [];
+
+  obtenerBonos() {
+    this.bonoService.listarBonos().subscribe({
+      next: (bonos) => {
+        console.log('lista bonos :', bonos);
+        this.listaBonos = bonos;
+
+      },
+      error: (err) => {
+        console.error('Error al obtener los bonos:', err);
+      }
+    });
+  }
+
+
+  verificarConexionBackend() {
+    this.http.get(`${environment.apiUrl}/api/bonos/ping`, { responseType: 'text' }).subscribe({
+      next: (res) => console.log('✅ Backend conectado:', res),
+      error: (err) => console.error('❌ No se pudo conectar al backend:', err)
+    });
   }
 
   calcularResultados() {
@@ -41,31 +106,6 @@ export class NuevoBonoComponent {
       precioMaximo: 950
     };
 
-    // Simulación de tabla de amortización
-    this.tablaAmortizacion = this.generarTablaAmortizacion();
   }
 
-  generarTablaAmortizacion() {
-    // Genera una tabla de amortización ficticia para demostración
-    let tabla: any[] = [];
-    let saldo = this.bono.montoNominal;
-    let interes: number, amortizacion: number, pago: number;
-
-    for (let i = 1; i <= this.bono.plazo; i++) {
-      interes = saldo * 0.05; // Suponiendo un 5% de interés anual
-      amortizacion = (this.bono.montoNominal / this.bono.plazo);
-      pago = interes + amortizacion;
-      saldo -= amortizacion;
-
-      tabla.push({
-        periodo: i,
-        pago: pago.toFixed(2),
-        interes: interes.toFixed(2),
-        amortizacion: amortizacion.toFixed(2),
-        saldo: saldo.toFixed(2)
-      });
-    }
-
-    return tabla;
-  }
 }

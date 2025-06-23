@@ -1,71 +1,88 @@
 .container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.content-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.form-section, .result-section {
+  flex: 1;
+  min-width: 0; // 🛡️ Muy importante para que no se desborde
+  box-sizing: border-box;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+
+  label {
+    margin-top: 10px;
+    font-weight: 600;
+  }
+
+  input,
+  select,
+  button {
+    margin-top: 5px;
+    padding: 8px;
+    font-size: 14px;
     width: 100%;
-    padding: 20px;
     box-sizing: border-box;
   }
-  
-  .content-wrapper {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 20px;
+
+  button {
+    margin-top: 20px;
+    background-color: #1976d2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: #145ea8;
+    }
+  }
+}
+
+.tit {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.tabla-scroll {
+  overflow-x: auto;
+  max-width: 100%;
+
+  table {
     width: 100%;
-  }
-  
-  .form-section {
-    width: 50%;
-    padding-right: 10px;
-  }
-  
-  .result-section {
-    width: 50%;
-    padding-left: 10px;
-  }
-  form {
-    display: flex;
-    flex-direction: column;
-  
-    label {
-      margin-top: 10px;
-      font-weight: 600;
+    border-collapse: collapse;
+    min-width: 600px;
+
+    th,
+    td {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      text-align: center;
     }
-  
-    input, select, button {
-      margin-top: 5px;
-      padding: 8px;
-      font-size: 14px;
-    }
-  
-    button {
-      margin-top: 20px;
-      background-color: #1976d2;
-      color: white;
-      border: none;
-      cursor: pointer;
-  
-      &:hover {
-        background-color: #145ea8;
-      }
+
+    thead {
+      background-color: #f0f0f0;
     }
   }
-  
-  .tabla-scroll {
-    overflow-x: auto;
-    max-width: 100%;
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 600px;
-  
-      th, td {
-        padding: 8px 12px;
-        border: 1px solid #ccc;
-        text-align: center;
-      }
-  
-      thead {
-        background-color: #f0f0f0;
-      }
-    }
-  }
-  
+}
+
+.table th {
+  background-color: #343a40;
+  color: white;
+}
+
