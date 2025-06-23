@@ -33,7 +33,7 @@
         </li>
         <li nz-menu-item (click)="logout()">
           <span nz-icon nzType="poweroff"></span>
-          <span  *ngIf="!isCollapsed">Salir</span>
+          <span *ngIf="!isCollapsed">Salir</span>
         </li>
 
         <li nz-menu-item class="menu-dark-mode" nz-tooltip nzTooltipTitle="Modo Oscuro">
@@ -50,8 +50,16 @@
       <nz-header>
         <div class="app-header">
           <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
-            <nz-icon class="trigger; icon_fold" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" />
+            <nz-icon class="trigger; icon_fold" nzType="isCollapsed" />
           </span>
+          <div class="user-avatar">
+            <a class="user-avatar-container">
+              <nz-avatar  [nzText]="usuarioInicial"></nz-avatar>
+              <span class="user-name">{{ usuarioNombre }}
+              </span>
+            </a>
+
+          </div>
         </div>
       </nz-header>
       <nz-content>

@@ -16,7 +16,7 @@
 
 .form-section, .result-section {
   flex: 1;
-  min-width: 0; // 🛡️ Muy importante para que no se desborde
+  min-width: 0;
   box-sizing: border-box;
 }
 

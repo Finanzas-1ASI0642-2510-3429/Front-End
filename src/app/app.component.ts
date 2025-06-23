@@ -1,23 +1,25 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet, NavigationEnd  } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { CommonModule } from '@angular/common';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { FormsModule } from '@angular/forms';
+import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, CommonModule, NzSwitchModule, FormsModule],
+  imports: [RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, CommonModule, NzSwitchModule, FormsModule, NzAvatarModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   isCollapsed = false;
   esOscuro = false;
-
+  usuarioNombre = '';
+  usuarioInicial = '';
 
   constructor(
     private router: Router,
@@ -31,6 +33,14 @@ export class AppComponent {
       this.esOscuro = JSON.parse(savedTheme);
       this.loadTheme();
     }
+
+     this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.actualizarUsuarioDesdeStorage();
+      }
+    });
+
+    this.actualizarUsuarioDesdeStorage();
   }
 
   loadTheme(): void {
@@ -49,6 +59,17 @@ export class AppComponent {
     console.log("Modo oscuro cargado:", this.esOscuro);
   }
 
+  actualizarUsuarioDesdeStorage(): void {
+    const nombre = localStorage.getItem('user');
+    if (nombre) {
+      this.usuarioNombre = nombre;
+      this.usuarioInicial = nombre.charAt(0).toUpperCase();
+    } else {
+      this.usuarioNombre = '';
+      this.usuarioInicial = '';
+    }
+  }
+
 
   isLoginPage(): boolean {
     return this.router.url === '/login' || this.router.url === '/';
@@ -56,6 +77,8 @@ export class AppComponent {
 
   logout(): void {
     this.router.navigate(['/login']);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
   }
 
   toggleTheme(isChecked: boolean): void {

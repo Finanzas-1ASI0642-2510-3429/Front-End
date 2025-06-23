@@ -18,14 +18,52 @@
 
   <div class="container" id="container" [class.active]="isActive" [class.animate-in]="animarEntrada">
     <div class="form-container sign-up ">
-      <form>
+      <form (ngSubmit)="register()">
         <img src="assets/logoSmart.png" alt="Login Icon" class="login-image" />
         <h1 class="titu">{{ 'CREA_CUENTA' | translate }}</h1>
         <span class="sub-tit">{{ 'SUBTITULO_REGISTRO' | translate }}</span>
-        <input [placeholder]="'USUARIO' | translate">
-        <input [placeholder]="'CORREO' | translate">
-        <input [placeholder]="'CONTRASENA' | translate">
+  
+        <div class="input-group-wrapper">
+          <input 
+            [(ngModel)]="registerUsername" 
+            name="registerUsername" 
+            [placeholder]="'USUARIO' | translate"
+            required 
+            (input)="validarUsername()" />
+          
+          <i *ngIf="usernameValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
+          <i *ngIf="usernameValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>
+        </div>
+        
+  
+        <div class="input-group-wrapper">
+          <input 
+            [(ngModel)]="registerPassword" 
+            name="registerPassword" 
+            type="password"
+            [placeholder]="'CONTRASENA' | translate" 
+            required 
+            (input)="validarPassword()" 
+          />
+          <i *ngIf="passwordValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
+          <i *ngIf="passwordValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>
+        </div>
+        
+  
+        <div class="rol-toggle-selector">
+          <div class="rol-toggle" [class.active]="selectedRole === 'ROLE_USER'" (click)="seleccionarRol('ROLE_USER')">
+            <i nz-icon nzType="user" class="rol-icon"></i>
+            <span class="rol-label" *ngIf="selectedRole === 'ROLE_USER'">{{ 'Usuario' }}</span>
+          </div>
+  
+          <div class="rol-toggle" [class.active]="selectedRole === 'ROLE_ADMIN'" (click)="seleccionarRol('ROLE_ADMIN')">
+            <i nz-icon nzType="tool" class="rol-icon"></i>
+            <span class="rol-label" *ngIf="selectedRole === 'ROLE_ADMIN'">{{ 'Administrador' }}</span>
+          </div>
+        </div>
+
         <button class="btn-accion btn-registro">{{ 'REGISTRATE' | translate }}</button>
+
       </form>
     </div>
 
@@ -35,11 +73,12 @@
       <form (ngSubmit)="login()">
         <img src="assets/logoSmart.png" alt="Login Ico  n" class="login-image" />
         <h1 class="titu-ini">{{ 'TITULO_INICIO' | translate }}</h1>
-        <input [placeholder]="'NOMBRE_USUARIO' | translate">
-        <input [placeholder]="'CONTRASENA' | translate">
+        <input [(ngModel)]="username" [placeholder]="'NOMBRE_USUARIO' | translate" name="username" required />
+        <input [(ngModel)]="password" type="password" [placeholder]="'CONTRASENA' | translate" name="password"
+          required />
         <div class="remember-container">
           <label class="custom-checkbox">
-            <input type="checkbox" name="recordarme" />
+            <input type="checkbox" name="recordarme" [(ngModel)]="recordarme" (change)="onRecordarmeChange()" />
             <span class="checkmark"></span>
             <span class="txt-check">{{ 'RECORDAR' | translate }}</span>
           </label>
@@ -49,6 +88,8 @@
         <button (click)="login()" class="btn-accion" type="submit">{{ 'INICIAR' | translate }}</button>
       </form>
     </div>
+
+
 
     <div class="toggle-container">
       <div class="toggle">
@@ -68,9 +109,16 @@
     </div>
   </div>
 
+  <span
+  *ngIf="usernameValido === false"
+  class="floating-error-bubble"
+>
+  {{ usernameErrorMensaje }}
+</span>
+
   <div class="login-footer poppins-regular">
     <span class="copyright">
-      <i nz-icon nzType="copyright-circle"></i> 2025 - SmartBonder - {{ 'DERECHOS' | translate }} - Dmon - v 1.0
+      <i nz-icon nzType="copyright-circle"></i> 2025 - SmartBonder - {{ 'DERECHOS' | translate }} - Grupo 3 - v 1.0
     </span>
   </div>
 

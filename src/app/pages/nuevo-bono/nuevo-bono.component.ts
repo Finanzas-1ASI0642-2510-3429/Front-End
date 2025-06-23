@@ -44,11 +44,10 @@ export class NuevoBonoComponent implements OnInit {
 
   this.bonoService.registrarBono(this.bono).subscribe({
     next: (respuesta) => {
-      console.log('✅ Bono registrado:', respuesta);
+      console.log('Bono registrado:', respuesta);
       
       this.obtenerBonos();
 
-      // 🧹 Limpia el formulario si quieres
       this.bono = {
         nombre: '',
         montoNominal: 0,
@@ -90,22 +89,9 @@ export class NuevoBonoComponent implements OnInit {
 
   verificarConexionBackend() {
     this.http.get(`${environment.apiUrl}/api/bonos/ping`, { responseType: 'text' }).subscribe({
-      next: (res) => console.log('✅ Backend conectado:', res),
-      error: (err) => console.error('❌ No se pudo conectar al backend:', err)
+      next: (res) => console.log(' Backend conectado:', res),
+      error: (err) => console.error(' No se pudo conectar al backend:', err)
     });
-  }
-
-  calcularResultados() {
-    // Simulación de resultados
-    this.resultados = {
-      tcea: 8.5,
-      trea: 7.2,
-      convexidad: 5.3,
-      duracion: 4.1,
-      duracionModificada: 3.6,
-      precioMaximo: 950
-    };
-
   }
 
 }
