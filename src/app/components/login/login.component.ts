@@ -30,11 +30,14 @@ export class LoginComponent implements OnInit {
   showModalPassword = false;
   username = '';
   password = '';
-  errorMessage = '';
   registerUsername = '';
   registerPassword = '';
   selectedRole = '';
   recordarme = false;
+  usernameValido: boolean | null = null;
+  usernameErrorMensaje: string = '';
+  passwordValido: boolean | null = null;
+
 
   constructor(private router: Router,
     private translate: TranslateService,
@@ -87,6 +90,14 @@ export class LoginComponent implements OnInit {
     this.isActive = false;
     this.movDer = false;
     this.movIzq = false;
+    this.registerUsername = '';
+    this.registerPassword = '';
+    this.selectedRole = '';
+    this.usernameValido = null;
+    this.usernameErrorMensaje = '';
+    this.passwordValido = null;
+    this.passwordErrorMensajes = [];
+
     setTimeout(() => this.movDer = true, 800);
   }
 
@@ -94,12 +105,27 @@ export class LoginComponent implements OnInit {
     this.isActive = true;
     this.movIzq = false;
     this.movDer = false;
+
+    if (!this.recordarme) {
+      this.username = '';
+      this.password = '';
+    }
+
     setTimeout(() => this.movIzq = true, 800);
   }
 
+  mensajeBienvenida = '';
+  mostrarBienvenida = false;
+  mostrarErrorLogin = false;
+  mostrandoPreloader = false;
+
   login() {
     if (!this.username || !this.password) {
-      this.errorMessage = 'Usuario y contraseña son obligatorios';
+      Swal.fire({
+        icon: 'warning',
+        title: 'Campos requeridos',
+        text: 'Por favor ingresa tu usuario y contraseña.'
+      });
       return;
     }
 
@@ -112,14 +138,24 @@ export class LoginComponent implements OnInit {
     this.loginService.signIn({ username: this.username, password: this.password }).subscribe({
       next: (res) => {
         this.loginService.saveToken(res.token);
-
         localStorage.setItem('user', this.username);
 
-        this.router.navigate(['/nuevo-bono']);
+        this.mensajeBienvenida = `¡Bienvenido, <strong>${this.username}</strong>!`;
+        this.mostrarBienvenida = true;
+
+        setTimeout(() => {
+          this.mostrandoPreloader = true;
+
+          setTimeout(() => {
+            this.router.navigate(['/nuevo-bono']);
+          }, 1000);
+        }, 1500);
       },
-      error: (err) => {
-        this.errorMessage = 'Usuario o contraseña incorrectos';
-        console.error('Error login', err);
+      error: () => {
+        this.mostrarErrorLogin = true;
+        setTimeout(() => {
+          this.mostrarErrorLogin = false;
+        }, 1000);
       }
     });
   }
@@ -168,28 +204,29 @@ export class LoginComponent implements OnInit {
       }
     });
   }
-  usernameValido: boolean | null = null;
-  usernameErrorMensaje: string = '';
-  passwordValido: boolean | null = null;
+
+  passwordErrorMensajes: string[] = [];
 
   validarPassword(): void {
     const pass = this.registerPassword;
     const user = this.registerUsername;
-
-    const tieneLongitud = pass.length >= 6;
-    const tieneLetra = /[A-Za-z]/.test(pass);
-    const tieneNumero = /\d/.test(pass);
-    const tieneEspecial = /[!@#$%^&*]/.test(pass);
-    const noComun = !/(123456|password|admin)/i.test(pass);
-    const noIgualUser = pass !== user;
+    this.passwordErrorMensajes = [];
 
     if (pass.length === 0) {
-      this.passwordValido = null; // Oculta los íconos si está vacío
+      this.passwordValido = null;
       return;
     }
 
-    this.passwordValido = tieneLongitud && tieneLetra && tieneNumero && tieneEspecial && noComun && noIgualUser;
+    if (pass.length < 6) this.passwordErrorMensajes.push('Mínimo 6 caracteres');
+    if (!/[A-Za-z]/.test(pass)) this.passwordErrorMensajes.push('Debe contener al menos una letra');
+    if (!/\d/.test(pass)) this.passwordErrorMensajes.push('Debe contener al menos un número');
+    if (!/[!@#$%^&*]/.test(pass)) this.passwordErrorMensajes.push('Debe incluir un carácter especial');
+    if (/(123456|password|admin)/i.test(pass)) this.passwordErrorMensajes.push('No uses contraseñas comunes');
+    if (pass === user) this.passwordErrorMensajes.push('No debe ser igual al nombre de usuario');
+
+    this.passwordValido = this.passwordErrorMensajes.length === 0;
   }
+
 
   validarUsername(): void {
     const u = this.registerUsername || '';
@@ -215,7 +252,6 @@ export class LoginComponent implements OnInit {
       this.usernameErrorMensaje = 'Solo letras, números y guiones';
       return;
     }
-    // si llegó hasta aquí, es válido
     this.usernameValido = true;
     this.usernameErrorMensaje = '';
   }

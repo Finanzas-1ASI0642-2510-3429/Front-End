@@ -6,6 +6,12 @@
     'hidden2': movIzq
   }">
     <img src="assets/chica1.png" class="background-image-2" />
+
+    <div class="bubble-login-error" *ngIf="mostrarErrorLogin">
+      Usuario o contraseña es incorrecto
+    </div>
+    <div *ngIf="mostrarBienvenida" class="bubble-bienvenida" [innerHTML]="mensajeBienvenida">
+    </div>
   </div>
 
   <div class="background-wrapper" [ngClass]="{
@@ -19,43 +25,58 @@
   <div class="container" id="container" [class.active]="isActive" [class.animate-in]="animarEntrada">
     <div class="form-container sign-up ">
       <form (ngSubmit)="register()">
-        <img src="assets/logoSmart.png" alt="Login Icon" class="login-image" />
+        <img src="assets/logoazuloscuro.png" alt="Login Icon" class="register-image" />
         <h1 class="titu">{{ 'CREA_CUENTA' | translate }}</h1>
-        <span class="sub-tit">{{ 'SUBTITULO_REGISTRO' | translate }}</span>
-  
+
+
         <div class="input-group-wrapper">
-          <input 
-            [(ngModel)]="registerUsername" 
-            name="registerUsername" 
-            [placeholder]="'USUARIO' | translate"
-            required 
+          <input name="registerUsername" placeholder="Nombres" required />
+
+          <!--<i *ngIf="usernameValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
+          <i *ngIf="usernameValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>-->
+
+
+        </div>
+        <div class="input-group-wrapper">
+          <input name="registerUsername" placeholder="Apellidos" required />
+
+          <!--<i *ngIf="usernameValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
+          <i *ngIf="usernameValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>-->
+
+        </div>
+
+        <div class="input-group-wrapper">
+          <input [(ngModel)]="registerUsername" name="registerUsername" [placeholder]="'USUARIO' | translate" required
             (input)="validarUsername()" />
-          
+
           <i *ngIf="usernameValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
           <i *ngIf="usernameValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>
         </div>
-        
-  
+
         <div class="input-group-wrapper">
-          <input 
-            [(ngModel)]="registerPassword" 
-            name="registerPassword" 
-            type="password"
-            [placeholder]="'CONTRASENA' | translate" 
-            required 
-            (input)="validarPassword()" 
-          />
+          <input name="registerUsername" placeholder="Correo Electrónico" required />
+
+          <!--<i *ngIf="usernameValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
+          <i *ngIf="usernameValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>-->
+
+        </div>
+
+
+
+        <div class="input-group-wrapper">
+          <input [(ngModel)]="registerPassword" name="registerPassword" type="password"
+            [placeholder]="'CONTRASENA' | translate" required (input)="validarPassword()" />
           <i *ngIf="passwordValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
           <i *ngIf="passwordValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>
         </div>
-        
-  
+
+
         <div class="rol-toggle-selector">
           <div class="rol-toggle" [class.active]="selectedRole === 'ROLE_USER'" (click)="seleccionarRol('ROLE_USER')">
             <i nz-icon nzType="user" class="rol-icon"></i>
             <span class="rol-label" *ngIf="selectedRole === 'ROLE_USER'">{{ 'Usuario' }}</span>
           </div>
-  
+
           <div class="rol-toggle" [class.active]="selectedRole === 'ROLE_ADMIN'" (click)="seleccionarRol('ROLE_ADMIN')">
             <i nz-icon nzType="tool" class="rol-icon"></i>
             <span class="rol-label" *ngIf="selectedRole === 'ROLE_ADMIN'">{{ 'Administrador' }}</span>
@@ -67,11 +88,19 @@
       </form>
     </div>
 
+    <span *ngIf="usernameValido === false" class="floating-error-bubble-user">
+      {{ usernameErrorMensaje }}
+    </span>
 
+    <div *ngIf="passwordValido === false" class="floating-error-bubble-pass">
+      <ul>
+        <li *ngFor="let msg of passwordErrorMensajes">{{ msg }}</li>
+      </ul>
+    </div>
 
     <div class="form-container sign-in">
       <form (ngSubmit)="login()">
-        <img src="assets/logoSmart.png" alt="Login Ico  n" class="login-image" />
+        <img src="assets/logoazuloscuro.png" alt="Login Ico  n" class="login-image" />
         <h1 class="titu-ini">{{ 'TITULO_INICIO' | translate }}</h1>
         <input [(ngModel)]="username" [placeholder]="'NOMBRE_USUARIO' | translate" name="username" required />
         <input [(ngModel)]="password" type="password" [placeholder]="'CONTRASENA' | translate" name="password"
@@ -109,12 +138,6 @@
     </div>
   </div>
 
-  <span
-  *ngIf="usernameValido === false"
-  class="floating-error-bubble"
->
-  {{ usernameErrorMensaje }}
-</span>
 
   <div class="login-footer poppins-regular">
     <span class="copyright">
@@ -150,6 +173,16 @@
 <div class="mensaje-qc" *ngIf="mostrarMensajeQC" [ngClass]="{ 'fade-out': mensajeDesapareciendo }">
   Mana jolljepajchu jaripa chaninninja.
 </div>
+
+<div *ngIf="mostrandoPreloader" class="preloader-overlay">
+  <div class="spinner-container">
+    <div class="spinner">
+      <img src="assets/logoSolo.png" alt="Logo Smart" class="spinner-logo" />
+    </div>
+    <p class="preloader-text">Espere un momento<br />por favor</p>
+  </div>
+</div>
+
 
 <app-modal-recuperar-password *ngIf="showModalPassword" (cerrar)="showModalPassword = false">
 </app-modal-recuperar-password>
