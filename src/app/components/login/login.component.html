@@ -25,23 +25,38 @@
   <div class="container" id="container" [class.active]="isActive" [class.animate-in]="animarEntrada">
     <div class="form-container sign-up ">
       <form (ngSubmit)="register()">
-        <img src="assets/logoazuloscuro.png" alt="Login Icon" class="register-image" />
         <h1 class="titu">{{ 'CREA_CUENTA' | translate }}</h1>
 
 
-        <div class="input-group-wrapper">
-          <input name="registerUsername" placeholder="Nombres" required />
 
-          <!--<i *ngIf="usernameValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
-          <i *ngIf="usernameValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>-->
+        <div class="row-inputs">
+          <div class="input-group-wrapper">
+            <input class="inputName" [(ngModel)]="firstName" name="firstName" placeholder="Nombres" required
+              (input)="validarNombre('firstName')" />
+            <i *ngIf="firstNameValido === false" nz-icon nzType="exclamation" class="icon-error-2 error-icon"></i>
+            <i *ngIf="firstNameValido === true" nz-icon nzType="check" class="icon-success-2 success-icon"></i>
 
 
+          </div>
+
+          <div class="input-group-wrapper">
+            <input [(ngModel)]="lastName" name="lastName" placeholder="Apellidos" required
+              (input)="validarApellido('lastName')" />
+            <i *ngIf="lastNameValido === false" nz-icon nzType="exclamation" class="icon-error-3 error-icon"></i>
+            <i *ngIf="lastNameValido === true" nz-icon nzType="check" class="icon-success-3 success-icon"></i>
+
+
+          </div>
         </div>
-        <div class="input-group-wrapper">
-          <input name="registerUsername" placeholder="Apellidos" required />
 
-          <!--<i *ngIf="usernameValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
-          <i *ngIf="usernameValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>-->
+
+        <div class="input-group-wrapper">
+          <input [(ngModel)]="email" name="email" placeholder="Correo Electrónico" required (input)="validarEmail()" />
+
+          <i *ngIf="emailValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
+          <i *ngIf="emailValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>
+
+          
 
         </div>
 
@@ -54,16 +69,6 @@
         </div>
 
         <div class="input-group-wrapper">
-          <input name="registerUsername" placeholder="Correo Electrónico" required />
-
-          <!--<i *ngIf="usernameValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
-          <i *ngIf="usernameValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>-->
-
-        </div>
-
-
-
-        <div class="input-group-wrapper">
           <input [(ngModel)]="registerPassword" name="registerPassword" type="password"
             [placeholder]="'CONTRASENA' | translate" required (input)="validarPassword()" />
           <i *ngIf="passwordValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
@@ -71,17 +76,48 @@
         </div>
 
 
-        <div class="rol-toggle-selector">
-          <div class="rol-toggle" [class.active]="selectedRole === 'ROLE_USER'" (click)="seleccionarRol('ROLE_USER')">
-            <i nz-icon nzType="user" class="rol-icon"></i>
-            <span class="rol-label" *ngIf="selectedRole === 'ROLE_USER'">{{ 'Usuario' }}</span>
+        <div class="row-inputs">
+          <div class="input-group-wrapper">
+            <input [(ngModel)]="street" name="street" placeholder="Calle" required />
           </div>
 
-          <div class="rol-toggle" [class.active]="selectedRole === 'ROLE_ADMIN'" (click)="seleccionarRol('ROLE_ADMIN')">
-            <i nz-icon nzType="tool" class="rol-icon"></i>
-            <span class="rol-label" *ngIf="selectedRole === 'ROLE_ADMIN'">{{ 'Administrador' }}</span>
+          <div class="input-group-wrapper">
+            <input [(ngModel)]="number" name="number" placeholder="Número" required />
           </div>
         </div>
+
+        <div class="row-inputs">
+          <div class="input-group-wrapper">
+            <input [(ngModel)]="city" name="city" placeholder="Ciudad" required />
+          </div>
+
+          <div class="input-group-wrapper">
+            <input [(ngModel)]="postalCode" name="postalCode" placeholder="Código Postal" required />
+          </div>
+
+          <div class="input-group-wrapper">
+            <input [(ngModel)]="country" name="country" placeholder="País" required />
+          </div>
+        </div>
+
+
+
+
+
+        <div class="rol-toggle-selector">
+          <div class="rol-toggle" [class.active]="selectedRole === 'ROLE_EMISOR'"
+            (click)="seleccionarRol('ROLE_EMISOR')">
+            <i nz-icon nzType="send" class="rol-icon"></i>
+            <span class="rol-label" *ngIf="selectedRole === 'ROLE_EMISOR'">{{ 'Emisor' }}</span>
+          </div>
+
+          <div class="rol-toggle" [class.active]="selectedRole === 'ROLE_BONISTA'"
+            (click)="seleccionarRol('ROLE_BONISTA')">
+            <i nz-icon nzType="dollar" class="rol-icon"></i>
+            <span class="rol-label" *ngIf="selectedRole === 'ROLE_BONISTA'">{{ 'Bonista' }}</span>
+          </div>
+        </div>
+
 
         <button class="btn-accion btn-registro">{{ 'REGISTRATE' | translate }}</button>
 
@@ -92,11 +128,23 @@
       {{ usernameErrorMensaje }}
     </span>
 
+    <span *ngIf="firstNameValido === false" class="floating-error-bubble-user-2">
+      No se permiten números en este campo
+    </span>
+
+    <span *ngIf="lastNameValido === false" class="floating-error-bubble-user-2">
+      No se permiten números en este campo
+    </span>
+
     <div *ngIf="passwordValido === false" class="floating-error-bubble-pass">
       <ul>
         <li *ngFor="let msg of passwordErrorMensajes">{{ msg }}</li>
       </ul>
     </div>
+
+    <span *ngIf="emailValido === false" class="floating-error-bubble-user-3">
+      Ingresa un correo válido (ej: usuario&#64;dominio.com)
+    </span>
 
     <div class="form-container sign-in">
       <form (ngSubmit)="login()">
@@ -122,7 +170,8 @@
 
     <div class="toggle-container">
       <div class="toggle">
-        <div class="toggle-panel toggle-left">
+        <div class="toggle-panel-2 toggle-left">
+          <img src="assets/logoSmartBlanco.png" alt="Login Icon" class="register-image" />
           <h1 class="titu-2">{{ 'BIENVENIDO_DE_VUELTA' | translate }}</h1>
           <p>{{ 'INTRODUCIR DATOS' | translate }}</p>
           <button (click)="transicionLogin()" class="btn-accion hidden" id="login">{{ 'INICIE_SESION' | translate

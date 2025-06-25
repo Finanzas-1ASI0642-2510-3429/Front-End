@@ -37,7 +37,14 @@ export class LoginComponent implements OnInit {
   usernameValido: boolean | null = null;
   usernameErrorMensaje: string = '';
   passwordValido: boolean | null = null;
-
+  firstName = '';
+  lastName = '';
+  email = '';
+  street = '';
+  number = '';
+  city = '';
+  postalCode = '';
+  country = '';
 
   constructor(private router: Router,
     private translate: TranslateService,
@@ -97,6 +104,17 @@ export class LoginComponent implements OnInit {
     this.usernameErrorMensaje = '';
     this.passwordValido = null;
     this.passwordErrorMensajes = [];
+    this.firstName = '';
+    this.lastName = '';
+    this.email = '';
+    this.street = '';
+    this.number = '';
+    this.city = '';
+    this.postalCode = '';
+    this.country = '';
+    this.firstNameValido = null;
+    this.lastNameValido = null;
+    this.emailValido = null;
 
     setTimeout(() => this.movDer = true, 800);
   }
@@ -165,8 +183,17 @@ export class LoginComponent implements OnInit {
     this.selectedRole = this.selectedRole === rol ? '' : rol;
   }
 
+  camposVacios(): boolean {
+    return !this.registerUsername ||
+      !this.registerPassword ||
+      !this.selectedRole ||
+      !this.firstName ||
+      !this.lastName ||
+      !this.email;
+  }
+
   register() {
-    if (!this.registerUsername || !this.registerPassword || !this.selectedRole) {
+    if (this.camposVacios()) {
       Swal.fire({
         icon: 'warning',
         title: 'Campos obligatorios',
@@ -178,8 +205,18 @@ export class LoginComponent implements OnInit {
     const payload = {
       username: this.registerUsername,
       password: this.registerPassword,
-      roles: [this.selectedRole]
+      roles: [this.selectedRole],
+      firstName: this.firstName,
+      lastName: this.lastName,
+      email: this.email,
+      street: this.street,
+      number: this.number,
+      city: this.city,
+      postalCode: this.postalCode,
+      country: this.country
     };
+
+    console.log('Payload enviado al backend para el registro:', payload);
 
     this.loginService.signUp(payload).subscribe({
       next: (res) => {
@@ -189,6 +226,14 @@ export class LoginComponent implements OnInit {
           text: 'Ahora puedes iniciar sesión.'
         });
 
+        this.firstName = '';
+        this.lastName = '';
+        this.email = '';
+        this.street = '';
+        this.number = '';
+        this.city = '';
+        this.postalCode = '';
+        this.country = '';
         this.registerUsername = '';
         this.registerPassword = '';
         this.selectedRole = '';
@@ -198,7 +243,7 @@ export class LoginComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Error al registrarse',
-          text: 'El nombre ya se encunetra registrado.'
+          text: 'Erro al relizar la petición, vuelvalo a intentar.'
         });
         console.error('Error al registrarse:', err);
       }
@@ -206,6 +251,47 @@ export class LoginComponent implements OnInit {
   }
 
   passwordErrorMensajes: string[] = [];
+
+  firstNameValido: boolean | null = null;
+  lastNameValido: boolean | null = null;
+
+  validarNombre(campo: 'firstName'): void {
+    const valor = this[campo];
+    const regexSoloLetras = /^[A-Za-zÁÉÍÓÚÑáéíóúñ\s]*$/;
+
+    if (valor === '') {
+      this[`${campo}Valido`] = null;
+      return;
+    }
+
+    this[`${campo}Valido`] = regexSoloLetras.test(valor);
+  }
+
+  validarApellido(campo: 'lastName'): void {
+    const valor = this[campo];
+    const regexSoloLetras = /^[A-Za-zÁÉÍÓÚÑáéíóúñ\s]*$/;
+
+    if (valor === '') {
+      this[`${campo}Valido`] = null;
+      return;
+    }
+
+    this[`${campo}Valido`] = regexSoloLetras.test(valor);
+  }
+
+  emailValido: boolean | null = null;
+
+  validarEmail(): void {
+    const regexEmail = /^[^@]+@[^@]+\.[^@]+$/;
+
+    if (this.email === '') {
+      this.emailValido = null;
+      return;
+    }
+
+    this.emailValido = regexEmail.test(this.email);
+  }
+
 
   validarPassword(): void {
     const pass = this.registerPassword;
