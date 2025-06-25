@@ -1,112 +1,154 @@
-<div class="container-bonos">
-  <div class="card form-card">
-    <h2 class="tit"> Registro de Valoración de Bono</h2>
-    <form (ngSubmit)="onSubmit()" #bonoForm="ngForm">
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Nombre del bono</label>
-          <input type="text" [(ngModel)]="bono.nombre" name="nombre" required />
+<div class="bono-container">
+  <div class="form-panel">
+    <div class="card">
+      <h2 class="tit"> Registro de Bono</h2>
+      <form #bonoForm="ngForm">
+        <div class="form-grid-custom">
+          <div class="col">
+            <div class="form-group">
+              <label>Nombre del bono</label>
+              <input type="text" [(ngModel)]="bono.nombre" name="nombre" required />
+            </div>
+            <div class="form-group">
+              <label>Plazo (años)</label>
+              <input [(ngModel)]="bono.plazoAnios" name="plazoAnios" required />
+            </div>
+            <div class="form-group">
+              <label>Tipo de tasa</label>
+              <select [(ngModel)]="bono.tipoTasa" name="tipoTasa" required>
+                <option value="efectiva">Efectiva</option>
+                <option value="nominal">Nominal</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Tipo de tasa base</label>
+              <select [(ngModel)]="bono.tipoTasaBase" name="tipoTasaBase" required>
+                <option value="TEA">TEA</option>
+                <option value="TNA">TNA</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Tipo de gracia</label>
+              <select [(ngModel)]="bono.tipoGracia" name="tipoGracia" required>
+                <option value="NINGUNA">Ninguna</option>
+                <option value="PARCIAL">Parcial</option>
+                <option value="TOTAL">Total</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Periodo de gracia</label>
+              <input [(ngModel)]="bono.periodoGracia" name="periodoGracia" required />
+            </div>
+            <div class="form-group">
+              <label>Tasa base (%)</label>
+              <input [(ngModel)]="bono.tasaBase" name="tasaBase" required />
+            </div>
+            <div class="form-group">
+              <label>Tipo de moneda</label>
+              <select [(ngModel)]="bono.tipoMoneda" name="tipoMoneda" required>
+                <option value="PEN">PEN (S/)</option>
+                <option value="USD">USD ($)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="col">
+            <div class="form-group">
+              <label>Monto nominal</label>
+              <input [(ngModel)]="bono.montoNominal" name="montoNominal" required />
+            </div>
+            <div class="form-group">
+              <label>Frecuencia de pago</label>
+              <select [(ngModel)]="bono.frecuenciaPago" name="frecuenciaPago" required>
+                <option value="anual">Anual</option>
+                <option value="semestral">Semestral</option>
+                <option value="trimestral">Trimestral</option>
+              </select>
+            </div>
+            <div class="form-group" *ngIf="bono.tipoTasa === 'nominal'">
+              <label>Capitalización</label>
+              <select [(ngModel)]="bono.capitalizacion" name="capitalizacion" required>
+                <option value="anual">Anual</option>
+                <option value="semestral">Semestral</option>
+                <option value="trimestral">Trimestral</option>
+                <option value="mensual">Mensual</option>
+              </select>
+            </div>
+
+          </div>
         </div>
-        <div class="form-group">
-          <label>Monto nominal</label>
-          <input type="number" [(ngModel)]="bono.montoNominal" name="montoNominal" required />
-        </div>
-        <div class="form-group">
-          <label>Plazo (años)</label>
-          <input type="number" [(ngModel)]="bono.plazoAnios" name="plazoAnios" required />
-        </div>
-        <div class="form-group">
-          <label>Frecuencia de pago</label>
-          <select [(ngModel)]="bono.frecuenciaPago" name="frecuenciaPago" required>
-            <option value="anual">Anual</option>
-            <option value="semestral">Semestral</option>
-            <option value="trimestral">Trimestral</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Tipo de tasa</label>
-          <select [(ngModel)]="bono.tipoTasa" name="tipoTasa" required>
-            <option value="efectiva">Efectiva</option>
-            <option value="nominal">Nominal</option>
-          </select>
-        </div>
-        <div class="form-group" *ngIf="bono.tipoTasa === 'nominal'">
-          <label>Capitalización</label>
-          <select [(ngModel)]="bono.capitalizacion" name="capitalizacion" required>
-            <option value="anual">Anual</option>
-            <option value="semestral">Semestral</option>
-            <option value="trimestral">Trimestral</option>
-            <option value="mensual">Mensual</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Tipo de tasa base</label>
-          <select [(ngModel)]="bono.tipoTasaBase" name="tipoTasaBase" required>
-            <option value="TEA">Efectiva (TEA)</option>
-            <option value="TNA">Nominal (TNA)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Tasa base (%)</label>
-          <input type="number" [(ngModel)]="bono.tasaBase" name="tasaBase" required />
-        </div>
-        <div class="form-group">
-          <label>Tipo de moneda</label>
-          <select [(ngModel)]="bono.tipoMoneda" name="tipoMoneda" required>
-            <option value="S/">Soles (S/)</option>
-            <option value="USD">Dólares (USD)</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Periodo de gracia</label>
-          <input type="number" [(ngModel)]="bono.periodoGracia" name="periodoGracia" required />
-        </div>
-        <div class="form-group">
-          <label>Tipo de gracia</label>
-          <select [(ngModel)]="bono.tipoGracia" name="tipoGracia" required>
-            <option value="NINGUNA">Ninguna</option>
-            <option value="PARCIAL">Parcial</option>
-            <option value="TOTAL">Total</option>
-          </select>
-        </div>
-      </div>
-      <button type="submit" class="btn-submit"> Calcular y Guardar</button>
-    </form>
+
+        <button (click)="onSubmit()" class="btn-submit"> Guardar</button>
+      </form>
+    </div>
   </div>
 
-  <div class="card table-card" *ngIf="listaBonos.length > 0">
-    <h3> Mis bonos registrados</h3>
-    <div class="tabla-scroll">
-      <table>
+
+  <div class="table-panel">
+    <h3 class="mis-bonos">Mis Bonos</h3>
+
+    <div class="card-derecha">
+      <table *ngIf="listaBonosFiltrados.length > 0">
         <thead>
           <tr>
             <th>#</th>
-            <th>Nombre</th>
+            <th>Nombre del Bono</th>
             <th>Monto</th>
-            <th>Plazo</th>
+            <th>Plazo (años)</th>
             <th>Frecuencia</th>
             <th>Tipo Tasa</th>
+            <th>Tasa Base</th>
             <th>Capitalización</th>
-            <th>Moneda</th>
+            <th>Gracia</th>
             <th>Pagos</th>
-            <th>Acción</th>
+            <th>Ver Pagos</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let bono of listaBonos; let i = index">
-            <td>{{ i + 1 }}</td>
+          <tr *ngFor="let bono of listaBonosPaginados; let i = index"
+          [class.fila-nueva]="bono.id === bonoAgregadoId || bono.nombre === bonoAgregadoId">
+                  <td>{{ i + 1 }}</td>
             <td>{{ bono.nombre }}</td>
-            <td>{{ bono.montoNominal | number:'1.0-0' }}</td>
+            <td>
+              {{ bono.tipoMoneda === 'PEN' ? 'S/' : bono.tipoMoneda === 'USD' ? '$' : bono.tipoMoneda }}
+              {{ bono.montoNominal | number:'1.0-0' }}
+            </td>
             <td>{{ bono.plazoAnios }}</td>
             <td>{{ bono.frecuenciaPago }}</td>
             <td>{{ bono.tipoTasa }}</td>
+            <td>{{ bono.tasaBase }}</td>
             <td>{{ bono.capitalizacion || '-' }}</td>
-            <td>{{ bono.tipoMoneda }}</td>
+            <td>{{ bono.tipoGracia }}</td>
             <td>{{ bono.pagos.length }}</td>
-            <td><button class="btn-ver">🔍 Ver</button></td>
+            <td>
+              <button class="btn-circular-eye">
+                <i nz-icon nzType="eye" nzTheme="outline"></i>
+              </button>
+            </td>
           </tr>
         </tbody>
       </table>
+
+      <p *ngIf="listaBonosFiltrados.length === 0">
+        No hay bonos registrados aún para este usuario.
+      </p>
+    </div>
+
+    <div class="paginacion-circulos" *ngIf="totalPaginas > 1">
+      <button class="circulo-control" (click)="cambiarPagina(paginaActual - 1)"
+        [disabled]="paginaActual === 1">‹</button>
+
+      <ng-container *ngFor="let pagina of [].constructor(totalPaginas); let i = index">
+        <button class="circulo" [ngClass]="{ activo: (i + 1) === paginaActual }" (click)="cambiarPagina(i + 1)">
+          {{ i + 1 }}
+        </button>
+      </ng-container>
+
+      <button class="circulo-control" (click)="cambiarPagina(paginaActual + 1)"
+        [disabled]="paginaActual === totalPaginas">›</button>
     </div>
   </div>
+
+
+
 </div>

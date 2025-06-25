@@ -1,34 +1,61 @@
-<div class="lista-bonos-container">
-  <h2>Lista de Valoraciones Guardadas</h2>
+<div class="bono-container pantalla-completa">
+  <h2 class="tit">Todos los Bonos Registrados</h2>
+  <div class="tabla-panel">
+    <div class="card-derecha">
+      <table *ngIf="bonos.length > 0">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Monto Nominal</th>
+            <th>Plazo (años)</th>
+            <th>Frecuencia</th>
+            <th>Tipo Tasa</th>
+            <th>Capitalización</th>
+            <th>Tipo Moneda</th>
+            <th>Periodo Gracia</th>
+            <th>Tipo Gracia</th>
+            <th>Tipo Tasa Base</th>
+            <th>Tasa Base (%)</th>
+            <th>Tasa Convertida</th>
+            <th>Cliente</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let bono of bonos; let i = index">
+            <td>{{ bono.id }}</td>
+            <td>{{ bono.nombre }}</td>
+            <td>{{ bono.montoNominal | number:'1.0-0' }}</td>
+            <td>{{ bono.plazoAnios }}</td>
+            <td>{{ bono.frecuenciaPago }}</td>
+            <td>{{ bono.tipoTasa }}</td>
+            <td>{{ bono.capitalizacion || '-' }}</td>
+            <td>{{ bono.tipoMoneda }}</td>
+            <td>{{ bono.periodoGracia }}</td>
+            <td>{{ bono.tipoGracia }}</td>
+            <td>{{ bono.tipoTasaBase }}</td>
+            <td>{{ bono.tasaBase }}</td>
+            <td>{{ bono.tasaConvertida | number:'1.4-4' }}</td>
+            <td>{{ bono.nombreCliente }}</td>
+            <td>
+              <button class="btn-circular-eye" >
+                <i nz-icon nzType="eye" nzTheme="outline"></i>
+              </button>
+              <button class="btn-circular-edit">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>
+              </button>
+              <button class="btn-circular-delete" >
+                <i nz-icon nzType="delete" nzTheme="outline"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-  <table class="tabla-bonos">
-    <thead>
-      <tr>
-        <th>Nombre del Bono</th>
-        <th>Monto Nominal</th>
-        <th>Plazo (años)</th>
-        <th>Frecuencia</th>
-        <th>Interés (%)</th>
-        <th>Fecha Emisión</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let bono of bonos">
-        <td>{{ bono.nombreBono }}</td>
-        <td>S/ {{ bono.montoNominal }}</td>
-        <td>{{ bono.plazo }}</td>
-        <td>{{ bono.frecuenciaPago }}</td>
-        <td>{{ bono.tasaInteres }}</td>
-        <td>{{ bono.fechaEmision | date: 'dd/MM/yyyy' }}</td>
-        <td class="acciones">
-          <button class="accion ver" (click)="verDetalle(bono)" title="Ver"><span nz-icon nzType="eye"></span></button>
-          <button class="accion editar" (click)="editarBono(bono)" title="Editar"><span nz-icon nzType="edit"></span></button>
-          <button class="accion eliminar" (click)="eliminarBono(bono)" title="Eliminar"><span nz-icon nzType="delete"></span></button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <p *ngIf="bonos.length === 0" class="sin-registros">Aún no hay valoraciones guardadas.</p>
+      <p *ngIf="bonos.length === 0">
+        No hay bonos registrados actualmente.
+      </p>
+    </div>
+  </div>
 </div>
