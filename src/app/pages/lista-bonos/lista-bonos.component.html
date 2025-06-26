@@ -1,61 +1,40 @@
 <div class="bono-container pantalla-completa">
   <h2 class="tit">Todos los Bonos Registrados</h2>
-  <div class="tabla-panel">
-    <div class="card-derecha">
-      <table *ngIf="bonos.length > 0">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Monto Nominal</th>
-            <th>Plazo (años)</th>
-            <th>Frecuencia</th>
-            <th>Tipo Tasa</th>
-            <th>Capitalización</th>
-            <th>Tipo Moneda</th>
-            <th>Periodo Gracia</th>
-            <th>Tipo Gracia</th>
-            <th>Tipo Tasa Base</th>
-            <th>Tasa Base (%)</th>
-            <th>Tasa Convertida</th>
-            <th>Cliente</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let bono of bonos; let i = index">
-            <td>{{ bono.id }}</td>
-            <td>{{ bono.nombre }}</td>
-            <td>{{ bono.montoNominal | number:'1.0-0' }}</td>
-            <td>{{ bono.plazoAnios }}</td>
-            <td>{{ bono.frecuenciaPago }}</td>
-            <td>{{ bono.tipoTasa }}</td>
-            <td>{{ bono.capitalizacion || '-' }}</td>
-            <td>{{ bono.tipoMoneda }}</td>
-            <td>{{ bono.periodoGracia }}</td>
-            <td>{{ bono.tipoGracia }}</td>
-            <td>{{ bono.tipoTasaBase }}</td>
-            <td>{{ bono.tasaBase }}</td>
-            <td>{{ bono.tasaConvertida | number:'1.4-4' }}</td>
-            <td>{{ bono.nombreCliente }}</td>
-            <td>
-              <button class="btn-circular-eye" >
-                <i nz-icon nzType="eye" nzTheme="outline"></i>
-              </button>
-              <button class="btn-circular-edit">
-                <i nz-icon nzType="edit" nzTheme="outline"></i>
-              </button>
-              <button class="btn-circular-delete" >
-                <i nz-icon nzType="delete" nzTheme="outline"></i>
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
 
-      <p *ngIf="bonos.length === 0">
-        No hay bonos registrados actualmente.
-      </p>
+
+
+  <div class="zona-filtros">
+    <input type="text" [(ngModel)]="filtroNombre" (input)="filtrarBonos()" placeholder="Buscar por nombre de bono"
+      class="input-busqueda" />
+
+    <button class="btn-filtro-avanzado" [class.activo]="filtrosActivos" (click)="toggleFiltrosAvanzados()">
+      Filtros avanzados
+    </button>
+  </div>
+  <div *ngIf="filtrosActivos" class="contenedor-filtros-avanzados">
+    <div class="filtro-chip" *ngFor="let campo of camposFiltroAvanzado">
+      {{ campo }}
+    </div>
+  </div>
+
+  <div class="zona-scroll-cards">
+    <div class="contenedor-cards">
+      <div *ngFor="let bono of bonos" class="card-bono">
+        <div class="icono-bono">
+          <i nz-icon nzType="dollar-circle" nzTheme="outline"></i>
+        </div>
+
+        <div class="contenido-bono">
+          <h3 class="titulo-bono">{{ bono.nombre }}</h3>
+          <p class="detalle-bono">
+            Monto: {{ bono.tipoMoneda === 'PEN' ? 'S/' : '$' }}{{ bono.montoNominal | number:'1.0-0' }}
+          </p>
+          <p class="detalle-bono">Cliente: {{ bono.nombreCliente }}</p>
+          <p class="detalle-bono">Plazo: {{ bono.plazoAnios }} </p>
+          <button class="boton-ver-mas">Ver detalles</button>
+        </div>
+        <i nz-icon nzType="rise" nzTheme="outline" class="icono-tendencia"></i>
+      </div>
     </div>
   </div>
 </div>

@@ -7,6 +7,7 @@
   animation: fadeSlideIn 0.4s ease-out both;
 }
 
+
 @keyframes fadeSlideIn {
   0% {
     opacity: 0;
@@ -35,24 +36,25 @@
 .card {
   padding: 0px 20px;
   border-radius: 10px;
+  
 }
 
 .card-derecha {
-  padding: 20px 8px;
+  padding: 15px 8px;
   border-radius: 10px;
   height: auto; 
 }
 
 .tit {
   margin-bottom: 20px;
-  font-size: 30px;
-  font-weight: 550;
+  font-size: 26px;
+  font-weight: bold;
   color: #1E4569;
 }
 
 .mis-bonos {
   margin-bottom: 0px;
-  font-size: 26px;
+  font-size: 25px;
   font-weight: 600;
   color: #1E4569;
   text-align: center;
@@ -116,7 +118,7 @@ table {
   box-shadow: 0 4px 12px rgb(0 0 0 / 30%);
 
   thead th {
-    background-color: #1E4569;
+    background-color: #214a71;
     color: white;
     font-size: 13px;
     font-weight: 600;
@@ -130,6 +132,8 @@ table {
     text-align: center;
     
   }
+
+  
 
   thead tr:first-child th:first-child {
     border-top-left-radius: 8px;
@@ -235,5 +239,51 @@ table {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+.acciones-btns {
+  display: flex;
+  gap: 8px; 
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-circular {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+
+  i {
+    font-size: 14px;
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.edit-btn {
+  background-color: #2cbe40;
+
+  &:hover {
+    background-color: #28aa39;
+  }
+}
+
+.delete-btn {
+  background-color: #ff4e4e;
+
+  &:hover {
+    background-color: #db4343;
   }
 }

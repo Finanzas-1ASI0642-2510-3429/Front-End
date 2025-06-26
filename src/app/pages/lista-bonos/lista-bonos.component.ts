@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-lista-bonos',
-  imports: [CommonModule, NzIconModule],
+  imports: [CommonModule, NzIconModule, FormsModule],
   standalone: true,
   templateUrl: './lista-bonos.component.html',
   styleUrl: './lista-bonos.component.scss'
@@ -15,12 +16,14 @@ export class ListaBonosComponent implements OnInit {
 
   bonos: any[] = [];
   username: string = '';
-
+  filtroNombre: string = '';
+  filtrosActivos: boolean = false;
+  bonosOriginales: any[] = [];
 
   ngOnInit(): void {
     this.obtenerBonos();
-    this.obtenerUsuario(); 
-
+    this.obtenerUsuario();
+    this.bonosOriginales = [...this.bonos];
   }
 
   obtenerUsuario() {
@@ -41,17 +44,42 @@ export class ListaBonosComponent implements OnInit {
     }
   }
 
-  constructor(private usuarioService: UsuarioService) {}
+  constructor(private usuarioService: UsuarioService) { }
 
   obtenerBonos(): void {
     this.usuarioService.listarBonos().subscribe({
       next: (bonos) => {
-        this.bonos = bonos.filter(b => b.nombreCliente !== this.username);
+        const filtrados = bonos.filter(b => b.nombreCliente !== this.username);
+        this.bonos = [...filtrados];
+        this.bonosOriginales = [...filtrados];
+        console.log("Bonos cargados:", this.bonos);
       },
       error: (error) => {
         console.error('Error al obtener bonos:', error);
       }
     });
   }
+
+
+
+  filtrarBonos(): void {
+    const nombre = this.filtroNombre.toLowerCase().trim();
+
+    this.bonos = this.bonosOriginales.filter(b =>
+      b.nombre.toLowerCase().includes(nombre)
+    );
+  }
+
+  toggleFiltrosAvanzados(): void {
+    this.filtrosActivos = !this.filtrosActivos;
+  }
+
+
+  camposFiltroAvanzado: string[] = [
+    'Capitalización', 'Frecuencia', 'Monto',
+    'Cliente', 'Plazo', 'Tasa Base',
+    'Tipo Gracia', 'Moneda', 'Tipo Tasa', 'Tasa Base Tipo'
+  ];
+
 
 }

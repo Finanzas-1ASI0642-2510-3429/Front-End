@@ -30,9 +30,8 @@
             <div class="form-group">
               <label>Tipo de gracia</label>
               <select [(ngModel)]="bono.tipoGracia" name="tipoGracia" required>
-                <option value="NINGUNA">Ninguna</option>
-                <option value="PARCIAL">Parcial</option>
-                <option value="TOTAL">Total</option>
+                <option value="parcial">Parcial</option>
+                <option value="total">Total</option>
               </select>
             </div>
             <div class="form-group">
@@ -78,7 +77,7 @@
           </div>
         </div>
 
-        <button (click)="onSubmit()" class="btn-submit"> Guardar</button>
+        <button (click)="registrarBono()" class="btn-submit"> Guardar</button>
       </form>
     </div>
   </div>
@@ -88,7 +87,7 @@
     <h3 class="mis-bonos">Mis Bonos</h3>
 
     <div class="card-derecha">
-      <table *ngIf="listaBonosFiltrados.length > 0">
+      <table>
         <thead>
           <tr>
             <th>#</th>
@@ -100,14 +99,20 @@
             <th>Tasa Base</th>
             <th>Capitalización</th>
             <th>Gracia</th>
-            <th>Pagos</th>
             <th>Ver Pagos</th>
+            <th>Acciones</th>
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="listaBonosFiltrados.length === 0">
+            <td colspan="11" style="text-align: center; padding: 16px;">
+              No hay bonos registrados aún para este usuario.
+            </td>
+          </tr>
+
           <tr *ngFor="let bono of listaBonosPaginados; let i = index"
-          [class.fila-nueva]="bono.id === bonoAgregadoId || bono.nombre === bonoAgregadoId">
-                  <td>{{ i + 1 }}</td>
+            [class.fila-nueva]="bono.id === bonoAgregadoId || bono.nombre === bonoAgregadoId">
+            <td>{{ (paginaActual - 1) * tamanoPagina + i + 1 }}</td>
             <td>{{ bono.nombre }}</td>
             <td>
               {{ bono.tipoMoneda === 'PEN' ? 'S/' : bono.tipoMoneda === 'USD' ? '$' : bono.tipoMoneda }}
@@ -119,22 +124,26 @@
             <td>{{ bono.tasaBase }}</td>
             <td>{{ bono.capitalizacion || '-' }}</td>
             <td>{{ bono.tipoGracia }}</td>
-            <td>{{ bono.pagos.length }}</td>
             <td>
               <button class="btn-circular-eye">
                 <i nz-icon nzType="eye" nzTheme="outline"></i>
               </button>
             </td>
+            <td class="acciones-btns">
+              <button class="btn-circular edit-btn" title="Editar">
+                <i nz-icon nzType="edit" nzTheme="outline"></i>
+              </button>
+              <button class="btn-circular delete-btn" title="Eliminar">
+                <i nz-icon nzType="delete" nzTheme="outline"></i>
+              </button>
+            </td>
+
           </tr>
         </tbody>
       </table>
-
-      <p *ngIf="listaBonosFiltrados.length === 0">
-        No hay bonos registrados aún para este usuario.
-      </p>
     </div>
 
-    <div class="paginacion-circulos" *ngIf="totalPaginas > 1">
+    <div class="paginacion-circulos">
       <button class="circulo-control" (click)="cambiarPagina(paginaActual - 1)"
         [disabled]="paginaActual === 1">‹</button>
 

@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { FormsModule } from '@angular/forms';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
+import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -23,23 +24,20 @@ export class AppComponent {
 
   constructor(
     private router: Router,
-
+    private themeService: ThemeService
   ) {
   }
 
   ngOnInit(): void {
-    const savedTheme = localStorage.getItem('darkMode');
-    if (savedTheme !== null) {
-      this.esOscuro = JSON.parse(savedTheme);
-      this.loadTheme();
-    }
-
-     this.router.events.subscribe(event => {
+    this.esOscuro = this.themeService.isDarkMode;
+    this.themeService.setDarkMode(this.esOscuro); 
+  
+    this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.actualizarUsuarioDesdeStorage();
       }
     });
-
+  
     this.actualizarUsuarioDesdeStorage();
   }
 
@@ -83,9 +81,7 @@ export class AppComponent {
 
   toggleTheme(isChecked: boolean): void {
     this.esOscuro = isChecked;
-
-    document.body.classList.toggle('dark-mode', this.esOscuro);
-    localStorage.setItem('darkMode', JSON.stringify(this.esOscuro));
+    this.themeService.setDarkMode(isChecked);
   }
 
 }

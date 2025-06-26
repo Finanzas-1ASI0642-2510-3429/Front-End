@@ -54,6 +54,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.animarEntrada = true;
     this.movDer = true;
+    this.isDark = localStorage.getItem('darkMode') === 'true';
+
 
     const recordarmeGuardado = localStorage.getItem('recordarme');
     if (recordarmeGuardado === 'true') {
@@ -192,13 +194,19 @@ export class LoginComponent implements OnInit {
       !this.email;
   }
 
+
+  isDark: boolean = false;
+
+
   register() {
     if (this.camposVacios()) {
       Swal.fire({
-        icon: 'warning',
         title: 'Campos obligatorios',
-        text: 'Por favor completa todos los campos.'
-      });
+        text: 'Por favor completa todos los campos.',
+        icon: 'warning',
+        confirmButtonText: 'Aceptar',
+        buttonsStyling: false
+      })
       return;
     }
 
