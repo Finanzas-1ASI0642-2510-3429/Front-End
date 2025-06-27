@@ -50,6 +50,7 @@
   font-size: 26px;
   font-weight: bold;
   color: #1E4569;
+  
 }
 
 .mis-bonos {
@@ -58,6 +59,7 @@
   font-weight: 600;
   color: #1E4569;
   text-align: center;
+  
 }
 
 .form-grid-custom {
@@ -273,17 +275,17 @@ table {
 }
 
 .edit-btn {
-  background-color: #2cbe40;
+  background-color: #007ea7;
 
   &:hover {
-    background-color: #28aa39;
+    background-color: #006688;
   }
 }
 
 .delete-btn {
-  background-color: #ff4e4e;
+  background-color: #00a8a8;
 
   &:hover {
-    background-color: #db4343;
+    background-color: #019999;
   }
 }

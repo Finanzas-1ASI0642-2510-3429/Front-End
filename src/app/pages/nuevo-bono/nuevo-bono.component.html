@@ -116,7 +116,7 @@
             <td>{{ bono.nombre }}</td>
             <td>
               {{ bono.tipoMoneda === 'PEN' ? 'S/' : bono.tipoMoneda === 'USD' ? '$' : bono.tipoMoneda }}
-              {{ bono.montoNominal | number:'1.0-0' }}
+              {{ bono.montoNominal }}
             </td>
             <td>{{ bono.plazoAnios }}</td>
             <td>{{ bono.frecuenciaPago }}</td>
@@ -130,10 +130,10 @@
               </button>
             </td>
             <td class="acciones-btns">
-              <button class="btn-circular edit-btn" title="Editar">
+              <button class="btn-circular edit-btn" title="Editar" (click)="abrirModal(bono)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </button>
-              <button class="btn-circular delete-btn" title="Eliminar">
+              <button class="btn-circular delete-btn" title="Eliminar" (click)="eliminarBono(bono.id)">
                 <i nz-icon nzType="delete" nzTheme="outline"></i>
               </button>
             </td>
@@ -157,7 +157,13 @@
         [disabled]="paginaActual === totalPaginas">›</button>
     </div>
   </div>
-
-
-
 </div>
+
+<app-actualizar-bono-modal
+  *ngIf="modalVisible"
+  [bono]="bonoSeleccionado"
+  (cerrar)="cerrarModal()"
+  (actualizar)="guardarCambiosBono($event)">
+</app-actualizar-bono-modal>
+
+

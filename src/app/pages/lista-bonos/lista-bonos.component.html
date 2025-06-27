@@ -27,7 +27,7 @@
         <div class="contenido-bono">
           <h3 class="titulo-bono">{{ bono.nombre }}</h3>
           <p class="detalle-bono">
-            Monto: {{ bono.tipoMoneda === 'PEN' ? 'S/' : '$' }}{{ bono.montoNominal | number:'1.0-0' }}
+            Monto: {{ bono.tipoMoneda === 'PEN' ? 'S/' : '$' }}{{ bono.montoNominal }}
           </p>
           <p class="detalle-bono">Cliente: {{ bono.nombreCliente }}</p>
           <p class="detalle-bono">Plazo: {{ bono.plazoAnios }} </p>

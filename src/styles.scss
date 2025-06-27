@@ -260,6 +260,15 @@ body.dark-mode {
   }
 
   .swal2-cancel {
+    background-color: #eb1212 !important;
+    color: #ffffff !important;
+    border-radius: 8px;
+    font-size: 13px;
+    padding: 5px 10px;
+    min-width: 110px;
+  }
+
+  .swal2-cancel {
     background-color: #e0e0e0 !important;
     color: #000000 !important;
     border-radius: 8px;

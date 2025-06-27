@@ -30,4 +30,20 @@ export class UsuarioService {
     const headers = this.getAuthHeaders();
     return this.http.get<any[]>(this.baseUrl, { headers });
   }
+
+  obtenerBonosPorUsuario(nombreCliente: string): Observable<any[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<any[]>(`${this.baseUrl}/cliente/${nombreCliente}`, { headers });
+  }
+
+  actualizarBono(bono: any): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.put<any>(`${this.baseUrl}/actualizarBono/${bono.id}`, bono, { headers });
+  }
+
+  eliminarBono(bonoId: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.delete(`${this.baseUrl}/eliminarBono/${bonoId}`, { headers });
+  }
+   
 }

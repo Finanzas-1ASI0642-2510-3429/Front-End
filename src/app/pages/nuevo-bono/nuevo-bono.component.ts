@@ -6,12 +6,12 @@ import { HttpClient } from '@angular/common/http';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import Swal from 'sweetalert2';
 import { ThemeService } from '../../services/theme.service';
-
+import { ActualizarBonoModalComponent } from '../../components/modales/actualizar-bono-modal/actualizar-bono-modal.component';
 
 @Component({
   selector: 'app-nuevo-bono',
   standalone: true,
-  imports: [FormsModule, CommonModule, NzIconModule],
+  imports: [FormsModule, CommonModule, NzIconModule, ActualizarBonoModalComponent],
   templateUrl: './nuevo-bono.component.html',
   styleUrl: './nuevo-bono.component.scss'
 })
@@ -31,13 +31,16 @@ export class NuevoBonoComponent implements OnInit {
   };
 
   resultados: any = null;
-  username: string = 'desconocido';
+  username: string = '';
   listaBonosFiltrados: any[] = [];
   nuevaFilaAnimada = false;
   bonoAgregadoId: string | null = null;
   paginaActual = 1;
   tamanoPagina = 13;
   listaBonos: any[] = [];
+  modalVisible: boolean = false;
+  bonoSeleccionado: any = null;
+
 
   constructor(private bonoService: UsuarioService,
     private http: HttpClient,
@@ -46,30 +49,35 @@ export class NuevoBonoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.obtenerBonos();
-    this.obtenerUsuario();
+    this.username = this.obtenerUsuario();
+
+    if (this.username && this.username.trim() !== '') {
+      this.obtenerBonos();
+    }
   }
 
   get isDark(): boolean {
     return this.themeService.isDarkMode;
   }
 
-  obtenerUsuario() {
+
+  obtenerUsuario(): string {
     const userData = localStorage.getItem('user');
 
     try {
       if (userData) {
         if (userData.startsWith('{')) {
           const parsedUser = JSON.parse(userData);
-          this.username = parsedUser.username || 'desconocido';
+          return parsedUser.username || '';
         } else {
-          this.username = userData;
-          console.log("Usuario:", userData)
+          return userData;
         }
       }
     } catch (e) {
       console.error('Error al parsear el usuario desde localStorage:', e);
     }
+
+    return '';
   }
 
   registrarBono() {
@@ -129,29 +137,32 @@ export class NuevoBonoComponent implements OnInit {
   }
 
   obtenerBonos(callback?: () => void) {
-    this.bonoService.listarBonos().subscribe({
+
+
+    this.bonoService.obtenerBonosPorUsuario(this.username).subscribe({
       next: (bonos) => {
         this.listaBonos = bonos;
-        this.listaBonosFiltrados = bonos.filter(b => b.nombreCliente === this.username);
+        this.listaBonosFiltrados = bonos;
+        console.log("bonos por usuario", bonos)
 
         if (callback) callback();
       },
       error: (err) => {
-        console.error('Error al obtener los bonos:', err);
+        console.error('Error al obtener los bonos del usuario:', err);
       }
     });
   }
 
   get listaBonosPaginados(): any[] {
-    const filtrados = this.listaBonos.filter(b => b.nombreCliente === this.username);
+    const ordenados = [...this.listaBonos].sort((a, b) => a.id - b.id); // ordena por ID ascendente
     const inicio = (this.paginaActual - 1) * this.tamanoPagina;
     const fin = inicio + this.tamanoPagina;
-    return filtrados.slice(inicio, fin);
+    return ordenados.slice(inicio, fin);
   }
 
+
   get totalPaginas(): number {
-    const totalFiltrados = this.listaBonos.filter(b => b.nombreCliente === this.username).length;
-    return Math.ceil(totalFiltrados / this.tamanoPagina);
+    return Math.ceil(this.listaBonos.length / this.tamanoPagina);
   }
 
   cambiarPagina(nuevaPagina: number) {
@@ -198,4 +209,75 @@ export class NuevoBonoComponent implements OnInit {
     return true;
   }
 
+  abrirModal(bono: any): void {
+    this.bonoSeleccionado = { ...bono };
+    this.modalVisible = true;
+  }
+
+  cerrarModal(): void {
+    this.modalVisible = false;
+  }
+
+  guardarCambiosBono(actualizado: any): void {
+    this.bonoService.actualizarBono(actualizado).subscribe({
+      next: () => {
+        this.cerrarModal();
+        this.obtenerBonos();
+        Swal.fire({
+          icon: 'success',
+          title: 'Bono actualizado',
+          text: 'Los datos del bono se guardaron correctamente.',
+          timer: 1500,
+          showConfirmButton: false
+        });
+      },
+      error: (err) => {
+        console.error('Error al actualizar el bono:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al actualizar',
+          text: 'Ocurrió un problema. Inténtalo nuevamente.',
+        });
+      }
+    });
+  }
+
+  eliminarBono(bonoId: number): void {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará el bono permanentemente.',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#eb1212',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.bonoService.eliminarBono(bonoId).subscribe({
+          next: () => {
+            this.listaBonos = this.listaBonos.filter(b => b.id !== bonoId);
+            this.listaBonosFiltrados = this.listaBonosFiltrados.filter(b => b.id !== bonoId);
+            Swal.fire({
+              icon: 'success',
+              title: 'Eliminado',
+              text: 'El bono ha sido eliminado correctamente.',
+              timer: 1600,
+              showConfirmButton: false
+            });
+          },
+          error: (err) => {
+            console.error('Error al eliminar el bono:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'No se pudo eliminar el bono. Intenta nuevamente.',
+            });
+          }
+        });
+      }
+    });
+  }
+  
 }
