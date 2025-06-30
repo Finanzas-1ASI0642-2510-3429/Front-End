@@ -1,0 +1,71 @@
+<div class="modal-detalles" *ngIf="visible">
+    <div class="modal-overlay" (click)="cerrarModal()"></div>
+  
+    <div class="modal-contenido">
+      
+      <!-- Sección izquierda -->
+      <div class="seccion">
+        <h2 class="modal-titulo">Detalles del Bono</h2>
+  
+        <div class="modal-datos">
+          <div class="dato">
+            <span class="etiqueta">Nombre:</span>
+            <span class="valor">{{ bono.nombre }}</span>
+          </div>
+          <div class="dato">
+            <span class="etiqueta">Monto nominal:</span>
+            <span class="valor">{{ bono.tipoMoneda === 'PEN' ? 'S/' : '$' }}{{ bono.montoNominal }}</span>
+          </div>
+          <div class="dato">
+            <span class="etiqueta">Cliente:</span>
+            <span class="valor">{{ bono.nombreCliente }}</span>
+          </div>
+          <div class="dato">
+            <span class="etiqueta">Plazo (años):</span>
+            <span class="valor">{{ bono.plazoAnios }}</span>
+          </div>
+          <div class="dato" *ngIf="bono.capitalizacion">
+            <span class="etiqueta">Capitalización:</span>
+            <span class="valor">{{ bono.capitalizacion }}</span>
+          </div>
+          <div class="dato">
+            <span class="etiqueta">Frecuencia de pago:</span>
+            <span class="valor">{{ bono.frecuenciaPago }}</span>
+          </div>
+          <div class="dato">
+            <span class="etiqueta">Tasa base:</span>
+            <span class="valor">{{ bono.tasaBase }}%</span>
+          </div>
+          <div class="dato">
+            <span class="etiqueta">Tipo de tasa:</span>
+            <span class="valor">{{ bono.tipoTasa }}</span>
+          </div>
+          <div class="dato">
+            <span class="etiqueta">Tipo de tasa base:</span>
+            <span class="valor">{{ bono.tipoTasaBase }}</span>
+          </div>
+          <div class="dato">
+            <span class="etiqueta">Tipo de gracia:</span>
+            <span class="valor">{{ bono.tipoGracia }}</span>
+          </div>
+          <div class="dato" *ngIf="bono.periodoGracia">
+            <span class="etiqueta">Periodo de gracia:</span>
+            <span class="valor">{{ bono.periodoGracia }}</span>
+          </div>
+        </div>
+  
+        <div class="modal-botones">
+          <button class="btn-secundario" (click)="cerrarModal()">Cerrar</button>
+          <button class="btn-primario" (click)="abrirModalPagos()">Ver Pagos</button>
+        </div>
+      </div>
+  
+      <!-- Sección derecha -->
+      <div class="seccion">
+        <h3 style="text-align:center; color:#1d436b; margin-bottom:1rem">Indicadores (próximamente)</h3>
+        <p style="text-align:center; color:#666">Aquí se mostrarán los indicadores financieros del bono.</p>
+        <!-- Puedes agregar aquí indicadores o gráficos -->
+      </div>
+    </div>
+  </div>
+  

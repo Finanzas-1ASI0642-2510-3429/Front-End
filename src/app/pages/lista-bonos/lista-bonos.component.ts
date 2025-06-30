@@ -4,10 +4,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UsuarioService } from '../../services/usuario.service';
+import { ModalDetallesBonoComponent } from '../../components/modales/modal-detalles-bono/modal-detalles-bono.component';
+import { ModalPagosComponent } from '../../components/modales/modal-pagos/modal-pagos.component';
 
 @Component({
   selector: 'app-lista-bonos',
-  imports: [CommonModule, NzIconModule, FormsModule],
+  imports: [CommonModule, NzIconModule, FormsModule, ModalDetallesBonoComponent, ModalPagosComponent],
   standalone: true,
   templateUrl: './lista-bonos.component.html',
   styleUrl: './lista-bonos.component.scss'
@@ -80,6 +82,29 @@ export class ListaBonosComponent implements OnInit {
     'Cliente', 'Plazo', 'Tasa Base',
     'Tipo Gracia', 'Moneda', 'Tipo Tasa', 'Tasa Base Tipo'
   ];
+
+  bonoSeleccionado: any = null;
+  modalDetalleVisible = false;
+  modalPagosVisible = false;
+
+  abrirModalDetalle(bono: any) {
+    this.bonoSeleccionado = bono;
+    this.modalDetalleVisible = true;
+  }
+
+  cerrarModalDetalle() {
+    this.modalDetalleVisible = false;
+  }
+
+  abrirModalPagos(bono: any) {
+    this.modalDetalleVisible = false;
+    this.modalPagosVisible = true;
+  }
+
+  cerrarModalPagos() {
+    this.modalPagosVisible = false;
+  }
+
 
 
 }

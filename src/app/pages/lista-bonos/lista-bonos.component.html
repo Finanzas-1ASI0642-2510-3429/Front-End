@@ -31,10 +31,24 @@
           </p>
           <p class="detalle-bono">Cliente: {{ bono.nombreCliente }}</p>
           <p class="detalle-bono">Plazo: {{ bono.plazoAnios }} </p>
-          <button class="boton-ver-mas">Ver detalles</button>
+          <button class="boton-ver-mas" (click)="abrirModalDetalle(bono)">Ver detalles</button>
         </div>
         <i nz-icon nzType="rise" nzTheme="outline" class="icono-tendencia"></i>
       </div>
     </div>
   </div>
 </div>
+
+
+<app-modal-detalles-bono
+  [bono]="bonoSeleccionado"
+  [visible]="modalDetalleVisible"
+  (cerrar)="cerrarModalDetalle()"
+  (abrirPagos)="abrirModalPagos(bonoSeleccionado)"
+></app-modal-detalles-bono>
+
+<app-modal-pagos
+  [bono]="bonoSeleccionado"
+  [visible]="modalPagosVisible"
+  (cerrar)="cerrarModalPagos()"
+></app-modal-pagos>
