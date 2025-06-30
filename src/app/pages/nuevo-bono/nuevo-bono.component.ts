@@ -7,11 +7,12 @@ import { NzIconModule } from 'ng-zorro-antd/icon';
 import Swal from 'sweetalert2';
 import { ThemeService } from '../../services/theme.service';
 import { ActualizarBonoModalComponent } from '../../components/modales/actualizar-bono-modal/actualizar-bono-modal.component';
+import { ModalPagosComponent } from '../../components/modales/modal-pagos/modal-pagos.component';
 
 @Component({
   selector: 'app-nuevo-bono',
   standalone: true,
-  imports: [FormsModule, CommonModule, NzIconModule, ActualizarBonoModalComponent],
+  imports: [FormsModule, CommonModule, NzIconModule, ActualizarBonoModalComponent, ModalPagosComponent],
   templateUrl: './nuevo-bono.component.html',
   styleUrl: './nuevo-bono.component.scss'
 })
@@ -20,14 +21,14 @@ export class NuevoBonoComponent implements OnInit {
     nombre: '',
     montoNominal: '',
     plazoAnios: '',
-    frecuenciaPago: 'anual',
-    tipoTasa: 'efectiva',
-    capitalizacion: 'anual',
-    tipoTasaBase: 'efectiva',
+    frecuenciaPago: '',
+    tipoTasa: '',
+    capitalizacion: '',
+    tipoTasaBase: '',
     tasaBase: '',
     tipoMoneda: 'PEN',
     periodoGracia: '',
-    tipoGracia: 'parcial'
+    tipoGracia: ''
   };
 
   resultados: any = null;
@@ -81,32 +82,31 @@ export class NuevoBonoComponent implements OnInit {
   }
 
   registrarBono() {
-
     if (!this.validarCampos()) {
       return;
     }
-
+  
     const bonoConCliente = {
       ...this.bono,
       nombreCliente: this.username
     };
-    console.log('bono al backend:', bonoConCliente);
 
+  
+    if (bonoConCliente.tipoTasa === 'efectiva') {
+      delete (bonoConCliente as any).capitalizacion;
+    }
+  
+    console.log("bono enviado", bonoConCliente)
     this.bonoService.registrarBono(bonoConCliente).subscribe({
       next: (respuesta) => {
-        console.log('respuesta del back:', respuesta);
         this.bonoAgregadoId = respuesta.id || respuesta.nombre;
-
         this.obtenerBonos(() => {
           const totalBonosUsuario = this.listaBonosFiltrados.length;
           this.paginaActual = Math.ceil(totalBonosUsuario / this.tamanoPagina);
-
           setTimeout(() => {
             this.bonoAgregadoId = null;
           }, 800);
         });
-
-
         this.reiniciarFormulario();
       },
       error: (err) => {
@@ -114,25 +114,25 @@ export class NuevoBonoComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'Error al registrarse',
-          text: 'Erro al relizar la petición, vuelvalo a intentar.'
+          text: 'Erro al realizar la petición, vuélvalo a intentar.'
         });
       }
     });
   }
-
+  
   reiniciarFormulario() {
     this.bono = {
       nombre: '',
       montoNominal: '',
       plazoAnios: '',
-      frecuenciaPago: 'anual',
-      tipoTasa: 'efectiva',
-      capitalizacion: 'anual',
-      tipoTasaBase: 'efectiva',
+      frecuenciaPago: '',
+      tipoTasa: '',
+      capitalizacion: '',
+      tipoTasaBase: '',
       tasaBase: '',
-      tipoMoneda: 'PEN',
+      tipoMoneda: '',
       periodoGracia: '',
-      tipoGracia: 'parcial'
+      tipoGracia: ''
     };
   }
 
@@ -154,7 +154,7 @@ export class NuevoBonoComponent implements OnInit {
   }
 
   get listaBonosPaginados(): any[] {
-    const ordenados = [...this.listaBonos].sort((a, b) => a.id - b.id); // ordena por ID ascendente
+    const ordenados = [...this.listaBonos].sort((a, b) => a.id - b.id); 
     const inicio = (this.paginaActual - 1) * this.tamanoPagina;
     const fin = inicio + this.tamanoPagina;
     return ordenados.slice(inicio, fin);
@@ -177,12 +177,18 @@ export class NuevoBonoComponent implements OnInit {
 
   validarCampos(): boolean {
 
+
+    if (this.bono.tipoTasa === 'efectiva' && this.bono.capitalizacion) {
+      this.bono.capitalizacion = '';
+    }
+
     const camposRequeridos = [
       { campo: this.bono.nombre, nombre: 'Nombre del bono' },
       { campo: this.bono.montoNominal, nombre: 'Monto nominal' },
       { campo: this.bono.plazoAnios, nombre: 'Plazo (años)' },
       { campo: this.bono.tasaBase, nombre: 'Tasa base' },
-      { campo: this.bono.periodoGracia, nombre: 'Periodo de gracia' }
+      { campo: this.bono.tipoGracia, nombre: 'Tipo de Gracia' },
+      { campo: this.bono.tipoTasaBase, nombre: 'Tipo de Tasa Base' }
     ];
 
     const camposVacios = camposRequeridos.filter(c => !c.campo || c.campo.toString().trim() === '');
@@ -279,5 +285,45 @@ export class NuevoBonoComponent implements OnInit {
       }
     });
   }
+
+  bloquearTipoTasa = false;
+
+
+  onTipoTasaBaseSeleccion(): void {
+    const mapa = {
+      TEA: { tipoTasa: 'efectiva'},
+      TES: { tipoTasa: 'efectiva' },
+      TEM: { tipoTasa: 'efectiva'},
+      TNA: { tipoTasa: 'nominal' },
+      TNS: { tipoTasa: 'nominal'},
+      TNM: { tipoTasa: 'nominal' },
+    } as const;
   
+    type TipoClave = keyof typeof mapa;
+  
+    const seleccionado = this.bono.tipoTasaBase as TipoClave;
+  
+    if (mapa[seleccionado]) {
+      this.bono.tipoTasa = mapa[seleccionado].tipoTasa;
+      this.bloquearTipoTasa = true; 
+    }else {
+      this.bloquearTipoTasa = false;
+    }
+  }
+  
+  esSinGracia(): boolean {
+    return this.bono.tipoGracia === 'sin-gracia';
+  }
+
+  modalPagosVisible = false;
+
+  abrirModalPagos(bono: any): void {
+    this.bonoSeleccionado = bono;
+    this.modalPagosVisible = true;
+  }
+
+  cerrarModalPagos(): void {
+    console.log("Modal de pagos cerrado"); 
+    this.modalPagosVisible = false;
+  }
 }

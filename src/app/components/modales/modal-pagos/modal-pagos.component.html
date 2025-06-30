@@ -1,0 +1,53 @@
+<div class="modal-overlay" *ngIf="visible" (click)="cerrarModal()">
+    <div class="modal-contenido" (click)="$event.stopPropagation()">
+      <button class="cerrar-btn" (click)="cerrarModal()">✕</button>
+  
+      <h2>Detalle de Pagos del Bono</h2>
+  
+      <div class="resumen-bono">
+        <p><strong>Nombre:</strong> {{ bono.nombre }}</p>
+        <p><strong>Cliente:</strong> {{ bono.nombreCliente }}</p>
+        <p><strong>Monto Nominal:</strong> S/ {{ bono.montoNominal | number:'1.0-2' }}</p>
+        <p><strong>Frecuencia:</strong> {{ bono.frecuenciaPago }}</p>
+        <p><strong>Tipo Tasa:</strong> {{ bono.tipoTasa }}</p>
+        <p><strong>Total Cuotas:</strong> {{ bono.pagos?.length }}</p>
+      </div>
+
+      <div class="resumen-bono">
+        <h3>Resumen Financiero</h3>
+        <div class="indicadores-grid">
+          <div><strong>TCEA:</strong> {{ indicadores?.tcea | number: '1.2-2' }}</div>
+          <div><strong>TREA:</strong> {{ indicadores?.trea | number: '1.2-2' }}</div>
+          <div><strong>Duración:</strong> {{ indicadores?.duracion | number: '1.2-2' }}</div>
+          <div><strong>Dur. Modif.:</strong> {{ indicadores?.duracionModificada | number: '1.2-2' }}</div>
+          <div><strong>Convexidad:</strong> {{ indicadores?.convexidad | number: '1.2-2' }}</div>
+        </div>
+      </div>
+  
+      <div class="tabla-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>Fecha de Pago</th>
+              <th>Cuota</th>
+              <th>Interés</th>
+              <th>Amortización</th>
+              <th>Saldo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let pago of bono.pagos">
+              <td>{{ pago.numeroCuota }}</td>
+              <td>{{ pago.fechaPago }}</td>
+              <td>S/ {{ pago.cuota | number:'1.2-2' }}</td>
+              <td>S/ {{ pago.interes | number:'1.2-2' }}</td>
+              <td>S/ {{ pago.amortizacion | number:'1.2-2' }}</td>
+              <td>S/ {{ pago.saldo | number:'1.2-2' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

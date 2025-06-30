@@ -7,11 +7,7 @@
   }">
     <img src="assets/chica1.png" class="background-image-2" />
 
-    <div class="bubble-login-error" *ngIf="mostrarErrorLogin">
-      Usuario o contraseña es incorrecto
-    </div>
-    <div *ngIf="mostrarBienvenida" class="bubble-bienvenida" [innerHTML]="mensajeBienvenida">
-    </div>
+    
   </div>
 
   <div class="background-wrapper" [ngClass]="{
@@ -22,6 +18,11 @@
     <img src="assets/img-chico.png" class="background-image" />
   </div>
 
+  <div class="bubble-login-error" *ngIf="mostrarErrorLogin">
+    Usuario o contraseña es incorrecto
+  </div>
+  <div *ngIf="mostrarBienvenida" class="bubble-bienvenida" [innerHTML]="mensajeBienvenida">
+  </div>
   <div class="container" id="container" [class.active]="isActive" [class.animate-in]="animarEntrada">
     <div class="form-container sign-up ">
       <form (ngSubmit)="register()">
@@ -56,7 +57,7 @@
           <i *ngIf="emailValido === false" nz-icon nzType="exclamation" class="icon-error error-icon"></i>
           <i *ngIf="emailValido === true" nz-icon nzType="check" class="icon-success success-icon"></i>
 
-          
+
 
         </div>
 

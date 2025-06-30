@@ -973,15 +973,15 @@
 .bubble-login-error {
   position: absolute;
   top: 41%;
-  left: 25.5%;
+  left: 12.5%;
   max-width: 260px;
   background-color: #fff;
   color: #d9363e;
   font-weight: 530;
-  padding: 10px 14px;
+  padding: 7px 14px;
   border-radius: 8px;
   font-size: 13px;
-  z-index: 1000;
+  z-index: 9000;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
   animation: fadeInRight 0.3s ease-in-out;
   animation-fill-mode: both;
@@ -1001,16 +1001,16 @@
 .bubble-bienvenida {
   position: absolute;
   top: 41%;
-  left: 25.5%;
+  left: 12.5%;
   max-width: 280px;
   background-color: #ffffff;
   color: #000000;
-  padding: 10px 14px;
+  padding: 7px 14px;
   border-radius: 8px;
   font-size: 13px;
   z-index: 1000;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
-  animation: fadeInRight 0.3s ease-in-out;
+  animation: _ngcontent-ng-c2255585100_fadeInRight 0.3s ease-in-out;
   animation-fill-mode: both;
 
   & strong {
