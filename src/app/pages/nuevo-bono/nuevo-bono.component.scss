@@ -1,7 +1,7 @@
 .bono-container {
   display: flex;
   flex-direction: row;
-  gap: 35px;
+  gap: 20px;
   box-sizing: border-box;
   height: 100%;
   animation: fadeSlideIn 0.4s ease-out both;
@@ -21,8 +21,8 @@
 }
 
 .form-panel {
-  flex: 0 0 34%;
-  max-width: 34%;
+  flex: 0 0 32%;
+  max-width: 32%;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -86,13 +86,13 @@
 .card.glass .form-group select:focus {
   border-color: #e98400;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(233, 132, 0, 0.25); // borde visual suave alrededor
+  box-shadow: 0 0 0 2px rgba(233, 132, 0, 0.25); 
 }
 
 
 .table-panel {
-  flex: 0 0 65%;
-  max-width: 63%;
+  flex: 0 0 66%;
+  max-width: 66%;
   overflow-y: auto;
 
 }
@@ -313,15 +313,15 @@ table {
   display: flex;
   justify-content: center;
   gap: 16px;
-  margin-top: 2.5rem;
+  margin-top: 1.5rem;
 }
 
 .btn-accion {
-  padding: 0.5rem 1.25rem; 
-  min-width: 140px;        
+  padding: 0.5rem 1.25rem;
+  min-width: 140px;
   text-align: center;
-  font-size: 14px;        
-  border-radius: 8px;     
+  font-size: 14px;
+  border-radius: 8px;
   border: none;
   cursor: pointer;
   background-color: #1d436b;
@@ -342,4 +342,23 @@ table {
 
 .btn-accion.animado:active {
   transform: scale(0.97);
+}
+
+.estado-btn {
+  background-color: #f44336; 
+  box-shadow: none; 
+  transition: background-color 0.3s ease; 
+  i {
+    color: white;
+  }
+
+  &:hover {
+    background-color: #d32f2f; 
+    transform: none;           
+    box-shadow: none;
+  }
+
+  &:active {
+    transform: scale(0.97); 
+  }
 }

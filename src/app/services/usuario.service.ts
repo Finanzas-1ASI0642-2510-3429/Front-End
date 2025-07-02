@@ -43,7 +43,7 @@ export class UsuarioService {
 
   eliminarBono(bonoId: number): Observable<any> {
     const headers = this.getAuthHeaders();
-    return this.http.delete(`${this.baseUrl}/eliminarBono/${bonoId}`, { headers });
+    return this.http.delete(`${this.baseUrl}/${bonoId}`, { headers });
   }
 
   obtenerIndicadoresFinancieros(bonoId: number): Observable<any> {

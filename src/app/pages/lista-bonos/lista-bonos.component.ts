@@ -22,6 +22,9 @@ export class ListaBonosComponent implements OnInit {
   filtrosActivos: boolean = false;
   bonosOriginales: any[] = [];
 
+
+  
+
   ngOnInit(): void {
     this.obtenerBonos();
     this.obtenerUsuario();
@@ -87,6 +90,8 @@ export class ListaBonosComponent implements OnInit {
   modalDetalleVisible = false;
   modalPagosVisible = false;
 
+  
+
   abrirModalDetalle(bono: any) {
     this.bonoSeleccionado = bono;
     this.modalDetalleVisible = true;
@@ -96,15 +101,15 @@ export class ListaBonosComponent implements OnInit {
     this.modalDetalleVisible = false;
   }
 
-  abrirModalPagos(bono: any) {
-    this.modalDetalleVisible = false;
-    this.modalPagosVisible = true;
-  }
+ abrirModalPagos(bono: any) {
+  this.bonoSeleccionado = bono;
+  this.modalPagosVisible = true;
+}
 
-  cerrarModalPagos() {
-    this.modalPagosVisible = false;
-  }
-
+cerrarModalPagos() {
+  this.modalPagosVisible = false;
+  this.modalDetalleVisible = true;
+}
 
 
 }

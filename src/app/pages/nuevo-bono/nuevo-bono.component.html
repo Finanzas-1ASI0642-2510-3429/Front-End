@@ -129,6 +129,7 @@
             <th>Capitalización</th>
             <th>Tasa Base</th>
             <th>Gracia</th>
+            <th>Estado</th>
             <th>Ver Pagos</th>
             <th>Acciones</th>
           </tr>
@@ -159,8 +160,13 @@
               bono.tipoGracia === 'total' ? 'Total' : '-'
               }}
             </td>
+            <td class="acciones-btns">
+              <button class="btn-circular estado-btn" title="Inactivo">
+                <i nz-icon nzType="user-delete" nzTheme="outline"></i>
+              </button>
+            </td>
             <td>
-              <button class="btn-circular-eye"  (click)="abrirModalPagos(bono)">
+              <button class="btn-circular-eye" (click)="abrirModalPagos(bono)">
                 <i nz-icon nzType="eye" nzTheme="outline"></i>
               </button>
             </td>
@@ -194,14 +200,10 @@
   </div>
 </div>
 
-<app-modal-pagos
-  [visible]="modalPagosVisible"
-  [bono]="bonoSeleccionado"
-  (cerrar)="cerrarModalPagos()"
-></app-modal-pagos>
+<app-modal-pagos [visible]="modalPagosVisible" [bono]="bonoSeleccionado"
+  (cerrar)="cerrarModalPagos()"></app-modal-pagos>
 
 
 <app-actualizar-bono-modal *ngIf="modalVisible" [bono]="bonoSeleccionado" (cerrar)="cerrarModal()"
   (actualizar)="guardarCambiosBono($event)">
 </app-actualizar-bono-modal>
-

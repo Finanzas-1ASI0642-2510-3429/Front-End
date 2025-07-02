@@ -23,13 +23,16 @@ export class ActualizarBonoModalComponent {
     this.actualizar.emit(this.bono);
   }
   
-  cerrarConAnimacion() {
-    this.isClosing = true;
-    setTimeout(() => {
+
+
+cerrarConAnimacion() {
+  this.isClosing = true;
+  setTimeout(() => {
       this.cerrar.emit();
-      this.isClosing = false; 
-    }, 350);
-  }
+    this.isClosing = false;
+  }, 180); 
+}
+
 
   
 

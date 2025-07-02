@@ -1,4 +1,4 @@
-<div class="modal-detalles" *ngIf="visible">
+<div class="modal-detalles" *ngIf="visibleInterno" [ngClass]="{ 'animado': visible }">
   <div class="modal-overlay"></div>
 
   <div class="modal-contenido">
@@ -22,22 +22,24 @@
 
         <div class="card-inferior">
           <div class="iconos-interactivos">
-            <div class="icono-circulo favorito" [class.activo]="estadoFavorito" [ngClass]="animFavorito" (click)="toggleFavorito()">
+            <div class="icono-circulo favorito" [class.activo]="estadoFavorito" [ngClass]="animFavorito"
+              (click)="toggleFavorito()">
               <div class="relleno-animado"></div>
               <i nz-icon nzType="star" nzTheme="fill"></i>
             </div>
-          
-            <div class="icono-circulo me-gusta" [class.activo]="estadoMeGusta" [ngClass]="animMeGusta" (click)="toggleMeGusta()">
+
+            <div class="icono-circulo me-gusta" [class.activo]="estadoMeGusta" [ngClass]="animMeGusta"
+              (click)="toggleMeGusta()">
               <div class="relleno-animado"></div>
               <i nz-icon nzType="heart" nzTheme="fill"></i>
             </div>
-          
+
             <div class="icono-circulo ver" [class.activo]="estadoVista" [ngClass]="animVista" (click)="toggleVista()">
               <div class="relleno-animado"></div>
               <i nz-icon nzType="eye" nzTheme="outline"></i>
             </div>
           </div>
-          
+
         </div>
 
 
@@ -47,31 +49,79 @@
 
 
     <div class="seccion-derecha">
-      <h2 class="modal-titulo">Detalles del Bono</h2>
+      <i nz-icon nzType="rise" nzTheme="outline" class="icono-fondo"></i>
+
+
+      <div class="cabecera-titulo">
+        <h2 class="modal-titulo">Detalles del Bono</h2>
+        <i nz-icon nzType="close" nzTheme="outline" class="icono-cerrar" (click)="cerrarModal()"></i>
+
+      </div>
 
       <div class="modal-datos">
+        <div class="dato"><span class="etiqueta">Tipo de tasa base:</span><span class="valor">{{ bono.tipoTasaBase
+            }}</span></div>
         <div class="dato">
-          <span class="etiqueta">Nombre:</span>
-          <span class="valor">{{ bono.nombre }}</span>
+          <span class="etiqueta">Capitalización:</span>
+          <span class="valor">{{ getCapitalizacion() }}</span>
         </div>
+        <div class="dato"><span class="etiqueta">Frecuencia de pago:</span><span class="valor">{{ bono.frecuenciaPago
+            }}</span></div>
         <div class="dato">
-          <span class="etiqueta">Monto nominal:</span>
-          <span class="valor">{{ bono.tipoMoneda === 'PEN' ? 'S/' : '$' }}{{ bono.montoNominal }}</span>
+          <span class="etiqueta">Tipo de gracia:</span>
+          <span class="valor">
+            {{ bono.tipoGracia === 'sin-gracia' ? 'Sin gracia' : bono.tipoGracia }}
+          </span>
         </div>
-        <div class="dato">
-          <span class="etiqueta">Cliente:</span>
-          <span class="valor">{{ bono.nombreCliente }}</span>
+        <div class="dato" *ngIf="bono.periodoGracia != null && bono.periodoGracia !== ''">
+          <span class="etiqueta">Periodo de gracia:</span>
+          <span class="valor">{{ bono.periodoGracia }}</span>
         </div>
-        <div class="dato">
-          <span class="etiqueta">Tipo de tasa:</span>
-          <span class="valor">{{ bono.tipoTasa }}</span>
+        <div class="dato"><span class="etiqueta">Tasa base:</span><span class="valor">{{ bono.tasaBase }}%</span></div>
+        <div class="dato"><span class="etiqueta">Tasa convertida:</span><span class="valor">{{ bono.tasaConvertida |
+            number:'1.5-5' }}</span></div>
+        <div class="dato"><span class="etiqueta">Plazo:</span><span class="valor">{{ bono.plazoAnios }} años</span>
+        </div>
+      </div>
+
+
+      <div class="seccion-indicadores" *ngIf="indicadores">
+        <h3 class="subtitulo">Indicadores</h3>
+        <div class="grid-indicadores">
+          <div class="indicador"><span class="etiqueta">TCEA:</span> <span class="valor">{{ indicadores.tcea |
+              percent:'1.2-2' }}</span></div>
+          <div class="indicador"><span class="etiqueta">TREA:</span> <span class="valor">{{ indicadores.trea |
+              percent:'1.2-2' }}</span></div>
+          <div class="indicador"><span class="etiqueta">Duración:</span> <span class="valor">{{ indicadores.duracion |
+              number:'1.2-2' }}</span></div>
+          <div class="indicador"><span class="etiqueta">Duración Mod.:</span> <span class="valor">{{
+              indicadores.duracionModificada | number:'1.2-2' }}</span></div>
+          <div class="indicador"><span class="etiqueta">Convexidad:</span> <span class="valor">{{ indicadores.convexidad
+              | number:'1.2-2' }}</span></div>
         </div>
       </div>
 
       <div class="modal-botones">
-        <button class="btn-secundario" (click)="cerrarModal()">Cerrar</button>
-        <button class="btn-primario" (click)="abrirModalPagos()">Ver Pagos</button>
+        <button class="btn-accion btn-ver" (click)="abrirModalPagos()">
+          <span class="icono">
+            <i nz-icon nzType="eye" nzTheme="outline"></i>
+          </span>
+          <span class="texto">Ver Pagos</span>
+        </button>
+
+        <button class="btn-invertir" (mousedown)="iniciarProgreso()" (mouseup)="cancelarProgreso()"
+          (mouseleave)="cancelarProgreso()">
+          <div class="progreso" [style.width.%]="progresoPorcentaje"></div>
+
+          <span class="icono">
+            <i nz-icon nzType="dollar" nzTheme="outline"></i>
+          </span>
+          <span class="texto">Invertir</span>
+        </button>
+
       </div>
+
     </div>
+
   </div>
 </div>
