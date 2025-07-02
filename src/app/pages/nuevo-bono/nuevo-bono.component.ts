@@ -8,6 +8,12 @@ import Swal from 'sweetalert2';
 import { ThemeService } from '../../services/theme.service';
 import { ActualizarBonoModalComponent } from '../../components/modales/actualizar-bono-modal/actualizar-bono-modal.component';
 import { ModalPagosComponent } from '../../components/modales/modal-pagos/modal-pagos.component';
+import * as XLSX from 'xlsx';
+import * as FileSaver from 'file-saver';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import { saveAs } from 'file-saver';
+
 
 @Component({
   selector: 'app-nuevo-bono',
@@ -37,10 +43,13 @@ export class NuevoBonoComponent implements OnInit {
   nuevaFilaAnimada = false;
   bonoAgregadoId: string | null = null;
   paginaActual = 1;
-  tamanoPagina = 13;
+  tamanoPagina = 11;
   listaBonos: any[] = [];
   modalVisible: boolean = false;
   bonoSeleccionado: any = null;
+  terminoBusqueda: string = '';
+  ordenActual: 'asc' | 'desc' = 'asc';
+  bloquearTipoTasa = false;
 
 
   constructor(private bonoService: UsuarioService,
@@ -85,17 +94,17 @@ export class NuevoBonoComponent implements OnInit {
     if (!this.validarCampos()) {
       return;
     }
-  
+
     const bonoConCliente = {
       ...this.bono,
       nombreCliente: this.username
     };
 
-  
+
     if (bonoConCliente.tipoTasa === 'efectiva') {
       delete (bonoConCliente as any).capitalizacion;
     }
-  
+
     console.log("bono enviado", bonoConCliente)
     this.bonoService.registrarBono(bonoConCliente).subscribe({
       next: (respuesta) => {
@@ -119,7 +128,7 @@ export class NuevoBonoComponent implements OnInit {
       }
     });
   }
-  
+
   reiniciarFormulario() {
     this.bono = {
       nombre: '',
@@ -138,7 +147,6 @@ export class NuevoBonoComponent implements OnInit {
 
   obtenerBonos(callback?: () => void) {
 
-
     this.bonoService.obtenerBonosPorUsuario(this.username).subscribe({
       next: (bonos) => {
         this.listaBonos = bonos;
@@ -154,16 +162,19 @@ export class NuevoBonoComponent implements OnInit {
   }
 
   get listaBonosPaginados(): any[] {
-    const ordenados = [...this.listaBonos].sort((a, b) => a.id - b.id); 
     const inicio = (this.paginaActual - 1) * this.tamanoPagina;
     const fin = inicio + this.tamanoPagina;
-    return ordenados.slice(inicio, fin);
+    return this.listaBonosFiltrados.slice(inicio, fin);
   }
-
 
   get totalPaginas(): number {
     return Math.ceil(this.listaBonos.length / this.tamanoPagina);
   }
+
+  formatearCorrelativo(numero: number): string {
+    return numero.toString().padStart(3, '0');
+  }
+
 
   cambiarPagina(nuevaPagina: number) {
     if (nuevaPagina >= 1 && nuevaPagina <= this.totalPaginas) {
@@ -286,31 +297,28 @@ export class NuevoBonoComponent implements OnInit {
     });
   }
 
-  bloquearTipoTasa = false;
-
-
   onTipoTasaBaseSeleccion(): void {
     const mapa = {
-      TEA: { tipoTasa: 'efectiva'},
+      TEA: { tipoTasa: 'efectiva' },
       TES: { tipoTasa: 'efectiva' },
-      TEM: { tipoTasa: 'efectiva'},
+      TEM: { tipoTasa: 'efectiva' },
       TNA: { tipoTasa: 'nominal' },
-      TNS: { tipoTasa: 'nominal'},
+      TNS: { tipoTasa: 'nominal' },
       TNM: { tipoTasa: 'nominal' },
     } as const;
-  
+
     type TipoClave = keyof typeof mapa;
-  
+
     const seleccionado = this.bono.tipoTasaBase as TipoClave;
-  
+
     if (mapa[seleccionado]) {
       this.bono.tipoTasa = mapa[seleccionado].tipoTasa;
-      this.bloquearTipoTasa = true; 
-    }else {
+      this.bloquearTipoTasa = true;
+    } else {
       this.bloquearTipoTasa = false;
     }
   }
-  
+
   esSinGracia(): boolean {
     return this.bono.tipoGracia === 'sin-gracia';
   }
@@ -323,7 +331,145 @@ export class NuevoBonoComponent implements OnInit {
   }
 
   cerrarModalPagos(): void {
-    console.log("Modal de pagos cerrado"); 
+    console.log("Modal de pagos cerrado");
     this.modalPagosVisible = false;
   }
+
+  ordenarPorId(direccion: 'asc' | 'desc'): void {
+    this.ordenActual = direccion;
+    const mult = direccion === 'asc' ? 1 : -1;
+    this.listaBonosFiltrados.sort((a, b) => (a.id - b.id) * mult);
+    this.paginaActual = 1;
+  }
+
+  filtrarBonos(): void {
+    const termino = this.terminoBusqueda.toLowerCase().trim();
+    this.listaBonosFiltrados = this.listaBonos.filter(b =>
+      b.nombre.toLowerCase().includes(termino)
+    );
+    this.paginaActual = 1;
+  }
+
+  exportarExcel(): void {
+    const fechaActual = new Date().toLocaleDateString();
+    const username = this.username || 'Usuario desconocido';
+
+    const cabecera = [
+      ['Lista de Bonos Registrados'], 
+      [`Fecha de descarga: ${fechaActual}`, `Usuario: ${username}`],
+      [],
+      [
+        'ID', 'Nombre', 'Monto', 'Plazo (años)', 'Tipo Tasa',
+        'Capitalización', 'Tasa Base (%)', 'Gracia'
+      ] 
+    ];
+
+    const datos = this.listaBonosFiltrados.map((bono) => [
+      this.formatearCorrelativo(bono.id),
+      bono.nombre,
+      bono.montoNominal,
+      bono.plazoAnios,
+      bono.tipoTasaBase,
+      bono.tipoTasa === 'efectiva' ? 'No aplica' : bono.capitalizacion,
+      bono.tasaBase,
+      bono.tipoGracia?.toLowerCase() === 'sin-gracia' ? 'Sin gracia' :
+        bono.tipoGracia?.toLowerCase() === 'parcial' ? 'Parcial' :
+          bono.tipoGracia?.toLowerCase() === 'total' ? 'Total' : '-'
+    ]);
+
+    const hojaArray = [...cabecera, ...datos];
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(hojaArray);
+
+    worksheet['!merges'] = [
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 7 } } 
+    ];
+
+    worksheet['!cols'] = [
+      { wch: 10 }, { wch: 25 }, { wch: 12 }, { wch: 12 },
+      { wch: 15 }, { wch: 18 }, { wch: 15 }, { wch: 15 }
+    ];
+
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'Bonos': worksheet },
+      SheetNames: ['Bonos']
+    };
+
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+    const blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    FileSaver.saveAs(blob, 'Lista de Bonos Registrados.xlsx');
+  }
+
+  exportarPDF(): void {
+    const doc = new jsPDF();
+
+    const username = this.username || 'Usuario desconocido';
+    const fechaActual = new Date().toLocaleString();
+
+    const img = new Image();
+    img.src = 'assets/logoazuloscuro.png';
+    img.onload = () => {
+      doc.addImage(img, 'PNG', 160, 10, 30, 15);
+
+      doc.setFontSize(20);
+      doc.setFont('helvetica', 'bold');
+      doc.text('Lista de Bonos Registrados', 105, 25, { align: 'center' });
+
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text(`Fecha de descarga: ${fechaActual}`, 20, 35);
+      doc.text(`Usuario: ${username}`, 20, 43);
+
+      const headers = [
+        ['ID', 'Nombre', 'Monto', 'Plazo', 'Tasa', 'Capitalización', 'Tasa Base', 'Gracia']
+      ];
+      const data = this.listaBonosFiltrados.map(bono => [
+        this.formatearCorrelativo(bono.id),
+        bono.nombre,
+        `${bono.tipoMoneda === 'PEN' ? 'S/' : '$'} ${bono.montoNominal}`,
+        bono.plazoAnios,
+        bono.tipoTasaBase,
+        bono.tipoTasa === 'efectiva' ? 'No aplica' : bono.capitalizacion,
+        bono.tasaBase + '%',
+        bono.tipoGracia
+      ]);
+
+      autoTable(doc, {
+        startY: 50,
+        head: [['ID', 'Nombre', 'Monto', 'Plazo', 'Tasa', 'Capitalización', 'Tasa Base', 'Gracia']],
+        body: this.listaBonosFiltrados.map(bono => [
+          this.formatearCorrelativo(bono.id),
+          bono.nombre,
+          `${bono.tipoMoneda === 'PEN' ? 'S/' : '$'} ${bono.montoNominal}`,
+          bono.plazoAnios,
+          bono.tipoTasaBase,
+          bono.tipoTasa === 'efectiva' ? 'No aplica' : bono.capitalizacion,
+          bono.tasaBase + '%',
+          bono.tipoGracia
+        ]),
+        theme: 'grid',
+        styles: {
+          fontSize: 9,
+          cellPadding: { top: 3, right: 5, bottom: 3, left: 5 },
+          halign: 'center',
+          valign: 'middle',
+        },
+        headStyles: {
+          fillColor: [29, 67, 107],
+          textColor: 255,
+          fontStyle: 'bold',
+        },
+        bodyStyles: {
+          fillColor: [245, 245, 245],
+          lineWidth: 0.1,
+        },
+        alternateRowStyles: {
+          fillColor: [255, 255, 255],
+        }
+      });
+
+      doc.save('Lista de Bonos Registrados.pdf');
+    };
+  }
+
 }

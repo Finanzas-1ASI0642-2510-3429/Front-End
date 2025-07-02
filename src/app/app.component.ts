@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router, RouterLink, RouterOutlet, NavigationEnd  } from '@angular/router';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Router, RouterLink, RouterOutlet, NavigationEnd } from '@angular/router';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -28,16 +28,32 @@ export class AppComponent {
   ) {
   }
 
+
+  mostrarDropdown: boolean = false;
+
+  @ViewChild('dropdownRef') dropdownRef!: ElementRef;
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: MouseEvent) {
+    if (
+      this.mostrarDropdown &&
+      this.dropdownRef &&
+      !this.dropdownRef.nativeElement.contains(event.target)
+    ) {
+      this.mostrarDropdown = false;
+    }
+  }
+
   ngOnInit(): void {
     this.esOscuro = this.themeService.isDarkMode;
-    this.themeService.setDarkMode(this.esOscuro); 
-  
+    this.themeService.setDarkMode(this.esOscuro);
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.actualizarUsuarioDesdeStorage();
       }
     });
-  
+
     this.actualizarUsuarioDesdeStorage();
   }
 
@@ -77,12 +93,26 @@ export class AppComponent {
     this.router.navigate(['/login']);
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    this.mostrarDropdown = false;
+
   }
 
   toggleTheme(isChecked: boolean): void {
     this.esOscuro = isChecked;
     this.themeService.setDarkMode(isChecked);
   }
+
+
+  abrirPerfil() {
+    console.log('Abrir perfil');
+    this.mostrarDropdown = false;
+  }
+
+
+  toggleDropdown() {
+    this.mostrarDropdown = !this.mostrarDropdown;
+  }
+
 
 }
 

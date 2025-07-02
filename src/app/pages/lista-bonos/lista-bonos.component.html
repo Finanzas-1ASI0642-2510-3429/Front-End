@@ -2,19 +2,35 @@
   <h2 class="tit">Todos los Bonos Registrados</h2>
 
 
+  <div class="cont-filtros">
+    <div class="zona-filtros">
+      <input type="text" [(ngModel)]="filtroNombre" (input)="filtrarBonos()" placeholder="Buscar por nombre de bono"
+        class="input-busqueda" />
 
-  <div class="zona-filtros">
-    <input type="text" [(ngModel)]="filtroNombre" (input)="filtrarBonos()" placeholder="Buscar por nombre de bono"
-      class="input-busqueda" />
-
-    <button class="btn-filtro-avanzado" [class.activo]="filtrosActivos" (click)="toggleFiltrosAvanzados()">
-      Filtros avanzados
-    </button>
-  </div>
-  <div *ngIf="filtrosActivos" class="contenedor-filtros-avanzados">
-    <div class="filtro-chip" *ngFor="let campo of camposFiltroAvanzado">
-      {{ campo }}
+      <button class="btn-filtro-avanzado" [class.activo]="filtrosActivos" (click)="toggleFiltrosAvanzados()">
+        Filtros avanzados
+      </button>
     </div>
+    <div *ngIf="filtrosActivos" class="contenedor-filtros-avanzados">
+      <div class="filtro-chip" *ngFor="let campo of camposFiltroAvanzado" [class.activo]="campo.activo" (click)="activarCampo(campo, $event)">
+        <span>{{ campo.nombre }}</span>
+    
+        <select *ngIf="campo.activo && campo.tipo === 'select'" [(ngModel)]="campo.valor" (click)="$event.stopPropagation()" class="input-chip-filtro">
+          <option value="">-- Seleccionar --</option>
+          <option *ngFor="let opcion of campo.opciones" [value]="opcion">{{ opcion }}</option>
+        </select>
+    
+        <input *ngIf="campo.activo && campo.tipo === 'texto'" type="text" [(ngModel)]="campo.valor" (click)="$event.stopPropagation()" class="input-chip-filtro" placeholder="Escribe aquí" />
+    
+        <div *ngIf="campo.activo && campo.tipo === 'rango'" class="input-rango">
+          <input type="number" [(ngModel)]="campo.min" (click)="$event.stopPropagation()" class="input-chip-filtro rango" placeholder="Mín" />
+          <span class="guion">-</span>
+          <input type="number" [(ngModel)]="campo.max" (click)="$event.stopPropagation()" class="input-chip-filtro rango" placeholder="Máx" />
+        </div>
+      </div>
+    </div>
+    
+
   </div>
 
   <div class="zona-scroll-cards">

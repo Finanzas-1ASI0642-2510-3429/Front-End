@@ -24,19 +24,6 @@
             </li>
           </ul>
         </li>
-       
-        <li nz-menu-item (click)="logout()">
-          <span nz-icon nzType="poweroff"></span>
-          <span *ngIf="!isCollapsed">Salir</span>
-        </li>
-
-        <li nz-menu-item class="menu-dark-mode" nz-tooltip nzTooltipTitle="Modo Oscuro">
-          <div class="theme-switch" *ngIf="!isCollapsed">
-            <span nz-icon nzType="sun" [class.dark]="esOscuro" class="outside-icon-sun"></span>
-            <nz-switch [(ngModel)]="esOscuro" (ngModelChange)="toggleTheme($event)" class="custom-switch"></nz-switch>
-            <span nz-icon nzType="moon" [class.dark]="esOscuro" class="outside-icon-moon"></span>
-          </div>
-        </li>
       </ul>
 
     </nz-sider>
@@ -47,14 +34,50 @@
           <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
             <nz-icon class="trigger; icon_fold" [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'" />
           </span>
-          <div class="user-avatar">
-            <a class="user-avatar-container">
-              <nz-avatar  [nzText]="usuarioInicial"></nz-avatar>
-              <span class="user-name">{{ usuarioNombre }}
-              </span>
-            </a>
+ 
 
+          <div class="user-avatar">
+            <div class="user-avatar-container" (click)="mostrarDropdown = !mostrarDropdown" #dropdownRef>
+              <nz-avatar [nzText]="usuarioInicial"></nz-avatar>
+              <span class="user-name">{{ usuarioNombre }}</span>
+          
+              <div class="dropdown-usuario" *ngIf="mostrarDropdown">
+
+                <div class="usuario-info" (click)="toggleDropdown()">
+                  <div class="nombre"> aaaaaa </div>
+                  <div class="correo"> aaaaaa </div>
+                </div>
+          
+                <div class="divider" (click)="toggleDropdown()"></div>
+
+                <div class="dropdown-item" (click)="abrirPerfil()">
+                  <span nz-icon nzType="user"></span>
+                  <span class="label">Ver perfil</span>
+                </div>
+          
+                <div class="dropdown-item" (click)="toggleDropdown()">
+                  <span nz-icon nzType="setting"></span>
+                  <span class="label">Configuración</span>
+                </div>
+          
+                <div class="dropdown-item modo-oscuro"  (click)="$event.stopPropagation()">
+                  <span nz-icon nzType="moon"></span>
+                  <span class="label">Modo oscuro</span>
+                  <nz-switch [(ngModel)]="esOscuro" (ngModelChange)="toggleTheme($event)"></nz-switch>
+                </div>
+          
+                <div class="divider" (click)="toggleDropdown()"></div>
+          
+                <div class="dropdown-item salir" (click)="logout()">
+                  <span nz-icon nzType="poweroff"></span>
+                  <span class="label">Salir</span>
+                </div>
+              </div>
+            </div>
           </div>
+          
+          
+
         </div>
       </nz-header>
       <nz-content>

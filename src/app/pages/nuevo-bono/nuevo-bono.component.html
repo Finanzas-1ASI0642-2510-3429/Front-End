@@ -117,18 +117,42 @@
   <div class="table-panel">
     <h3 class="mis-bonos">Mis Bonos</h3>
 
+    <div class="barra-controles">
+      <div class="filtro-orden">
+        <input type="text" class="input-busqueda" placeholder="Buscar por nombre" [(ngModel)]="terminoBusqueda"
+          (ngModelChange)="filtrarBonos()" />
+          <button class="btn-orden" title="Orden ascendente" (click)="ordenarPorId('asc')">
+            <i nz-icon nzType="vertical-align-top"></i>
+          </button>
+          <button class="btn-orden" title="Orden descendente" (click)="ordenarPorId('desc')">
+            <i nz-icon nzType="vertical-align-bottom"></i>
+          </button>          
+      </div>
+
+      <div class="export-buttons">
+        <button class="btn-export excel" title="Exportar a Excel" (click)="exportarExcel()">
+          <i nz-icon nzType="file-excel"></i>
+        </button>
+        <button class="btn-export pdf" title="Exportar a PDF" (click)="exportarPDF()">
+          <i nz-icon nzType="file-pdf"></i>
+        </button>
+      </div>
+    </div>
+
+
+
     <div class="card-derecha">
       <table>
         <thead>
           <tr>
-            <th>#</th>
+            <th>ID</th>
             <th>Nombre del Bono</th>
             <th>Monto</th>
-            <th>Plazo (años)</th>
+            <th style="width: 105px;">Plazo (años)</th>
             <th>Tipo Tasa</th>
             <th>Capitalización</th>
-            <th>Tasa Base</th>
-            <th>Gracia</th>
+            <th style="width: 90px;">Tasa Base</th>
+            <th style="width: 70px;">Gracia</th>
             <th>Estado</th>
             <th>Ver Pagos</th>
             <th>Acciones</th>
@@ -143,7 +167,7 @@
 
           <tr *ngFor="let bono of listaBonosPaginados; let i = index"
             [class.fila-nueva]="bono.id === bonoAgregadoId || bono.nombre === bonoAgregadoId">
-            <td>{{ (paginaActual - 1) * tamanoPagina + i + 1 }}</td>
+            <td>{{ formatearCorrelativo(bono.id) }}</td>
             <td>{{ bono.nombre }}</td>
             <td>
               {{ bono.tipoMoneda === 'PEN' ? 'S/' : bono.tipoMoneda === 'USD' ? '$' : bono.tipoMoneda }}
@@ -155,9 +179,9 @@
             <td>{{ bono.tasaBase }}%</td>
             <td>
               {{
-              bono.tipoGracia === 'sin-gracia' ? 'Sin gracia' :
-              bono.tipoGracia === 'parcial' ? 'Parcial' :
-              bono.tipoGracia === 'total' ? 'Total' : '-'
+              bono.tipoGracia?.toLowerCase() === 'sin-gracia' ? 'Sin gracia' :
+              bono.tipoGracia?.toLowerCase() === 'parcial' ? 'Parcial' :
+              bono.tipoGracia?.toLowerCase() === 'total' ? 'Total' : '-'
               }}
             </td>
             <td class="acciones-btns">
