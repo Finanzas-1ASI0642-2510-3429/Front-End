@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UsuarioService } from '../../../services/usuario.service';
@@ -12,12 +12,14 @@ import Swal from 'sweetalert2';
   templateUrl: './modal-detalles-bono.component.html',
   styleUrls: ['./modal-detalles-bono.component.scss']
 })
-export class ModalDetallesBonoComponent {
+export class ModalDetallesBonoComponent  {
 
 
   @Input() bono: any;
   @Output() cerrar = new EventEmitter<void>();
   @Output() abrirPagos = new EventEmitter<void>();
+  @Output() bonoInvertido = new EventEmitter<void>();
+
 
   estadoFavorito: boolean = false;
   estadoMeGusta: boolean = false;
@@ -28,6 +30,7 @@ export class ModalDetallesBonoComponent {
   animVista: string = '';
 
   indicadores: any = null;
+
 
 
   constructor(private usuarioService: UsuarioService) { }
@@ -48,7 +51,14 @@ export class ModalDetallesBonoComponent {
               console.log('Indicadores recibidos:', data); 
               this.indicadores = data;
             },
-            error: (err) => console.error('Error al obtener indicadores:', err)
+            error: (err) => {      
+              Swal.fire({
+                icon: 'error',
+                title: 'Error de conexión',
+                text: 'No se pudo obtener los indicadores financieros. Verifica tu conexión o vuelve a intentarlo más tarde.',
+                confirmButtonText: 'Aceptar'
+              });
+            }
           });
 
         }
@@ -64,16 +74,25 @@ export class ModalDetallesBonoComponent {
     return this._visible;
   }
 
+
   ngOnChanges(): void {
     if (this.visible && this.bono?.id) {
       this.indicadores = null;
+  
       this.usuarioService.obtenerIndicadoresFinancieros(this.bono.id).subscribe({
         next: (data) => this.indicadores = data,
-        error: (err) => console.error('Error al obtener indicadores:', err)
+        error: (err) => {
+  
+          Swal.fire({
+            icon: 'error',
+            title: 'Error de conexión',
+            text: 'No se pudo obtener los indicadores financieros. Verifica tu conexión o vuelve a intentarlo más tarde.',
+            confirmButtonText: 'Aceptar'
+          });
+        }
       });
     }
   }
-
 
   getCapitalizacion(): string {
     return this.bono?.tipoTasa?.toLowerCase() === 'efectiva' ? 'No aplica' : this.bono?.capitalizacion;
@@ -153,20 +172,30 @@ export class ModalDetallesBonoComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-
-        Swal.fire({
-          icon: 'success',
-          title: 'Inversión exitosa',
-          text: `Has adquirido correctamente el bono ${this.bono.nombre}.`,
-          timer: 2500,
-          showConfirmButton: false
+        this.usuarioService.actualizarEstadoInvertido(this.bono.id).subscribe((respuesta) => {      
+          Swal.fire({
+            icon: 'success',
+            title: 'Inversión exitosa',
+            text: `Has adquirido correctamente el bono ${this.bono.nombre}.`,
+            timer: 2500,
+            showConfirmButton: false
+          }).then(() => {
+            this.bonoInvertido.emit();
+            this.cerrarModal();
+          });
+      
+          this.bono.estadoInvertido = respuesta.estadoInvertido;
+      
+        }, error => {
+          Swal.fire('Error', 'No se pudo invertir en el bono', 'error');
+          this.cancelarProgreso();
         });
-
-      } else {
-        this.cancelarProgreso();
       }
+      
     });
   }
+  
+  
 
 
 }

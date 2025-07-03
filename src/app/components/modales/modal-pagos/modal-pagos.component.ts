@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../../services/usuario.service';
 
@@ -10,7 +10,7 @@ import { UsuarioService } from '../../../services/usuario.service';
   templateUrl: './modal-pagos.component.html',
   styleUrls: ['./modal-pagos.component.scss']
 })
-export class ModalPagosComponent {
+export class ModalPagosComponent implements OnChanges{
 
   @Input() bono: any;
   @Input() visible: boolean = false;
@@ -22,15 +22,21 @@ export class ModalPagosComponent {
   constructor(private usuarioService: UsuarioService) {}
 
 
-  ngOnChanges(): void {
-    if (this.visible && this.bono?.id) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['visible'] && this.visible && this.bono?.id) {
+
+      console.log("bono id para indicador:", this.bono.id)
       this.usuarioService.obtenerIndicadoresFinancieros(this.bono.id).subscribe({
-        next: (data) => this.indicadores = data,
-        error: (err) => console.error('Error al obtener indicadores:', err)
+        next: (data) => {
+          this.indicadores = data;
+          console.log('Indicadores cargados:', data); // ✅ VER EN CONSOLA
+        },
+        error: (err) => {
+          console.error('Error al obtener indicadores financieros:', err);
+        }
       });
     }
   }
-
   cerrarModal() {
     this.cerrar.emit(); 
   }

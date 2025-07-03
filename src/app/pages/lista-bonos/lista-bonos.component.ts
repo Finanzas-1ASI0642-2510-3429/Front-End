@@ -52,13 +52,18 @@ export class ListaBonosComponent implements OnInit {
   obtenerBonos(): void {
     this.usuarioService.listarBonos().subscribe({
       next: (bonos) => {
-        const filtrados = bonos.filter(b => b.nombreCliente !== this.username);
+        const filtrados = bonos.filter(b => b.nombreCliente !== this.username && b.estadoInvertido === false);
         this.bonos = [...filtrados];
         this.bonosOriginales = [...filtrados];
         console.log("Bonos cargados:", this.bonos);
       },
       error: (error) => {
-        console.error('Error al obtener bonos:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de conexión',
+          text: 'No se pudo conectar con el servidor. Verifica tu conexión o vuelve a intentarlo más tarde.',
+          confirmButtonText: 'Aceptar'
+        });
       }
     });
   }
@@ -138,5 +143,8 @@ export class ListaBonosComponent implements OnInit {
     this.modalDetalleVisible = true;
   }
 
-
+  onBonoInvertido() {
+    this.obtenerBonos();
+  }
+  
 }

@@ -45,6 +45,8 @@ export class LoginComponent implements OnInit {
   city = '';
   postalCode = '';
   country = '';
+  isDark: boolean = false;
+  mostrarPassword: boolean = false;
 
   constructor(private router: Router,
     private translate: TranslateService,
@@ -180,7 +182,6 @@ export class LoginComponent implements OnInit {
     });
   }
 
-
   seleccionarRol(rol: string): void {
     this.selectedRole = this.selectedRole === rol ? '' : rol;
   }
@@ -193,10 +194,6 @@ export class LoginComponent implements OnInit {
       !this.lastName ||
       !this.email;
   }
-
-
-  isDark: boolean = false;
-
 
   register() {
     if (this.camposVacios()) {
@@ -253,7 +250,6 @@ export class LoginComponent implements OnInit {
           title: 'Error al registrarse',
           text: 'Erro al relizar la petición, vuelvalo a intentar.'
         });
-        console.error('Error al registrarse:', err);
       }
     });
   }
@@ -300,7 +296,6 @@ export class LoginComponent implements OnInit {
     this.emailValido = regexEmail.test(this.email);
   }
 
-
   validarPassword(): void {
     const pass = this.registerPassword;
     const user = this.registerUsername;
@@ -320,7 +315,6 @@ export class LoginComponent implements OnInit {
 
     this.passwordValido = this.passwordErrorMensajes.length === 0;
   }
-
 
   validarUsername(): void {
     const u = this.registerUsername || '';
@@ -412,8 +406,6 @@ export class LoginComponent implements OnInit {
       }, 3000);
     }
   }
-
-
 }
 
 

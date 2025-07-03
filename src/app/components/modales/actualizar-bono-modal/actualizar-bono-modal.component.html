@@ -20,32 +20,36 @@
       <div class="form-section">
         <i nz-icon nzType="dollar" class="section-icon"></i>
         <h3>Datos Financieros</h3>
-        <label>Tasa Base (%)</label>
-        <input type="number" [(ngModel)]="bono.tasaBase" name="tasaBase" required />
+
+        <label>Tipo de Tasa Base</label>
+        <select [(ngModel)]="bono.tipoTasaBase" name="tipoTasaBase" (change)="onCambioTipoTasaBase()">
+          <option value="TEA">TEA</option>
+          <option value="TES">TES</option>
+          <option value="TEM">TEM</option>
+          <option value="TNA">TNA</option>
+          <option value="TNS">TNS</option>
+          <option value="TNM">TNM</option>
+        </select>
+
 
         <label>Tipo de Tasa</label>
-        <select [(ngModel)]="bono.tipoTasa" name="tipoTasa">
+        <select [(ngModel)]="bono.tipoTasa" name="tipoTasa" disabled>
           <option value="efectiva">Efectiva</option>
           <option value="nominal">Nominal</option>
         </select>
 
-        <label>Tipo de Tasa Base</label>
-        <select [(ngModel)]="bono.tipoTasaBase" name="tipoTasaBase">
-          <option value="TEA">TEA</option>
-          <option value="TNA">TNA</option>
-        </select>
-      </div>
-
-      <div class="form-section">
-        <i nz-icon nzType="calendar"  class="section-icon"></i>
-        <h3>Condiciones de Pago</h3>
-        <label>Capitalización</label>
-        <select [(ngModel)]="bono.capitalizacion" name="capitalizacion">
+        <label *ngIf="mostrarCapitalizacion()">Capitalización</label>
+        <select *ngIf="mostrarCapitalizacion()" [(ngModel)]="bono.capitalizacion" name="capitalizacion">
           <option value="anual">Anual</option>
           <option value="semestral">Semestral</option>
           <option value="trimestral">Trimestral</option>
           <option value="mensual">Mensual</option>
         </select>
+      </div>
+
+      <div class="form-section">
+        <i nz-icon nzType="calendar" class="section-icon"></i>
+        <h3>Condiciones de Pago</h3>
 
         <label>Frecuencia de Pago</label>
         <select [(ngModel)]="bono.frecuenciaPago" name="frecuenciaPago">
@@ -53,6 +57,9 @@
           <option value="semestral">Semestral</option>
           <option value="trimestral">Trimestral</option>
         </select>
+
+        <label>Tasa Base (%)</label>
+        <input type="number" [(ngModel)]="bono.tasaBase" name="tasaBase" required />
 
         <label>Tipo de Moneda</label>
         <select [(ngModel)]="bono.tipoMoneda" name="tipoMoneda">
@@ -66,21 +73,23 @@
         <h3>Periodo de Gracia</h3>
         <label>Tipo de Gracia</label>
         <select [(ngModel)]="bono.tipoGracia" name="tipoGracia">
+          <option value="sin gracia">Sin gracia</option>
           <option value="parcial">Parcial</option>
           <option value="total">Total</option>
         </select>
 
-        <label>Periodo de Gracia</label>
-        <input type="number" [(ngModel)]="bono.periodoGracia" name="periodoGracia" required />
+        <label *ngIf="mostrarPeriodoGracia()">Periodo de Gracia</label>
+        <input *ngIf="mostrarPeriodoGracia()" type="number" [(ngModel)]="bono.periodoGracia" name="periodoGracia"
+          required />
       </div>
     </div>
 
     <div class="acciones">
       <button type="submit" class="btn-principal">
-        <i nz-icon nzType="check-circle" ></i> Guardar Cambios
+        <i nz-icon nzType="check-circle"></i> Guardar Cambios
       </button>
       <button type="button" class="btn-secundario" (click)="cerrarConAnimacion()">
-        <i nz-icon nzType="close-circle" ></i> Cancelar
+        <i nz-icon nzType="close-circle"></i> Cancelar
       </button>
     </div>
   </form>

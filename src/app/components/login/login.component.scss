@@ -924,7 +924,6 @@
   
 }
 
-
 .floating-error-bubble-pass {
   position: absolute;
   top: 48%; 
@@ -1100,8 +1099,6 @@
   }
 }
 
-
-
 .row-inputs {
   display: flex;
   justify-content: space-between;
@@ -1115,4 +1112,29 @@
 
 .row-inputs .input-group-wrapper input {
   width: 100%;
+}
+
+.input-password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 70%; 
+
+  input {
+    width: 100%;
+    padding-right: 40px; 
+  }
+
+  .icono-ojo {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #1d436b;
+    font-size: 18px;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #0f2a47;
+    }
+  }
 }

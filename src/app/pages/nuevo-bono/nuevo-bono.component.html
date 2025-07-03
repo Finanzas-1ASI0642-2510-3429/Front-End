@@ -51,8 +51,6 @@
               <option value="mensual">Mensual</option>
             </select>
           </div>
-
-
         </div>
 
         <div class="card glass">
@@ -95,12 +93,8 @@
             <label>Periodo de gracia</label>
             <input type="text" [(ngModel)]="bono.periodoGracia" name="periodoGracia" required />
           </div>
-
-
         </div>
-
       </div>
-
       <div class="btn-container">
         <button type="submit" (click)="registrarBono()" class="btn-accion animado">
           Guardar
@@ -112,24 +106,25 @@
     </form>
   </div>
 
-
-
   <div class="table-panel">
-    <h3 class="mis-bonos">Mis Bonos</h3>
-
+    <h3 class="mis-bonos">
+      Mis <span class="bono-badge">Bonos</span>
+    </h3>
+    
     <div class="barra-controles">
       <div class="filtro-orden">
         <input type="text" class="input-busqueda" placeholder="Buscar por nombre" [(ngModel)]="terminoBusqueda"
           (ngModelChange)="filtrarBonos()" />
-          <button class="btn-orden" title="Orden ascendente" (click)="ordenarPorId('asc')">
-            <i nz-icon nzType="vertical-align-top"></i>
-          </button>
-          <button class="btn-orden" title="Orden descendente" (click)="ordenarPorId('desc')">
-            <i nz-icon nzType="vertical-align-bottom"></i>
-          </button>          
+        <button class="btn-orden" title="Orden ascendente" (click)="ordenarPorId('asc')">
+          <i nz-icon nzType="vertical-align-top"></i>
+        </button>
+        <button class="btn-orden" title="Orden descendente" (click)="ordenarPorId('desc')">
+          <i nz-icon nzType="vertical-align-bottom"></i>
+        </button>
       </div>
 
       <div class="export-buttons">
+        <span class="txt-exportar">Exportar por:</span>
         <button class="btn-export excel" title="Exportar a Excel" (click)="exportarExcel()">
           <i nz-icon nzType="file-excel"></i>
         </button>
@@ -138,8 +133,6 @@
         </button>
       </div>
     </div>
-
-
 
     <div class="card-derecha">
       <table>
@@ -185,9 +178,12 @@
               }}
             </td>
             <td class="acciones-btns">
-              <button class="btn-circular estado-btn" title="Inactivo">
-                <i nz-icon nzType="user-delete" nzTheme="outline"></i>
+              <button class="btn-circular estado-btn"
+                [ngClass]="{ 'invertido': bono.estadoInvertido, 'no-invertido': !bono.estadoInvertido }"
+                [title]="bono.estadoInvertido ? 'Invertido' : 'Disponible'">
+                <i nz-icon [nzType]="bono.estadoInvertido ? 'check-circle' : 'user-delete'" nzTheme="outline"></i>
               </button>
+
             </td>
             <td>
               <button class="btn-circular-eye" (click)="abrirModalPagos(bono)">
@@ -195,7 +191,7 @@
               </button>
             </td>
             <td class="acciones-btns">
-              <button class="btn-circular edit-btn" title="Editar" (click)="abrirModal(bono)">
+              <button class="btn-circular edit-btn" title="Editar" (click)="abrirModalEditar(bono)">
                 <i nz-icon nzType="edit" nzTheme="outline"></i>
               </button>
               <button class="btn-circular delete-btn" title="Eliminar" (click)="eliminarBono(bono.id)">
@@ -226,7 +222,6 @@
 
 <app-modal-pagos [visible]="modalPagosVisible" [bono]="bonoSeleccionado"
   (cerrar)="cerrarModalPagos()"></app-modal-pagos>
-
 
 <app-actualizar-bono-modal *ngIf="modalVisible" [bono]="bonoSeleccionado" (cerrar)="cerrarModal()"
   (actualizar)="guardarCambiosBono($event)">

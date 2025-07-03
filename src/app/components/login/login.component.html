@@ -7,7 +7,7 @@
   }">
     <img src="assets/chica1.png" class="background-image-2" />
 
-    
+
   </div>
 
   <div class="background-wrapper" [ngClass]="{
@@ -149,11 +149,18 @@
 
     <div class="form-container sign-in">
       <form (ngSubmit)="login()">
-        <img src="assets/logoazuloscuro.png" alt="Login Ico  n" class="login-image" />
+        <img src="assets/logoazuloscuro.png" alt="Login Icon" class="login-image" />
         <h1 class="titu-ini">{{ 'TITULO_INICIO' | translate }}</h1>
+
         <input [(ngModel)]="username" [placeholder]="'NOMBRE_USUARIO' | translate" name="username" required />
-        <input [(ngModel)]="password" type="password" [placeholder]="'CONTRASENA' | translate" name="password"
-          required />
+
+        <div class="input-password-wrapper">
+          <input [(ngModel)]="password" [type]="mostrarPassword ? 'text' : 'password'"
+            [placeholder]="'CONTRASENA' | translate" name="password" required />
+          <i nz-icon [nzType]="mostrarPassword ? 'eye-invisible' : 'eye'" nzTheme="outline"
+            (click)="mostrarPassword = !mostrarPassword" class="icono-ojo"></i>
+        </div>
+
         <div class="remember-container">
           <label class="custom-checkbox">
             <input type="checkbox" name="recordarme" [(ngModel)]="recordarme" (change)="onRecordarmeChange()" />
@@ -163,11 +170,10 @@
         </div>
 
         <a (click)="showModalPassword = true">{{ 'OLVIDASTE' | translate }}</a>
-        <button (click)="login()" class="btn-accion" type="submit">{{ 'INICIAR' | translate }}</button>
+
+        <button type="submit" class="btn-accion">{{ 'INICIAR' | translate }}</button>
       </form>
     </div>
-
-
 
     <div class="toggle-container">
       <div class="toggle">

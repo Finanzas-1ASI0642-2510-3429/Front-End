@@ -114,13 +114,24 @@
   font-weight: bold;
   color: #1E4569;
   padding-left: 20px;
+}
 
+.bono-badge {
+  background-color: #1c9dcf; 
+  color: white;
+  padding: 1px 10px;
+  border-radius: 12px;
+  font-weight: 550;
+  font-size: 22.5px;
+  display: inline-block;
+  margin-left: 0px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .mis-bonos {
   margin-bottom: 0px;
   font-size: 25px;
-  font-weight: 600;
+  font-weight: bold;
   color: #1E4569;
   text-align: center;
   margin-top: 10px;
@@ -344,24 +355,28 @@ table {
   transform: scale(0.97);
 }
 
-.estado-btn {
-  background-color: #f44336; 
-  box-shadow: none; 
-  transition: background-color 0.3s ease; 
+.estado-btn.invertido {
+  background-color: #4caf50; 
   i {
     color: white;
   }
 
   &:hover {
-    background-color: #d32f2f; 
-    transform: none;           
-    box-shadow: none;
-  }
-
-  &:active {
-    transform: scale(0.97); 
+    background-color: #388e3c;
   }
 }
+
+.estado-btn.no-invertido {
+  background-color: #f44336; 
+  i {
+    color: white;
+  }
+
+  &:hover {
+    background-color: #d32f2f;
+  }
+}
+
 
 .barra-controles {
   display: flex;
@@ -453,3 +468,11 @@ table {
     }
   }
 }
+
+.txt-exportar{
+  margin-top: 5px;
+  margin-right: 5px;
+  font-weight: 500;
+  color: #000000;
+}
+

@@ -12,7 +12,7 @@ export class UsuarioService {
 
   private baseUrl = `${environment.apiUrl}/api/bonos`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
@@ -50,5 +50,11 @@ export class UsuarioService {
     const headers = this.getAuthHeaders();
     return this.http.get<any>(`${this.baseUrl}/${bonoId}/indicadores`, { headers });
   }
+
+  actualizarEstadoInvertido(bonoId: number): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.patch(`${this.baseUrl}/${bonoId}/invertir`, {}, { headers });
+  }
+
 
 }

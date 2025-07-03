@@ -152,8 +152,10 @@ nz-content {
       top: 100%;
       left: 0;
       width: 100%;
-      backdrop-filter: blur(10px);
-      background: rgba(255, 255, 255, 0.08);
+      //backdrop-filter: blur(10px);
+      //background: rgba(255, 255, 255, 0.08);
+      background: rgb(255, 255, 255);
+
       border-bottom-left-radius: 12px;
       border-bottom-right-radius: 12px;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);

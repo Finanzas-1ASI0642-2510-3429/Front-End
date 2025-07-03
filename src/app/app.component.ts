@@ -21,15 +21,13 @@ export class AppComponent {
   esOscuro = false;
   usuarioNombre = '';
   usuarioInicial = '';
+  mostrarDropdown: boolean = false;
 
   constructor(
     private router: Router,
     private themeService: ThemeService
   ) {
   }
-
-
-  mostrarDropdown: boolean = false;
 
   @ViewChild('dropdownRef') dropdownRef!: ElementRef;
 

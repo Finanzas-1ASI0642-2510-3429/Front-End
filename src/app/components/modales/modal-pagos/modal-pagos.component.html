@@ -34,17 +34,17 @@
       </div>
     </div>
 
-    <div class="resumen-indicadores">
+    <div class="resumen-indicadores" *ngIf="indicadores">
       <h3>Resumen Financiero</h3>
       <div class="indicadores-grid">
-        <div class="pill-indicador"><strong>TCEA:</strong> {{ indicadores?.tcea | number: '1.2-2' }}</div>
-        <div class="pill-indicador"><strong>TREA:</strong> {{ indicadores?.trea | number: '1.2-2' }}</div>
+        <div class="pill-indicador"><strong>TCEA:</strong> {{ indicadores?.tcea | number: '1.2-2' }}%</div>
+        <div class="pill-indicador"><strong>TREA:</strong> {{ indicadores?.trea | number: '1.2-2' }}%</div>
         <div class="pill-indicador"><strong>Duración:</strong> {{ indicadores?.duracion | number: '1.2-2' }}</div>
-        <div class="pill-indicador"><strong>Dur. Modif.:</strong> {{ indicadores?.duracionModificada | number: '1.2-2'
-          }}</div>
+        <div class="pill-indicador"><strong>Dur. Modificada:</strong> {{ indicadores?.duracionModificada | number: '1.2-2' }}</div>
         <div class="pill-indicador"><strong>Convexidad:</strong> {{ indicadores?.convexidad | number: '1.2-2' }}</div>
       </div>
     </div>
+    
 
     <div class="tabla-scroll">
       <table>

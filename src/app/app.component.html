@@ -24,7 +24,20 @@
             </li>
           </ul>
         </li>
+
+        <li nz-submenu nzOpen nzTitle="Cuenta" nzIcon="user" >
+          <ul>
+            <li nz-menu-item>
+              <a routerLink="/perfil">Mi perfil</a>
+            </li>
+            <li nz-menu-item>
+              <a routerLink="/configuracion-cuenta">Configuración de cuenta</a>
+            </li>
+          </ul>
+        </li>
+        
       </ul>
+      
 
     </nz-sider>
     <nz-layout>
@@ -68,7 +81,7 @@
           
                 <div class="divider" (click)="toggleDropdown()"></div>
           
-                <div class="dropdown-item salir" (click)="logout()">
+                <div class="dropdown-item salir" (click)="logout(); toggleDropdown()">
                   <span nz-icon nzType="poweroff"></span>
                   <span class="label">Salir</span>
                 </div>

@@ -1,6 +1,5 @@
 <div class="bono-container pantalla-completa">
-  <h2 class="tit">Todos los Bonos Registrados</h2>
-
+  <h2 class="tit">Bonos para Oportunidades de Inversión</h2>
 
   <div class="cont-filtros">
     <div class="zona-filtros">
@@ -10,6 +9,11 @@
       <button class="btn-filtro-avanzado" [class.activo]="filtrosActivos" (click)="toggleFiltrosAvanzados()">
         Filtros avanzados
       </button>
+      <div class="conteo-bonos">
+        <strong>Número de bonos disponibles:</strong>
+        <span class="badge-cantidad">{{ bonos.length }}</span>
+      </div>
+      
     </div>
     <div *ngIf="filtrosActivos" class="contenedor-filtros-avanzados">
       <div class="filtro-chip" *ngFor="let campo of camposFiltroAvanzado" [class.activo]="campo.activo" (click)="activarCampo(campo, $event)">
@@ -57,8 +61,13 @@
 </div>
 
 
-<app-modal-detalles-bono [bono]="bonoSeleccionado" [visible]="modalDetalleVisible" (cerrar)="cerrarModalDetalle()"
-  (abrirPagos)="abrirModalPagos(bonoSeleccionado)"></app-modal-detalles-bono>
+<app-modal-detalles-bono
+  [bono]="bonoSeleccionado"
+  [visible]="modalDetalleVisible"
+  (cerrar)="cerrarModalDetalle()"
+  (abrirPagos)="abrirModalPagos(bonoSeleccionado)"
+  (bonoInvertido)="onBonoInvertido()">
+</app-modal-detalles-bono>
 
 <app-modal-pagos [bono]="bonoSeleccionado" [visible]="modalPagosVisible"
   (cerrar)="cerrarModalPagos()"></app-modal-pagos>

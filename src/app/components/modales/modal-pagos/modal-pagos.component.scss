@@ -166,3 +166,12 @@ table {
     opacity: 1;
   }
 }
+
+.pill-indicador {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 10px 12px;
+  border-radius: 12px;
+  font-size: 14px;
+  text-align: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}

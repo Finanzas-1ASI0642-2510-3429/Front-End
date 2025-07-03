@@ -52,7 +52,7 @@ export class NuevoBonoComponent implements OnInit {
   bloquearTipoTasa = false;
 
 
-  constructor(private bonoService: UsuarioService,
+  constructor(private usuarioService: UsuarioService,
     private http: HttpClient,
     private themeService: ThemeService) {
 
@@ -69,7 +69,6 @@ export class NuevoBonoComponent implements OnInit {
   get isDark(): boolean {
     return this.themeService.isDarkMode;
   }
-
 
   obtenerUsuario(): string {
     const userData = localStorage.getItem('user');
@@ -100,13 +99,12 @@ export class NuevoBonoComponent implements OnInit {
       nombreCliente: this.username
     };
 
-
     if (bonoConCliente.tipoTasa === 'efectiva') {
       delete (bonoConCliente as any).capitalizacion;
     }
 
     console.log("bono enviado", bonoConCliente)
-    this.bonoService.registrarBono(bonoConCliente).subscribe({
+    this.usuarioService.registrarBono(bonoConCliente).subscribe({
       next: (respuesta) => {
         this.bonoAgregadoId = respuesta.id || respuesta.nombre;
         this.obtenerBonos(() => {
@@ -147,7 +145,7 @@ export class NuevoBonoComponent implements OnInit {
 
   obtenerBonos(callback?: () => void) {
 
-    this.bonoService.obtenerBonosPorUsuario(this.username).subscribe({
+    this.usuarioService.obtenerBonosPorUsuario(this.username).subscribe({
       next: (bonos) => {
         this.listaBonos = bonos;
         this.listaBonosFiltrados = bonos;
@@ -156,7 +154,13 @@ export class NuevoBonoComponent implements OnInit {
         if (callback) callback();
       },
       error: (err) => {
-        console.error('Error al obtener los bonos del usuario:', err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de conexión',
+          text: 'No se pudo conectar con el servidor. Verifica tu conexión o vuelve a intentarlo más tarde.',
+          confirmButtonText: 'Aceptar'
+        });
+
       }
     });
   }
@@ -226,17 +230,25 @@ export class NuevoBonoComponent implements OnInit {
     return true;
   }
 
-  abrirModal(bono: any): void {
-    this.bonoSeleccionado = { ...bono };
-    this.modalVisible = true;
+  abrirModalEditar(bono: any): void {
+    if (bono.estadoInvertido === true) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Bono en proceso de inversión',
+        text: 'El bono se encuentra en proceso de inversión y no puede editarse.',
+      });
+    } else {
+      this.bonoSeleccionado = { ...bono };
+      this.modalVisible = true;
+    }
   }
-
+  
   cerrarModal(): void {
     this.modalVisible = false;
   }
 
   guardarCambiosBono(actualizado: any): void {
-    this.bonoService.actualizarBono(actualizado).subscribe({
+    this.usuarioService.actualizarBono(actualizado).subscribe({
       next: () => {
         this.cerrarModal();
         this.obtenerBonos();
@@ -260,7 +272,16 @@ export class NuevoBonoComponent implements OnInit {
   }
 
   eliminarBono(bonoId: number): void {
-    Swal.fire({
+    const bono = this.listaBonos.find(b => b.id === bonoId);
+    if (bono?.estadoInvertido) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Bono en proceso de inversión',
+        text: 'El bono se encuentra en proceso de inversión y no puede eliminarse.',
+      });
+      return;
+    }
+      Swal.fire({
       title: '¿Estás seguro?',
       text: 'Esta acción eliminará el bono permanentemente.',
       icon: 'question',
@@ -269,10 +290,9 @@ export class NuevoBonoComponent implements OnInit {
       cancelButtonColor: '#eb1212',
       confirmButtonText: 'Sí, eliminar',
       cancelButtonText: 'Cancelar',
-
     }).then((result) => {
       if (result.isConfirmed) {
-        this.bonoService.eliminarBono(bonoId).subscribe({
+        this.usuarioService.eliminarBono(bonoId).subscribe({
           next: () => {
             this.listaBonos = this.listaBonos.filter(b => b.id !== bonoId);
             this.listaBonosFiltrados = this.listaBonosFiltrados.filter(b => b.id !== bonoId);
@@ -296,7 +316,7 @@ export class NuevoBonoComponent implements OnInit {
       }
     });
   }
-
+  
   onTipoTasaBaseSeleccion(): void {
     const mapa = {
       TEA: { tipoTasa: 'efectiva' },
@@ -331,7 +351,6 @@ export class NuevoBonoComponent implements OnInit {
   }
 
   cerrarModalPagos(): void {
-    console.log("Modal de pagos cerrado");
     this.modalPagosVisible = false;
   }
 
@@ -355,13 +374,13 @@ export class NuevoBonoComponent implements OnInit {
     const username = this.username || 'Usuario desconocido';
 
     const cabecera = [
-      ['Lista de Bonos Registrados'], 
+      ['Lista de Bonos Registrados'],
       [`Fecha de descarga: ${fechaActual}`, `Usuario: ${username}`],
       [],
       [
         'ID', 'Nombre', 'Monto', 'Plazo (años)', 'Tipo Tasa',
         'Capitalización', 'Tasa Base (%)', 'Gracia'
-      ] 
+      ]
     ];
 
     const datos = this.listaBonosFiltrados.map((bono) => [
@@ -382,7 +401,7 @@ export class NuevoBonoComponent implements OnInit {
     const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(hojaArray);
 
     worksheet['!merges'] = [
-      { s: { r: 0, c: 0 }, e: { r: 0, c: 7 } } 
+      { s: { r: 0, c: 0 }, e: { r: 0, c: 7 } }
     ];
 
     worksheet['!cols'] = [
@@ -471,5 +490,7 @@ export class NuevoBonoComponent implements OnInit {
       doc.save('Lista de Bonos Registrados.pdf');
     };
   }
+
+
 
 }
