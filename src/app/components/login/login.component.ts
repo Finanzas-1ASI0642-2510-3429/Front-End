@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoginService } from '../../services/login.service';
 import Swal from 'sweetalert2';
+import { PaisService } from '../../services/pais.service';
 
 
 
@@ -47,10 +48,13 @@ export class LoginComponent implements OnInit {
   country = '';
   isDark: boolean = false;
   mostrarPassword: boolean = false;
+  paises: string[] = [];
+
 
   constructor(private router: Router,
     private translate: TranslateService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private paisService: PaisService,
   ) { }
 
   ngOnInit(): void {
@@ -72,6 +76,10 @@ export class LoginComponent implements OnInit {
     this.idiomaActual = idioma;
     this.translate.use(idioma.toLowerCase());
     this.actualizarOpciones(false);
+
+    this.paisService.obtenerPaises().subscribe((res) => {
+      this.paises = res.map(p => p.name.common).sort(); 
+    });
 
     if (this.idiomaActual === 'QC') {
       this.mostrarMensajeQC = true;

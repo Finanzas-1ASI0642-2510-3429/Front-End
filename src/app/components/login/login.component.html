@@ -97,7 +97,10 @@
           </div>
 
           <div class="input-group-wrapper">
-            <input [(ngModel)]="country" name="country" placeholder="País" required />
+            <select [(ngModel)]="country" name="country" required>
+              <option value="" disabled selected>Seleccione su país</option>
+              <option *ngFor="let pais of paises" [value]="pais">{{ pais }}</option>
+            </select>
           </div>
         </div>
 

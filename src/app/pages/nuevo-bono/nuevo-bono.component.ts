@@ -60,7 +60,7 @@ export class NuevoBonoComponent implements OnInit {
 
   ngOnInit(): void {
     this.username = this.obtenerUsuario();
-
+    this.bloquearTipoTasa = true;
 
     if (this.username && this.username.trim() !== '') {
       this.obtenerBonos();
@@ -144,6 +144,7 @@ export class NuevoBonoComponent implements OnInit {
     };
 
     this.campoGraciaDeshabilitado = true;
+    this.bloquearTipoTasa = true;
 
   }
 
@@ -388,6 +389,8 @@ export class NuevoBonoComponent implements OnInit {
       this.bloquearTipoTasa = false;
     }
   }
+
+  
 
   esSinGracia(): boolean {
     return this.bono.tipoGracia === 'sin-gracia';

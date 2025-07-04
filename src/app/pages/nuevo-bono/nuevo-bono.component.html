@@ -41,6 +41,7 @@
               <option value="nominal">Nominal</option>
             </select>
           </div>
+          
 
           <div class="form-group" *ngIf="bono.tipoTasa === 'nominal'">
             <label>Capitalización</label>
@@ -92,7 +93,6 @@
             </select>
           </div>
         
-          <!-- Mostrar el campo solo si NO es sin-gracia -->
           <div class="form-group" *ngIf="!esSinGracia()">
             <label>Periodo de gracia</label>
             <input
