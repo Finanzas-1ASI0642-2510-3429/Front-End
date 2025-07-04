@@ -29,7 +29,7 @@ export class ModalPagosComponent implements OnChanges{
       this.usuarioService.obtenerIndicadoresFinancieros(this.bono.id).subscribe({
         next: (data) => {
           this.indicadores = data;
-          console.log('Indicadores cargados:', data); // ✅ VER EN CONSOLA
+          console.log('Indicadores cargados:', data); 
         },
         error: (err) => {
           console.error('Error al obtener indicadores financieros:', err);

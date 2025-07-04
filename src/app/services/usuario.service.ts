@@ -52,9 +52,36 @@ export class UsuarioService {
   }
 
   actualizarEstadoInvertido(bonoId: number): Observable<any> {
-    const headers = this.getAuthHeaders();
-    return this.http.patch(`${this.baseUrl}/${bonoId}/invertir`, {}, { headers });
+    return this.http.patch(`${this.baseUrl}/${bonoId}/invertir`, {}, {
+      headers: this.getAuthHeaders()
+    });
   }
+
+  actualizarEstadoDesinvertido(bonoId: number): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/${bonoId}/desinvertir`, {}, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  actualizarPrecioCompra(bonoId: number, precioCompra: number): Observable<any> {
+    const body = { precioCompra };
+    return this.http.patch(`${this.baseUrl}/${bonoId}/precio-compra`, body, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  getUserByUsername(username: string): Observable<any> {
+  const headers = this.getAuthHeaders();
+  return this.http.get<any>(`${environment.apiUrl}/api/v1/users/username/${username}`, { headers });
+}
+  
+
+  getProfileById(profileId: number): Observable<any> {
+  const headers = this.getAuthHeaders();
+  return this.http.get<any>(`${environment.apiUrl}/api/v1/profiles/${profileId}`, { headers });
+}
+
+
 
 
 }

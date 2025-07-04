@@ -31,7 +31,7 @@
 
 
 .seccion-derecha {
-  height: 525px;
+  height: 550px;
   width: 700px;
   background: #f4f4f4;
   border-radius: 25px;
@@ -87,7 +87,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
       transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
       z-index: 10;
 
@@ -498,7 +498,7 @@
   }
 
   .btn-invertir {
-    position: relative; 
+    position: relative;
     display: flex;
     align-items: center;
     padding: 0.3rem 1.1rem;
@@ -572,4 +572,59 @@
     transform: scale(1);
     pointer-events: auto;
   }
+}
+
+.indicador-input {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.indicador-input input {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #ffffff;
+  font-size: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 49%;
+  margin-top: 8px;
+}
+
+.tooltip-error {
+  position: absolute;
+  top: 42%;
+  left: 247px;
+  background: #000;
+  color: white;
+  font-size: 12px;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  margin-top: 0.3rem;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.trea-wrapper {
+  position: relative;
+  min-height: 38px;
+}
+
+.trea-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
+  font-size: 12px;
+  padding: 21px;
+  border-radius: 6px;
+  width: 100%;
+  z-index: 1;
+  text-align: center;
+}
+
+.trea-wrapper .valor {
+  position: relative;
+  z-index: 2;
 }

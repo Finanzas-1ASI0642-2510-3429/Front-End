@@ -1,42 +1,42 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { UsuarioService } from '../../../services/usuario.service';
 import Swal from 'sweetalert2';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-modal-detalles-bono',
   standalone: true,
-  imports: [CommonModule, NzIconModule],
+  imports: [CommonModule, NzIconModule, FormsModule],
   templateUrl: './modal-detalles-bono.component.html',
   styleUrls: ['./modal-detalles-bono.component.scss']
 })
-export class ModalDetallesBonoComponent  {
-
+export class ModalDetallesBonoComponent implements OnChanges {
 
   @Input() bono: any;
   @Output() cerrar = new EventEmitter<void>();
   @Output() abrirPagos = new EventEmitter<void>();
   @Output() bonoInvertido = new EventEmitter<void>();
 
-
-  estadoFavorito: boolean = false;
-  estadoMeGusta: boolean = false;
-  estadoVista: boolean = false;
-
-  animFavorito: string = '';
-  animMeGusta: string = '';
-  animVista: string = '';
-
   indicadores: any = null;
+  precioCompra: number = 0;
+  errorPrecioCompra: boolean = false;
 
+  estadoFavorito = false;
+  estadoMeGusta = false;
+  estadoVista = false;
 
+  animFavorito = '';
+  animMeGusta = '';
+  animVista = '';
 
-  constructor(private usuarioService: UsuarioService) { }
+  progresoPorcentaje: number = 0;
+  intervaloProgreso: any = null;
+  duracionHold = 2000;
+  paso = 100;
 
   visibleInterno: boolean = false;
-
   private _visible: boolean = false;
 
   @Input() set visible(value: boolean) {
@@ -44,25 +44,8 @@ export class ModalDetallesBonoComponent  {
       this.visibleInterno = true;
       setTimeout(() => {
         this._visible = true;
-
-        if (this.bono?.id) {
-          this.usuarioService.obtenerIndicadoresFinancieros(this.bono.id).subscribe({
-            next: (data) => {
-              console.log('Indicadores recibidos:', data); 
-              this.indicadores = data;
-            },
-            error: (err) => {      
-              Swal.fire({
-                icon: 'error',
-                title: 'Error de conexión',
-                text: 'No se pudo obtener los indicadores financieros. Verifica tu conexión o vuelve a intentarlo más tarde.',
-                confirmButtonText: 'Aceptar'
-              });
-            }
-          });
-
-        }
-
+        this.precioCompra = this.bono?.precioCompra || 0;
+        this.cargarIndicadores();
       }, 10);
     } else {
       this._visible = false;
@@ -74,73 +57,88 @@ export class ModalDetallesBonoComponent  {
     return this._visible;
   }
 
+  constructor(private usuarioService: UsuarioService) { }
 
   ngOnChanges(): void {
     if (this.visible && this.bono?.id) {
-      this.indicadores = null;
-  
-      this.usuarioService.obtenerIndicadoresFinancieros(this.bono.id).subscribe({
-        next: (data) => this.indicadores = data,
-        error: (err) => {
-  
-          Swal.fire({
-            icon: 'error',
-            title: 'Error de conexión',
-            text: 'No se pudo obtener los indicadores financieros. Verifica tu conexión o vuelve a intentarlo más tarde.',
-            confirmButtonText: 'Aceptar'
-          });
-        }
-      });
+      this.precioCompra = this.bono.precioCompra || 0;
+      this.cargarIndicadores();
     }
+  }
+
+  cargarIndicadores() {
+    if (!this.bono?.id) return;
+    this.indicadores = null;
+    this.usuarioService.obtenerIndicadoresFinancieros(this.bono.id).subscribe({
+      next: (data) => this.indicadores = data,
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error de conexión',
+          text: 'No se pudo obtener los indicadores financieros.',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    });
+  }
+
+  validarYEnviarPrecioCompra() {
+    const min = this.bono.montoNominal * 0.95;
+    const max = this.bono.montoNominal * 1.05;
+
+    if (this.precioCompra < min || this.precioCompra > max) {
+      this.errorPrecioCompra = true;
+      return;
+    }
+
+    this.errorPrecioCompra = false;
+
+    this.usuarioService.actualizarPrecioCompra(this.bono.id, this.precioCompra).subscribe({
+      next: () => {
+        this.bono.precioCompra = this.precioCompra;
+        this.cargarIndicadores();
+      },
+      error: () => {
+        Swal.fire('Error', 'No se pudo actualizar el precio de compra.', 'error');
+      }
+    });
   }
 
   getCapitalizacion(): string {
     return this.bono?.tipoTasa?.toLowerCase() === 'efectiva' ? 'No aplica' : this.bono?.capitalizacion;
   }
 
+  esTasaExcluida(): boolean {
+    const tipo = this.bono?.tipoTasaBase?.toUpperCase();
+    return tipo === 'TEA' || tipo === 'TES' || tipo === 'TEM';
+  }
 
   toggleFavorito() {
-    if (this.estadoFavorito) {
-      this.animFavorito = 'desactivando';
-    } else {
-      this.animFavorito = 'activando';
-    }
+    this.animFavorito = this.estadoFavorito ? 'desactivando' : 'activando';
     this.estadoFavorito = !this.estadoFavorito;
     setTimeout(() => this.animFavorito = '', 400);
   }
 
   toggleMeGusta() {
-    if (this.estadoMeGusta) {
-      this.animMeGusta = 'desactivando';
-    } else {
-      this.animMeGusta = 'activando';
-    }
+    this.animMeGusta = this.estadoMeGusta ? 'desactivando' : 'activando';
     this.estadoMeGusta = !this.estadoMeGusta;
     setTimeout(() => this.animMeGusta = '', 400);
   }
 
   toggleVista() {
-    if (this.estadoVista) {
-      this.animVista = 'desactivando';
-    } else {
-      this.animVista = 'activando';
-    }
+    this.animVista = this.estadoVista ? 'desactivando' : 'activando';
     this.estadoVista = !this.estadoVista;
     setTimeout(() => this.animVista = '', 400);
   }
 
   cerrarModal() {
     this.cerrar.emit();
+    this.errorPrecioCompra = false;
   }
 
   abrirModalPagos() {
     this.abrirPagos.emit();
   }
-
-  progresoPorcentaje: number = 0;
-  intervaloProgreso: any = null;
-  duracionHold = 2000;
-  paso = 100;
 
   iniciarProgreso() {
     this.progresoPorcentaje = 0;
@@ -148,7 +146,6 @@ export class ModalDetallesBonoComponent  {
 
     this.intervaloProgreso = setInterval(() => {
       this.progresoPorcentaje += incremento;
-
       if (this.progresoPorcentaje >= 100) {
         this.progresoPorcentaje = 100;
         clearInterval(this.intervaloProgreso);
@@ -172,30 +169,27 @@ export class ModalDetallesBonoComponent  {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usuarioService.actualizarEstadoInvertido(this.bono.id).subscribe((respuesta) => {      
-          Swal.fire({
-            icon: 'success',
-            title: 'Inversión exitosa',
-            text: `Has adquirido correctamente el bono ${this.bono.nombre}.`,
-            timer: 2500,
-            showConfirmButton: false
-          }).then(() => {
-            this.bonoInvertido.emit();
-            this.cerrarModal();
-          });
-      
-          this.bono.estadoInvertido = respuesta.estadoInvertido;
-      
-        }, error => {
-          Swal.fire('Error', 'No se pudo invertir en el bono', 'error');
-          this.cancelarProgreso();
+        this.usuarioService.actualizarEstadoInvertido(this.bono.id).subscribe({
+          next: (respuesta) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Inversión exitosa',
+              text: `Has adquirido correctamente el bono ${this.bono.nombre}.`,
+              timer: 2500,
+              showConfirmButton: false
+            }).then(() => {
+              this.bono.estadoInvertido = respuesta.estadoInvertido;
+              this.bonoInvertido.emit();
+              this.cerrarModal();
+            });
+          },
+          error: () => {
+            Swal.fire('Error', 'No se pudo invertir en el bono', 'error');
+            this.cancelarProgreso();
+          }
         });
       }
-      
     });
   }
-  
-  
-
 
 }

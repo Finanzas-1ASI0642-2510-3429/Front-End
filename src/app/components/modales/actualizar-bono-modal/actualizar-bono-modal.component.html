@@ -80,7 +80,7 @@
 
         <label *ngIf="mostrarPeriodoGracia()">Periodo de Gracia</label>
         <input *ngIf="mostrarPeriodoGracia()" type="number" [(ngModel)]="bono.periodoGracia" name="periodoGracia"
-          required />
+          min="0" [max]="(bono.plazoAnios * (frecuenciaMap[bono.frecuenciaPago] || 0)) - 1" required />
       </div>
     </div>
 

@@ -19,7 +19,6 @@ export class ConfiguracionComponent {
 
   guardarConfiguracion() {
     console.log('Configuración guardada:', this.config);
-    // Aquí podrías guardar en localStorage, backend, etc.
   }
 }
 

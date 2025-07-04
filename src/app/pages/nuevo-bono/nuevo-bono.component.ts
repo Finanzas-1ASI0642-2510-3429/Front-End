@@ -52,6 +52,8 @@ export class NuevoBonoComponent implements OnInit {
   bloquearTipoTasa = false;
 
 
+
+
   constructor(private usuarioService: UsuarioService,
     private http: HttpClient,
     private themeService: ThemeService) {
@@ -60,6 +62,8 @@ export class NuevoBonoComponent implements OnInit {
 
   ngOnInit(): void {
     this.username = this.obtenerUsuario();
+
+
 
     if (this.username && this.username.trim() !== '') {
       this.obtenerBonos();
@@ -149,6 +153,7 @@ export class NuevoBonoComponent implements OnInit {
       next: (bonos) => {
         this.listaBonos = bonos;
         this.listaBonosFiltrados = bonos;
+        this.ordenarPorId('asc');
         console.log("bonos por usuario", bonos)
 
         if (callback) callback();
@@ -191,8 +196,6 @@ export class NuevoBonoComponent implements OnInit {
   }
 
   validarCampos(): boolean {
-
-
     if (this.bono.tipoTasa === 'efectiva' && this.bono.capitalizacion) {
       this.bono.capitalizacion = '';
     }
@@ -203,14 +206,14 @@ export class NuevoBonoComponent implements OnInit {
       { campo: this.bono.plazoAnios, nombre: 'Plazo (años)' },
       { campo: this.bono.tasaBase, nombre: 'Tasa base' },
       { campo: this.bono.tipoGracia, nombre: 'Tipo de Gracia' },
-      { campo: this.bono.tipoTasaBase, nombre: 'Tipo de Tasa Base' }
+      { campo: this.bono.tipoTasaBase, nombre: 'Tipo de Tasa Base' },
+      { campo: this.bono.frecuenciaPago, nombre: 'Frecuencia de Pago' }
     ];
 
     const camposVacios = camposRequeridos.filter(c => !c.campo || c.campo.toString().trim() === '');
 
     if (camposVacios.length > 0) {
       const nombres = camposVacios.map(c => `• ${c.nombre}`).join('<br>');
-
 
       Swal.fire({
         icon: 'warning',
@@ -227,8 +230,44 @@ export class NuevoBonoComponent implements OnInit {
       return false;
     }
 
+    if (!this.esSinGracia() && this.bono.plazoAnios && this.bono.frecuenciaPago && this.bono.periodoGracia !== '') {
+      const frecuenciaPagoFactor: { [key: string]: number } = {
+        'anual': 1,
+        'semestral': 2,
+        'trimestral': 4,
+        'mensual': 12
+      };
+
+      const factor = frecuenciaPagoFactor[this.bono.frecuenciaPago];
+
+      const plazoAnios = Number(this.bono.plazoAnios);
+      const periodoGracia = Number(this.bono.periodoGracia);
+      const totalCuotas = plazoAnios * factor;
+
+      if (isNaN(plazoAnios) || isNaN(periodoGracia) || plazoAnios <= 0 || periodoGracia < 0) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Datos inválidos',
+          text: 'El plazo y el periodo de gracia deben ser valores numéricos válidos.',
+        });
+        return false;
+      }
+
+      const maxPeriodoGracia = totalCuotas - 1;
+
+      if (periodoGracia > maxPeriodoGracia) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Periodo de gracia inválido',
+          html: `El periodo de gracia máximo permitido para <b>${plazoAnios} año(s)</b> con frecuencia <b>${this.bono.frecuenciaPago}</b> es <b>${maxPeriodoGracia}</b> (porque hay ${totalCuotas} cuota(s)).`,
+        });
+        return false;
+      }
+    }
+
     return true;
   }
+
 
   abrirModalEditar(bono: any): void {
     if (bono.estadoInvertido === true) {
@@ -242,7 +281,7 @@ export class NuevoBonoComponent implements OnInit {
       this.modalVisible = true;
     }
   }
-  
+
   cerrarModal(): void {
     this.modalVisible = false;
   }
@@ -281,7 +320,7 @@ export class NuevoBonoComponent implements OnInit {
       });
       return;
     }
-      Swal.fire({
+    Swal.fire({
       title: '¿Estás seguro?',
       text: 'Esta acción eliminará el bono permanentemente.',
       icon: 'question',
@@ -316,7 +355,7 @@ export class NuevoBonoComponent implements OnInit {
       }
     });
   }
-  
+
   onTipoTasaBaseSeleccion(): void {
     const mapa = {
       TEA: { tipoTasa: 'efectiva' },

@@ -61,10 +61,11 @@
       <div class="modal-datos">
         <div class="dato"><span class="etiqueta">Tipo de tasa base:</span><span class="valor">{{ bono.tipoTasaBase
             }}</span></div>
-        <div class="dato">
+        <div class="dato" *ngIf="!esTasaExcluida()">
           <span class="etiqueta">Capitalización:</span>
           <span class="valor">{{ getCapitalizacion() }}</span>
         </div>
+
         <div class="dato"><span class="etiqueta">Frecuencia de pago:</span><span class="valor">{{ bono.frecuenciaPago
             }}</span></div>
         <div class="dato">
@@ -78,8 +79,7 @@
           <span class="valor">{{ bono.periodoGracia }}</span>
         </div>
         <div class="dato"><span class="etiqueta">Tasa base:</span><span class="valor">{{ bono.tasaBase }}%</span></div>
-        <div class="dato"><span class="etiqueta">Tasa convertida:</span><span class="valor">{{ bono.tasaConvertida |
-            number:'1.5-5' }}</span></div>
+
         <div class="dato"><span class="etiqueta">Plazo:</span><span class="valor">{{ bono.plazoAnios }} años</span>
         </div>
       </div>
@@ -87,11 +87,29 @@
 
       <div class="seccion-indicadores" *ngIf="indicadores">
         <h3 class="subtitulo">Indicadores</h3>
+        <div class="indicador-input">
+          <label style="padding-left: 5px;" for="precioCompra">Precio de Compra: <label style="color: red;"> (Ingrese
+              precio de compra para ver la TREA)</label> </label>
+          <input id="precioCompra" type="number" [(ngModel)]="precioCompra" (blur)="validarYEnviarPrecioCompra()" />
+          <div class="tooltip-error" *ngIf="errorPrecioCompra">
+            El precio debe estar entre {{ (bono.montoNominal * 0.95) | number:'1.0-0' }} y {{ (bono.montoNominal * 1.05)
+            | number:'1.0-0' }}.
+          </div>
+
+        </div>
+
         <div class="grid-indicadores">
-          <div class="indicador"><span class="etiqueta">TCEA:</span> <span class="valor">{{ indicadores.tcea |
-              percent:'1.2-2' }}</span></div>
-          <div class="indicador"><span class="etiqueta">TREA:</span> <span class="valor">{{ indicadores.trea |
-              percent:'1.2-2' }}</span></div>
+
+          <div class="indicador trea-wrapper">
+            <span class="etiqueta">TREA:</span>
+            <div class="trea-overlay" *ngIf="!bono.precioCompra || bono.precioCompra <= 0">
+
+            </div>
+            <span class="valor" *ngIf="bono.precioCompra && bono.precioCompra > 0">
+              {{ indicadores?.trea | percent:'1.2-2' }}
+            </span>
+          </div>
+
           <div class="indicador"><span class="etiqueta">Duración:</span> <span class="valor">{{ indicadores.duracion |
               number:'1.2-2' }}</span></div>
           <div class="indicador"><span class="etiqueta">Duración Mod.:</span> <span class="valor">{{

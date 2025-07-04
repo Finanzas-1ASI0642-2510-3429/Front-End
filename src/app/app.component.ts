@@ -8,6 +8,7 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { FormsModule } from '@angular/forms';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { ThemeService } from './services/theme.service';
+import { UsuarioService } from './services/usuario.service';
 
 @Component({
   selector: 'app-root',
@@ -23,9 +24,14 @@ export class AppComponent {
   usuarioInicial = '';
   mostrarDropdown: boolean = false;
 
+  nombreCompleto: string = '';
+  correoUsuario: string = '';
+
+
   constructor(
     private router: Router,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private usuarioService: UsuarioService
   ) {
   }
 
@@ -49,10 +55,13 @@ export class AppComponent {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.actualizarUsuarioDesdeStorage();
+
       }
     });
 
     this.actualizarUsuarioDesdeStorage();
+    this.obtenerDatosDePerfil();
+
   }
 
   loadTheme(): void {
@@ -82,7 +91,6 @@ export class AppComponent {
     }
   }
 
-
   isLoginPage(): boolean {
     return this.router.url === '/login' || this.router.url === '/';
   }
@@ -106,9 +114,37 @@ export class AppComponent {
     this.mostrarDropdown = false;
   }
 
-
   toggleDropdown() {
     this.mostrarDropdown = !this.mostrarDropdown;
+  }
+
+  obtenerDatosDePerfil(): void {
+    const username = localStorage.getItem('user');
+    if (!username) {
+      console.warn('No hay username en localStorage');
+      return;
+    }
+
+    this.usuarioService.getUserByUsername(username).subscribe({
+      next: (user) => {
+        console.log('Usuario obtenido:', user);
+
+        const profileId = user.profileId;
+        this.usuarioService.getProfileById(profileId).subscribe({
+          next: (profile) => {
+            console.log('Perfil del usuario:', profile);
+            this.nombreCompleto = `${profile.firstName} ${profile.lastName}`;
+            this.correoUsuario = profile.email;
+          },
+          error: (err) => {
+            console.error('Error al obtener el perfil:', err);
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Error al obtener el usuario:', err);
+      }
+    });
   }
 
 
