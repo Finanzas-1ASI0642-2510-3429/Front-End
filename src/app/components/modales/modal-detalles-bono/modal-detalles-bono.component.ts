@@ -154,12 +154,42 @@ export class ModalDetallesBonoComponent implements OnChanges {
     }, this.paso);
   }
 
+  verificarYIniciarInversion() {
+    const min = this.bono.montoNominal * 0.95;
+    const max = this.bono.montoNominal * 1.05;
+  
+    if (!this.precioCompra || this.precioCompra < min || this.precioCompra > max) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Precio inválido',
+        text: `Ingrese un precio de compra entre S/ ${min.toFixed(2)} y S/ ${max.toFixed(2)} antes de invertir.`,
+        confirmButtonText: 'Entendido'
+      });
+      return;
+    }
+  
+    if (!this.indicadores?.trea) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Faltan indicadores',
+        text: 'Debe calcular la TREA ingresando un precio de compra válido antes de invertir.',
+        confirmButtonText: 'Entendido'
+      });
+      return;
+    }
+  
+    this.iniciarProgreso();
+  }
+  
+
   cancelarProgreso() {
     clearInterval(this.intervaloProgreso);
     this.progresoPorcentaje = 0;
   }
 
   confirmarInversion() {
+    const usuario = localStorage.getItem('user');
+  
     Swal.fire({
       title: '¿Estás seguro?',
       text: `¿Deseas invertir en el bono ${this.bono.nombre} con un valor nominal de S/ ${this.bono.montoNominal}?`,
@@ -169,7 +199,7 @@ export class ModalDetallesBonoComponent implements OnChanges {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usuarioService.actualizarEstadoInvertido(this.bono.id).subscribe({
+        this.usuarioService.actualizarEstadoInvertido(this.bono.id, usuario!).subscribe({
           next: (respuesta) => {
             Swal.fire({
               icon: 'success',
@@ -179,6 +209,7 @@ export class ModalDetallesBonoComponent implements OnChanges {
               showConfirmButton: false
             }).then(() => {
               this.bono.estadoInvertido = respuesta.estadoInvertido;
+              this.bono.usuarioInversor = respuesta.usuarioInversor;
               this.bonoInvertido.emit();
               this.cerrarModal();
             });
@@ -191,5 +222,6 @@ export class ModalDetallesBonoComponent implements OnChanges {
       }
     });
   }
+  
 
 }

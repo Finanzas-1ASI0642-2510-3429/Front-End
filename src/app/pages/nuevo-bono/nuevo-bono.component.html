@@ -82,19 +82,33 @@
 
         <div class="card glass">
           <h4>Gracia</h4>
+        
           <div class="form-group">
             <label>Tipo de gracia</label>
-            <select [(ngModel)]="bono.tipoGracia" name="tipoGracia" required>
+            <select [(ngModel)]="bono.tipoGracia" name="tipoGracia" (change)="onCambioTipoGracia()" required>
               <option value="parcial">Parcial</option>
               <option value="total">Total</option>
               <option value="sin-gracia">Sin gracia</option>
             </select>
           </div>
+        
+          <!-- Mostrar el campo solo si NO es sin-gracia -->
           <div class="form-group" *ngIf="!esSinGracia()">
             <label>Periodo de gracia</label>
-            <input type="number" [(ngModel)]="bono.periodoGracia" name="periodoGracia" min="0" required />
+            <input
+              type="number"
+              [(ngModel)]="bono.periodoGracia"
+              name="periodoGracia"
+              [disabled]="campoGraciaDeshabilitado"
+              min="0"
+              required
+            />
           </div>
         </div>
+        
+
+
+
       </div>
       <div class="btn-container">
         <button type="submit" (click)="registrarBono()" class="btn-accion animado">
@@ -122,6 +136,10 @@
         <button class="btn-orden" title="Orden descendente" (click)="ordenarPorId('desc')">
           <i nz-icon nzType="vertical-align-bottom"></i>
         </button>
+        <div class="conteo-bonos">
+          <strong>Número de bonos registrados:</strong>
+          <span class="badge-cantidad">{{ listaBonos.length }}</span>
+        </div>
       </div>
 
       <div class="export-buttons">

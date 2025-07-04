@@ -43,16 +43,14 @@ export class NuevoBonoComponent implements OnInit {
   nuevaFilaAnimada = false;
   bonoAgregadoId: string | null = null;
   paginaActual = 1;
-  tamanoPagina = 11;
+  tamanoPagina = 8;
   listaBonos: any[] = [];
   modalVisible: boolean = false;
   bonoSeleccionado: any = null;
   terminoBusqueda: string = '';
   ordenActual: 'asc' | 'desc' = 'asc';
   bloquearTipoTasa = false;
-
-
-
+  campoGraciaDeshabilitado = true;
 
   constructor(private usuarioService: UsuarioService,
     private http: HttpClient,
@@ -62,7 +60,6 @@ export class NuevoBonoComponent implements OnInit {
 
   ngOnInit(): void {
     this.username = this.obtenerUsuario();
-
 
 
     if (this.username && this.username.trim() !== '') {
@@ -145,6 +142,9 @@ export class NuevoBonoComponent implements OnInit {
       periodoGracia: '',
       tipoGracia: ''
     };
+
+    this.campoGraciaDeshabilitado = true;
+
   }
 
   obtenerBonos(callback?: () => void) {
@@ -210,6 +210,15 @@ export class NuevoBonoComponent implements OnInit {
       { campo: this.bono.frecuenciaPago, nombre: 'Frecuencia de Pago' }
     ];
 
+    if ((this.bono.tipoGracia === 'parcial' || this.bono.tipoGracia === 'total') && (!this.bono.periodoGracia || Number(this.bono.periodoGracia) <= 0)) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Periodo de gracia inválido',
+        text: 'Debes ingresar un periodo de gracia mayor a 0 para el tipo de gracia seleccionado.',
+      });
+      return false;
+    }
+
     const camposVacios = camposRequeridos.filter(c => !c.campo || c.campo.toString().trim() === '');
 
     if (camposVacios.length > 0) {
@@ -225,6 +234,8 @@ export class NuevoBonoComponent implements OnInit {
           cancelButton: ''
         },
         buttonsStyling: false
+      }).then(() => {
+        this.reiniciarFormulario();
       });
 
       return false;
@@ -382,6 +393,16 @@ export class NuevoBonoComponent implements OnInit {
     return this.bono.tipoGracia === 'sin-gracia';
   }
 
+  onCambioTipoGracia(): void {
+    if (this.bono.tipoGracia === 'parcial' || this.bono.tipoGracia === 'total') {
+      this.campoGraciaDeshabilitado = false;
+    } else {
+      this.campoGraciaDeshabilitado = true;
+      this.bono.periodoGracia = ''; 
+    }
+  }
+  
+  
   modalPagosVisible = false;
 
   abrirModalPagos(bono: any): void {

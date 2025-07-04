@@ -51,11 +51,13 @@ export class UsuarioService {
     return this.http.get<any>(`${this.baseUrl}/${bonoId}/indicadores`, { headers });
   }
 
-  actualizarEstadoInvertido(bonoId: number): Observable<any> {
-    return this.http.patch(`${this.baseUrl}/${bonoId}/invertir`, {}, {
+  actualizarEstadoInvertido(bonoId: number, usuarioInversor: string): Observable<any> {
+    const body = { usuarioInversor };
+    return this.http.patch(`${this.baseUrl}/${bonoId}/invertir`, body, {
       headers: this.getAuthHeaders()
     });
   }
+  
 
   actualizarEstadoDesinvertido(bonoId: number): Observable<any> {
     return this.http.patch(`${this.baseUrl}/${bonoId}/desinvertir`, {}, {
@@ -71,17 +73,14 @@ export class UsuarioService {
   }
 
   getUserByUsername(username: string): Observable<any> {
-  const headers = this.getAuthHeaders();
-  return this.http.get<any>(`${environment.apiUrl}/api/v1/users/username/${username}`, { headers });
-}
-  
+    const headers = this.getAuthHeaders();
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/users/username/${username}`, { headers });
+  }
+
 
   getProfileById(profileId: number): Observable<any> {
-  const headers = this.getAuthHeaders();
-  return this.http.get<any>(`${environment.apiUrl}/api/v1/profiles/${profileId}`, { headers });
-}
-
-
-
+    const headers = this.getAuthHeaders();
+    return this.http.get<any>(`${environment.apiUrl}/api/v1/profiles/${profileId}`, { headers });
+  }
 
 }

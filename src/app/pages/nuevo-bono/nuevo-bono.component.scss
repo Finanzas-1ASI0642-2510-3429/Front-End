@@ -117,7 +117,7 @@
 }
 
 .bono-badge {
-  background-color: #1c9dcf; 
+  background-color: #1db9e2; 
   color: white;
   padding: 1px 10px;
   border-radius: 12px;
@@ -135,6 +135,8 @@
   color: #1E4569;
   text-align: center;
   margin-top: 10px;
+  margin-bottom: 10px;
+
 }
 
 table {
@@ -192,7 +194,7 @@ table {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-top: 15px;
+  margin-top: 5px;
 
   .circulo,
   .circulo-control {
@@ -382,7 +384,7 @@ table {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   flex-wrap: wrap;
   gap: 1rem;
 }
@@ -474,5 +476,26 @@ table {
   margin-right: 5px;
   font-weight: 500;
   color: #000000;
+}
+
+.conteo-bonos {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 1rem;
+
+  strong {
+    font-weight: 600;
+    color: #1d436b;
+  }
+
+  .badge-cantidad {
+    background-color: #1db9e2;
+    color: white;
+    padding: 1px 6px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 14px;
+  }
 }
 

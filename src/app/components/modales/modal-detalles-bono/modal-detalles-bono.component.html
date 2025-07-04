@@ -88,7 +88,7 @@
       <div class="seccion-indicadores" *ngIf="indicadores">
         <h3 class="subtitulo">Indicadores</h3>
         <div class="indicador-input">
-          <label style="padding-left: 5px;" for="precioCompra">Precio de Compra: <label style="color: red;"> (Ingrese
+          <label style="padding-left: 5px; font-weight: 600;" for="precioCompra">Precio de Compra: <label style="color: red; font-weight: 500; font-size: 13px;"> (Ingrese
               precio de compra para ver la TREA)</label> </label>
           <input id="precioCompra" type="number" [(ngModel)]="precioCompra" (blur)="validarYEnviarPrecioCompra()" />
           <div class="tooltip-error" *ngIf="errorPrecioCompra">
@@ -127,7 +127,9 @@
           <span class="texto">Ver Pagos</span>
         </button>
 
-        <button class="btn-invertir" (mousedown)="iniciarProgreso()" (mouseup)="cancelarProgreso()"
+
+
+        <button class="btn-invertir" (mousedown)="verificarYIniciarInversion()" (mouseup)="cancelarProgreso()"
           (mouseleave)="cancelarProgreso()">
           <div class="progreso" [style.width.%]="progresoPorcentaje"></div>
 
