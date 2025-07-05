@@ -1,28 +1,60 @@
 <div class="perfil-container">
-    <div class="perfil-header">
-      <div class="avatar-circle">{{ inicialUsuario }}</div>
+  <h2 class="tit"> Mi perfil</h2>
+
+  <div class="perfil-grid">
+    <!-- Columna izquierda -->
+    <div class="perfil-izquierda">
+      <div class="avatar-grande">{{ inicialUsuario }}</div>
       <div class="datos-usuario">
-        <h2>{{ nombreCompleto }}</h2>
-        <p><strong>Usuario:</strong> {{ user.username }}</p>
-        <p><strong>Email:</strong> {{ perfil.email }}</p>
-        <p>
-            <strong>País: </strong>{{ perfil.country }}
-            <img *ngIf="perfil.banderaUrl" [src]="perfil.banderaUrl" alt="Bandera" width="24" height="16" style="margin-left: 6px; vertical-align: middle;" />
-          </p>        <p><strong>Cuidad:</strong> {{ perfil.city}}</p>
-        <p><strong>Dirección:</strong> {{ perfil.street }}</p>
-        <p><strong>Código postal:</strong> {{ perfil.postalCode}}</p>
+        <div class="datos-usuario">
+          <div class="datos-usuario">
+            <h2>{{ nombreCompleto }}</h2>
+
+            <div class="datos-grid">
+              <div class="dato-card">
+                <strong>Usuario:</strong> {{ user.username }}
+              </div>
+
+              <div class="dato-card">
+                <strong>Email:</strong> {{ perfil.email }}
+              </div>
+
+              <div class="dato-card">
+                <strong>País:</strong> {{ perfil.country }}
+                <img *ngIf="perfil.banderaUrl" [src]="perfil.banderaUrl" alt="Bandera" width="24" height="16" />
+              </div>
+
+              <div class="dato-card">
+                <strong>Ciudad:</strong> {{ perfil.city }}
+              </div>
+
+              <div class="dato-card">
+                <strong>Dirección:</strong> {{ perfil.street }}
+              </div>
+
+              <div class="dato-card">
+                <strong>Código Postal:</strong> {{ perfil.postalCode }}
+              </div>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
-  
-    <div class="dashboard-metricas">
-      <div class="card-metrica">
-        <h3>{{ cantidadBonos }}</h3>
-        <span>Bonos Registrados</span>
-      </div>
-      <div class="card-metrica">
-        <h3>{{ cantidadInversiones }}</h3>
-        <span>Inversiones Realizadas</span>
+
+    <!-- Columna derecha -->
+    <div class="perfil-derecha">
+      <div class="dashboard-metricas">
+        <div class="card-metrica">
+          <h3>{{ cantidadBonos }}</h3>
+          <span>Bonos Registrados</span>
+        </div>
+        <div class="card-metrica">
+          <h3>{{ cantidadInversiones }}</h3>
+          <span>Inversiones Realizadas</span>
+        </div>
       </div>
     </div>
   </div>
-  
+</div>
