@@ -43,7 +43,6 @@
       </div>
     </div>
 
-    <!-- Columna derecha -->
     <div class="perfil-derecha">
       <div class="dashboard-metricas">
         <div class="card-metrica">
@@ -55,6 +54,18 @@
           <span>Inversiones Realizadas</span>
         </div>
       </div>
+
+      <div class="grafico-container">
+        <h4>Bonos creados por día</h4>
+        <div class="grafico-wrapper">
+          <canvas baseChart [data]="lineChartData" [options]="lineChartOptions" [type]="'line'">
+          </canvas>
+        </div>
+      </div>
+
+
     </div>
+
+
   </div>
 </div>

@@ -7,6 +7,8 @@
   overflow: auto;
 
 
+
+
   @keyframes fadeSlideIn {
     0% {
       opacity: 0;
@@ -89,12 +91,17 @@
 
   }
 
+
+
   .perfil-derecha {
     flex: 0 0 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 
     .dashboard-metricas {
-        display: flex;
-        gap: 1.5rem;
+      display: flex;
+      gap: 1.5rem;
 
       .card-metrica {
         flex: 1;
@@ -117,7 +124,10 @@
         }
       }
     }
+
+
   }
+
 }
 
 .tit {
@@ -127,3 +137,25 @@
   padding-left: 20px;
 }
 
+
+.grafico-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.grafico-wrapper {
+  min-height: 300px;
+  position: relative;
+  width: 100%;
+}
+
+canvas {
+  width: 100% !important;
+  height: 390px !important;
+}
+
+.temp-flash {
+  transform: scale(1); 
+}
