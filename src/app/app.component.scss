@@ -428,3 +428,308 @@ nz-icon {
     transform: translateY(0);
   }
 }
+
+@media (max-width: 1750px) and (max-height: 880px) {
+  nz-sider {
+    flex: 0 0 250px !important;
+    max-width: 250px !important;
+    min-width: 250px !important;
+    width: 250px !important;
+
+    &.ant-layout-sider-collapsed {
+      max-width: 60px !important;
+      min-width: 60px !important;
+    }
+  }
+
+  ul[nz-menu] {
+    font-size: 13px !important;
+  }
+
+  li[nz-menu-item] {
+    font-size: 13px !important;
+  }
+
+
+  ::ng-deep .ant-float-btn {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .sidebar-logo[_ngcontent-ng-c1618874233] h1[_ngcontent-ng-c1618874233] {
+    color: #fff;
+    font-weight: 550;
+    font-size: 18px;
+  }
+
+  .sidebar-logo[_ngcontent-ng-c1618874233] img[_ngcontent-ng-c1618874233] {
+    height: 38px;
+    width: 38px;
+  }
+
+  .sidebar-logo[_ngcontent-ng-c1618874233] {
+    position: relative;
+    height: 64px;
+    padding-left: 12px;
+    line-height: 64px;
+  }
+
+  .user-avatar[_ngcontent-ng-c1618874233] .user-avatar-container[_ngcontent-ng-c1618874233] .user-name[_ngcontent-ng-c1618874233] {
+    margin: 0;
+    padding-left: 15px;
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .user-avatar[_ngcontent-ng-c1618874233] .user-avatar-container[_ngcontent-ng-c1618874233] {
+    min-width: 220px;
+    cursor: pointer;
+    padding: 0 12px;
+    margin-right: 10px;
+  }
+
+  .usuario-info[_ngcontent-ng-c1618874233] .nombre[_ngcontent-ng-c1618874233],
+  .usuario-info[_ngcontent-ng-c1618874233] .correo[_ngcontent-ng-c1618874233] {
+    color: #000000;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+  }
+
+  .usuario-info[_ngcontent-ng-c1618874233] .nombre[_ngcontent-ng-c1618874233] {
+    margin-bottom: 5px;
+  }
+
+
+  .user-avatar[_ngcontent-ng-c1618874233] .user-avatar-container[_ngcontent-ng-c1618874233] .dropdown-usuario[_ngcontent-ng-c1618874233] .dropdown-item[_ngcontent-ng-c1618874233] {
+    padding: 5px 14px;
+    font-size: 13px;
+    max-height: 45px;
+  }
+
+  .ant-switch {
+    font-size: 14px;
+    min-width: 30px !important;
+    height: 18px !important;
+    line-height: 22px !important;
+    border-radius: 100px;
+
+  }
+
+  .ant-switch-handle {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .ant-anchor[_ngcontent-ng-c1618874233],
+  .ant-avatar[_ngcontent-ng-c1618874233] {
+    font-size: 15px;
+    font-feature-settings: "tnum";
+    font-weight: 600;
+  }
+
+  .ant-avatar[_ngcontent-ng-c1618874233] {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    border-radius: 50%;
+  }
+
+  .icon_fold[_ngcontent-ng-c1618874233] {
+    color: #fff !important;
+    font-size: 14px !important;
+  }
+}
+
+
+@media (max-width: 1537px) and (max-height: 768px) {
+
+  nz-float-button {
+    right: 2.5%;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+
+    &:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      background-color: #163b56;
+    }
+  }
+
+  nz-icon {
+    color: #ffffff;
+    font-size: 20px;
+    text-align: center;
+  }
+
+  ::ng-deep .ant-float-btn {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+
+  ::ng-deep .ant-float-btn .anticon {
+    font-size: 18px !important;
+    line-height: 1 !important;
+    margin-left: 0px;
+  }
+
+  .qr-popup {
+    bottom: 95px;
+    right: 58px;
+    border-radius: 12px;
+    padding: 16px;
+    width: 170px;
+
+    &::after {
+      bottom: -10px;
+      right: 22px;
+      border-width: 10px;
+    }
+
+    h4 {
+      margin: 0 0 10px 0;
+      font-size: 12px;
+    }
+
+    img {
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+    }
+
+    .qr-text {
+      margin-top: 12px;
+      font-size: 11px;
+
+    }
+  }
+
+  nz-sider {
+    flex: 0 0 210px !important;
+    max-width: 210px !important;
+    min-width: 210px !important;
+    width: 210px !important;
+
+    &.ant-layout-sider-collapsed {
+      max-width: 60px !important;
+      min-width: 60px !important;
+    }
+  }
+
+  ul[nz-menu] {
+    font-size: 11px !important;
+  }
+
+  li[nz-menu-item] {
+    font-size: 11px !important;
+  }
+
+
+  .sidebar-logo[_ngcontent-ng-c1618874233] h1[_ngcontent-ng-c1618874233] {
+    color: #fff;
+    font-weight: 550;
+    font-size: 18px;
+  }
+
+  .sidebar-logo[_ngcontent-ng-c1618874233] img[_ngcontent-ng-c1618874233] {
+    height: 35px;
+    width: 35px;
+  }
+
+  .sidebar-logo[_ngcontent-ng-c1618874233] {
+    position: relative;
+    height: 64px;
+    padding-left: 12px;
+    line-height: 64px;
+  }
+
+  .user-avatar[_ngcontent-ng-c1618874233] .user-avatar-container[_ngcontent-ng-c1618874233] .user-name[_ngcontent-ng-c1618874233] {
+    margin: 0;
+    padding-left: 15px;
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .user-avatar[_ngcontent-ng-c1618874233] .user-avatar-container[_ngcontent-ng-c1618874233] {
+    min-width: 200px;
+    cursor: pointer;
+    padding: 0 12px;
+    margin-right: 10px;
+  }
+
+  .usuario-info[_ngcontent-ng-c1618874233] .nombre[_ngcontent-ng-c1618874233],
+  .usuario-info[_ngcontent-ng-c1618874233] .correo[_ngcontent-ng-c1618874233] {
+    color: #000000;
+    line-height: 1.2;
+    margin: 0;
+    padding: 0;
+    font-size: 11px;
+  }
+
+  .usuario-info[_ngcontent-ng-c1618874233] .nombre[_ngcontent-ng-c1618874233] {
+    margin-bottom: 5px;
+  }
+
+
+  .user-avatar[_ngcontent-ng-c1618874233] .user-avatar-container[_ngcontent-ng-c1618874233] .dropdown-usuario[_ngcontent-ng-c1618874233] .dropdown-item[_ngcontent-ng-c1618874233] {
+    padding: 5px 14px;
+    font-size: 11px;
+    max-height: 40px;
+  }
+
+  .ant-switch {
+    font-size: 14px;
+    min-width: 30px !important;
+    height: 18px !important;
+    line-height: 22px !important;
+    border-radius: 100px;
+
+  }
+
+  .ant-switch-handle {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .ant-anchor[_ngcontent-ng-c1618874233],
+  .ant-avatar[_ngcontent-ng-c1618874233] {
+    font-size: 15px;
+    font-feature-settings: "tnum";
+    font-weight: 600;
+  }
+
+  .ant-avatar[_ngcontent-ng-c1618874233] {
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+    color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    width: 33px;
+    height: 33px;
+    line-height: 35px;
+    border-radius: 50%;
+  }
+
+  .icon_fold[_ngcontent-ng-c1618874233] {
+    color: #fff !important;
+    font-size: 15px !important;
+  }
+}

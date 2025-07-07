@@ -1,0 +1,53 @@
+<div class="mis-inversiones-container">
+    <!-- Columna Izquierda -->
+    <div class="carrusel-bonos">
+        <h3>Mis Inversiones</h3>
+        <div class="bono-carousel">
+            <button class="nav-btn" (click)="anteriorBono()" [disabled]="bonoActualIndex === 0">‹</button>
+
+            <div class="bono-card-wrapper">
+                <div class="bono-card-animada" [class.slide-izquierda]="direccionAnimacion === 'izquierda'"
+                    [class.slide-derecha]="direccionAnimacion === 'derecha'">
+                    <h4>{{ bonoActual.nombre }}</h4>
+                    <p><strong>Cliente:</strong> {{ bonoActual.nombreCliente }}</p>
+                    <p><strong>Monto Nominal:</strong> S/. {{ bonoActual.montoNominal }}</p>
+                    <p><strong>Precio Compra:</strong> S/. {{ bonoActual.precioCompra }}</p>
+                    <p><strong>Plazo:</strong> {{ bonoActual.plazoAnios }} años</p>
+                    <p><strong>Moneda:</strong> {{ bonoActual.tipoMoneda }}</p>
+                    <p><strong>Fecha de Creación:</strong> {{ bonoActual.fechaCreacion }}</p>
+                </div>
+            </div>
+
+            <button class="nav-btn" (click)="siguienteBono()"
+                [disabled]="bonoActualIndex === bonosInvertidos.length - 1">›</button>
+        </div>
+    </div>
+
+    <!-- Columna Derecha -->
+    <!-- Columna Derecha -->
+    <div class="calendario-section" *ngIf="calendarios.length">
+        <!-- Encabezado del calendario -->
+        <div class="calendario-encabezado">
+            <div class="controles">
+                <button (click)="mesAnterior()">←</button>
+                <span class="anio">{{ calendarios[mesActualIndex].anio }}</span>
+                <button (click)="mesSiguiente()">→</button>
+            </div>
+            <div class="mes">{{ meses[calendarios[mesActualIndex].mes] }}</div>
+        </div>
+
+        <!-- Calendario -->
+        <div class="calendario">
+            <div class="cal-header">
+                <div *ngFor="let dia of diasSemana" class="dia-semana">{{ dia }}</div>
+            </div>
+            <div class="cal-body">
+                <div *ngFor="let dia of calendarios[mesActualIndex].dias"
+                    [ngClass]="{'dia': true, 'activo': fechasPagoSet.has(dia.fechaISO)}">
+                    {{ dia.numero > 0 ? dia.numero : '' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

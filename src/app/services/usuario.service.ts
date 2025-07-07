@@ -58,7 +58,6 @@ export class UsuarioService {
     });
   }
   
-
   actualizarEstadoDesinvertido(bonoId: number): Observable<any> {
     return this.http.patch(`${this.baseUrl}/${bonoId}/desinvertir`, {}, {
       headers: this.getAuthHeaders()

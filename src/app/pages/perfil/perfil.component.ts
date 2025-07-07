@@ -95,9 +95,7 @@ export class PerfilComponent implements OnInit {
   this.lineChartData.labels = fechasOrdenadas;
   this.lineChartData.datasets[0].data = cantidades;
 
-  fechasOrdenadas.forEach(f => {
-    console.log(`→ ${f}: ${agrupados[f]} bono(s)`);
-  });
+
 
   setTimeout(() => {
     window.dispatchEvent(new Event('resize'));

@@ -265,6 +265,130 @@
   }
 }
 
+@media (max-width: 1750px) and (max-height: 880px) {
+  .tit {
+    font-size: 22px;
+    margin-left: 28px;
+  }
+
+  .card-bono {
+    width: 220px;
+    height: 330px;
+    padding: 0.9rem 0.9rem 1.2rem;
+  }
+
+  .icono-bono {
+    width: 65px;
+    height: 65px;
+    font-size: 68px;
+  }
+
+  .contenido-bono .titulo-bono {
+    font-size: 1rem;
+  }
+
+  .contenido-bono .detalle-bono {
+    font-size: 0.82rem;
+  }
+
+  .contenido-bono .boton-ver-mas {
+    font-size: 0.78rem;
+    padding: 5px 14px;
+  }
+
+  .input-busqueda {
+    font-size: 13.5px;
+    height: 32px;
+    padding: 7px 12px;
+  }
+
+  .btn-filtro-avanzado {
+    font-size: 12px;
+    padding: 2px 10px;
+  }
+
+  .filtro-chip {
+    font-size: 12px;
+    padding: 2px 10px;
+
+    input.input-chip-filtro,
+    select.input-chip-filtro {
+      font-size: 11px;
+      width: 100px;
+    }
+  }
+
+  .conteo-bonos .badge-cantidad {
+    font-size: 0.9rem;
+    padding: 2px 5px;
+  }
+}
+
+@media (max-width: 1537px) and (max-height: 768px) {
+  .tit {
+    font-size: 18px;
+    margin-left: 20px;
+  }
+
+  .card-bono {
+    width: 195px;
+    height: 300px;
+    padding: 0.8rem;
+  }
+
+  .icono-bono {
+    width: 55px;
+    height: 55px;
+    font-size: 58px;
+  }
+
+  .contenido-bono .titulo-bono {
+    font-size: 0.9rem;
+  }
+
+  .contenido-bono .detalle-bono {
+    font-size: 0.75rem;
+  }
+
+  .contenido-bono .boton-ver-mas {
+    font-size: 0.7rem;
+    padding: 4px 12px;
+  }
+
+  .input-busqueda {
+    font-size: 12px;
+    height: 30px;
+    padding: 6px 10px;
+  }
+
+  .btn-filtro-avanzado {
+    font-size: 11px;
+    padding: 2px 8px;
+  }
+
+  .filtro-chip {
+    font-size: 11px;
+    padding: 2px 9px;
+
+    input.input-chip-filtro,
+    select.input-chip-filtro {
+      font-size: 10px;
+      width: 90px;
+    }
+  }
+
+  .conteo-bonos .badge-cantidad {
+    font-size: 0.8rem;
+    padding: 2px 4px;
+  }
+  
+  .zona-scroll-cards[_ngcontent-ng-c1022588976] {
+    flex: 1;
+    overflow-y: auto;
+    height: 72%;
+}
+}
+
 
 
 

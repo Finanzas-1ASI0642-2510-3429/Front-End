@@ -86,7 +86,7 @@
 .card.glass .form-group select:focus {
   border-color: #e98400;
   outline: none;
-  box-shadow: 0 0 0 2px rgba(233, 132, 0, 0.25); 
+  box-shadow: 0 0 0 2px rgba(233, 132, 0, 0.25);
 }
 
 
@@ -117,7 +117,7 @@
 }
 
 .bono-badge {
-  background-color: #1db9e2; 
+  background-color: #1db9e2;
   color: white;
   padding: 1px 10px;
   border-radius: 12px;
@@ -358,7 +358,8 @@ table {
 }
 
 .estado-btn.invertido {
-  background-color: #4caf50; 
+  background-color: #4caf50;
+
   i {
     color: white;
   }
@@ -369,7 +370,8 @@ table {
 }
 
 .estado-btn.no-invertido {
-  background-color: #f44336; 
+  background-color: #f44336;
+
   i {
     color: white;
   }
@@ -471,7 +473,7 @@ table {
   }
 }
 
-.txt-exportar{
+.txt-exportar {
   margin-top: 5px;
   margin-right: 5px;
   font-weight: 500;
@@ -499,3 +501,286 @@ table {
   }
 }
 
+@media (max-width: 1750px) and (max-height: 880px) {
+  .tit {
+    font-size: 19px;
+  }
+
+  .card.glass h4 {
+    font-size: 13px;
+    margin-bottom: 10px;
+  }
+
+  .card.glass label {
+    padding-left: 8px;
+    margin-bottom: 4px;
+    font-size: 11.5px;
+  }
+
+  .card.glass {
+    height: 260px;
+    padding: 1.2rem;
+    border-radius: 26px;
+  }
+
+  .card.glass .form-group input,
+  .card.glass .form-group select {
+    padding: 0.4rem;
+    font-size: 11.5px;
+    border-radius: 8px;
+  }
+
+  .btn-accion {
+    padding: 0.4rem 1.5rem;
+    min-width: 110px;
+    font-size: 12px;
+    border-radius: 9px;
+  }
+
+  .mis-bonos {
+    font-size: 19px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+
+  .bono-badge {
+    padding: 2px 11px;
+    font-size: 17px;
+    border-radius: 11px;
+  }
+
+  .conteo-bonos {
+    font-size: 12px;
+    margin-left: 1.2rem;
+  }
+
+  .input-busqueda {
+    padding: 4px 15px;
+    font-size: 11.5px;
+    margin-left: 10px;
+  }
+
+  .conteo-bonos .badge-cantidad {
+    font-size: 13px;
+  }
+
+  .btn-orden {
+    padding: 2px 5px;
+  }
+
+  .btn-orden i[nz-icon] {
+    font-size: 13px;
+  }
+
+  .txt-exportar {
+    font-size: 12px;
+  }
+
+  .export-buttons .btn-export {
+    padding: 6px 6px;
+    border-radius: 9px;
+  }
+
+  .export-buttons .btn-export i[nz-icon] {
+    font-size: 13px;
+  }
+
+  table {
+    min-width: 780px;
+    font-size: 11.5px;
+
+    thead th {
+      font-size: 11.5px;
+    }
+
+    th,
+    td {
+      padding: 8px 6px;
+    }
+  }
+
+  .btn-circular,
+  .btn-circular-eye {
+    width: 26px;
+    height: 26px;
+
+    i {
+      font-size: 13px;
+    }
+  }
+
+  .paginacion-circulos .circulo,
+  .paginacion-circulos .circulo-control {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    line-height: 20px;
+  }
+}
+
+
+@media (max-width: 1537px) and (max-height: 768px) {
+
+  .tit {
+    font-size: 18px;
+  }
+
+  .card.glass h4 {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .card.glass label {
+    padding-left: 6px;
+    margin-bottom: 3px;
+    font-size: 10px;
+  }
+
+  .card.glass[_ngcontent-ng-c3687458646] .form-group[_ngcontent-ng-c3687458646] input[_ngcontent-ng-c3687458646],
+  .card.glass[_ngcontent-ng-c3687458646] .form-group[_ngcontent-ng-c3687458646] select[_ngcontent-ng-c3687458646] {
+    padding: 0.3rem;
+    font-size: 10px;
+    border-radius: 7px;
+    border: 1px solid #ccc;
+  }
+
+  .card.glass[_ngcontent-ng-c3687458646] {
+    height: 220px;
+    padding: 1rem;
+    border-radius: 25px;
+  }
+
+  .btn-accion[_ngcontent-ng-c3687458646] {
+    padding: 0.3rem 1.25rem;
+    min-width: 100px;
+    font-size: 11px;
+    border-radius: 8px;
+  }
+
+  .mis-bonos[_ngcontent-ng-c3687458646] {
+    margin-bottom: 0px;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .bono-badge[_ngcontent-ng-c3687458646] {
+    padding: 1px 10px;
+    border-radius: 10px;
+    font-weight: 550;
+    font-size: 16.5px;
+  }
+
+  .conteo-bonos[_ngcontent-ng-c3687458646] {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem;
+    font-size: 11px;
+  }
+
+  .input-busqueda[_ngcontent-ng-c3687458646] {
+    padding: 3px 14px;
+    font-size: 10px;
+    margin-left: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .conteo-bonos[_ngcontent-ng-c3687458646] .badge-cantidad[_ngcontent-ng-c3687458646] {
+    font-size: 12px;
+  }
+
+  .btn-orden[_ngcontent-ng-c3687458646] {
+    padding: 1px 4px;
+  }
+
+  .btn-orden[_ngcontent-ng-c3687458646] i[nz-icon][_ngcontent-ng-c3687458646] {
+    font-size: 12px;
+  }
+
+  .txt-exportar[_ngcontent-ng-c3687458646] {
+    font-size: 11px;
+  }
+
+  .export-buttons[_ngcontent-ng-c3687458646] .btn-export[_ngcontent-ng-c3687458646] {
+    padding: 5px 5px;
+    border-radius: 8px;
+  }
+
+  .export-buttons[_ngcontent-ng-c3687458646] .btn-export[_ngcontent-ng-c3687458646] i[nz-icon][_ngcontent-ng-c3687458646] {
+    font-size: 12px;
+  }
+
+  table {
+    width: 100%;
+    min-width: 755px;
+    font-size: 10px;
+
+
+    thead th {
+      font-size: 10px;
+      font-weight: 600;
+      border: none;
+    }
+
+    th,
+    td {
+      padding: 7px 5px;
+      border: none;
+      text-align: center;
+
+    }
+
+    thead tr:first-child th:first-child {
+      border-top-left-radius: 8px;
+    }
+
+    thead tr:first-child th:last-child {
+      border-top-right-radius: 8px;
+    }
+
+    tbody tr:last-child td:first-child {
+      border-bottom-left-radius: 8px;
+    }
+
+    tbody tr:last-child td:last-child {
+      border-bottom-right-radius: 8px;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  }
+
+  .btn-circular[_ngcontent-ng-c3687458646] {
+    width: 23px;
+    height: 23px;
+
+  }
+
+  .btn-circular-eye[_ngcontent-ng-c3687458646] {
+    width: 23px;
+    height: 23px;
+  }
+
+  .btn-circular[_ngcontent-ng-c3687458646] i[_ngcontent-ng-c3687458646] {
+    font-size: 12px;
+  }
+
+  .btn-circular-eye[_ngcontent-ng-c3687458646] i[_ngcontent-ng-c3687458646] {
+    font-size: 12px;
+  }
+
+
+  .paginacion-circulos[_ngcontent-ng-c3687458646] .circulo[_ngcontent-ng-c3687458646],
+  .paginacion-circulos[_ngcontent-ng-c3687458646] .circulo-control[_ngcontent-ng-c3687458646] {
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+    line-height: 18px;
+  }
+
+
+
+}

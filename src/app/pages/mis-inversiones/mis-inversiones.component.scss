@@ -1,0 +1,191 @@
+.mis-inversiones-container {
+    display: flex;
+    gap: 2rem;
+    padding: 1rem 2rem;
+    margin-top: 1rem;
+    align-items: flex-start;
+  }
+  
+  /* IZQUIERDA: carrusel de bonos */
+  .carrusel-bonos {
+    flex: 0 0 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+    h3 {
+      color: #1d436b;
+      margin-bottom: 1rem;
+    }
+  
+    .bono-carousel {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      position: relative;
+      gap: 1rem;
+    }
+  
+    .nav-btn {
+      background-color: #1d436b;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      font-size: 22px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+  
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+  
+      &:hover {
+        background-color: #16314a;
+      }
+    }
+  
+    .bono-card-wrapper {
+      max-width: 320px;
+      width: 100%;
+      overflow: hidden;
+      border-radius: 16px;
+      position: relative;
+    }
+  
+    .bono-card-animada {
+      padding: 1.5rem;
+      border: 2px solid #d0dbe5;
+      background: transparent;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      transition: transform 0.4s ease, opacity 0.4s ease;
+  
+      h4 {
+        margin-top: 0;
+        color: #1d436b;
+      }
+  
+      p {
+        font-size: 14px;
+        margin: 0.4rem 0;
+  
+        strong {
+          color: #444;
+        }
+      }
+  
+      &.slide-derecha {
+        animation: slideInRight 0.5s ease forwards;
+      }
+  
+      &.slide-izquierda {
+        animation: slideInLeft 0.5s ease forwards;
+      }
+    }
+  
+    @keyframes slideInRight {
+      0% { transform: translateX(100%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+  
+    @keyframes slideInLeft {
+      0% { transform: translateX(-100%); opacity: 0; }
+      100% { transform: translateX(0); opacity: 1; }
+    }
+  }
+  
+  /* DERECHA: Calendario real */
+  .calendario-section {
+    flex: 0 0 60%;
+    background: #ffffff;
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    max-width: 500px;
+    margin: auto;
+  
+    .calendario-encabezado {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #e5f0fb;
+      padding: 0.75rem 1.25rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      border: 1px solid #b7d3ea;
+  
+      .controles {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+  
+        button {
+          background-color: #1d436b;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          padding: 6px 10px;
+          cursor: pointer;
+          font-weight: bold;
+  
+          &:hover {
+            background-color: #14304f;
+          }
+        }
+  
+        .anio {
+          font-size: 18px;
+          font-weight: 600;
+          color: #1d436b;
+        }
+      }
+  
+      .mes {
+        font-size: 24px;
+        font-weight: bold;
+        color: #1d436b;
+      }
+    }
+  
+    .calendario {
+      .cal-header,
+      .cal-body {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+      }
+  
+      .dia-semana {
+        padding: 0.5rem;
+        text-align: center;
+        background: #dbe9f4;
+        font-weight: bold;
+        font-size: 13px;
+        border-bottom: 1px solid #ccc;
+      }
+  
+      .dia {
+        height: 60px;
+        text-align: center;
+        padding: 0.5rem;
+        border: 1px solid #eee;
+        font-size: 14px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: background-color 0.3s ease;
+  
+        &.activo {
+          background-color: #c9f5d8;
+          font-weight: 700;
+          color: #2e7d32;
+          border: 2px solid #4caf50;
+          border-radius: 8px;
+        }
+      }
+    }
+  }
+  
+  
