@@ -9,11 +9,12 @@ import { FormsModule } from '@angular/forms';
 import { NzAvatarModule } from 'ng-zorro-antd/avatar';
 import { ThemeService } from './services/theme.service';
 import { UsuarioService } from './services/usuario.service';
+import { NzFloatButtonModule } from 'ng-zorro-antd/float-button';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, CommonModule, NzSwitchModule, FormsModule, NzAvatarModule],
+  imports: [RouterLink, RouterOutlet, NzIconModule, NzLayoutModule, NzMenuModule, CommonModule, NzSwitchModule, FormsModule, NzAvatarModule, NzFloatButtonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -27,6 +28,7 @@ export class AppComponent {
   nombreCompleto: string = '';
   correoUsuario: string = '';
 
+  mostrarQR: boolean = false;
 
   constructor(
     private router: Router,

@@ -316,3 +316,115 @@ nz-content {
   color: #fff !important;
   white-space: nowrap;
 }
+
+
+nz-float-button {
+  right: 2.5%;
+  width: 45px;
+  height: 45px;
+  position: absolute;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: #163b56;
+  }
+}
+
+nz-icon {
+  color: #ffffff;
+  font-size: 20px;
+  text-align: center;
+}
+
+::ng-deep .ant-float-btn {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background-color: #25D366 !important;
+  border: none !important;
+  width: 45px !important;
+  height: 45px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+::ng-deep .ant-float-btn .ant-float-btn-body {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  background-color: #25D366 !important;
+  border: none !important;
+}
+
+::ng-deep .ant-float-btn .anticon {
+  color: white !important;
+  font-size: 22px !important;
+  line-height: 1 !important;
+  margin-left: -2px;
+}
+
+.qr-popup {
+  position: absolute;
+  bottom: 105px;
+  right: 65px;
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  animation: fadeInQR 0.3s ease-in-out;
+  width: 200px;
+  text-align: center;
+
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    right: 22px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+  }
+
+  h4 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #1E4569;
+  }
+
+  img {
+    width: 140px;
+    height: 140px;
+    border-radius: 8px;
+  }
+
+  .qr-text {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #333;
+
+    a {
+      color: #25D366;
+      text-decoration: none;
+      font-weight: bold;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+@keyframes fadeInQR {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

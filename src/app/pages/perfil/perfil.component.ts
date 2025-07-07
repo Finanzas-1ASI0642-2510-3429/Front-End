@@ -75,10 +75,6 @@ export class PerfilComponent implements OnInit {
   ngOnInit(): void {
     const username = this.obtenerUsuario();
 
-
-    console.log('localStorage user →', localStorage.getItem('user'));
-    console.log('username obtenido →', this.obtenerUsuario());
-
     this.cargarPerfil(username); 
 
 
@@ -99,7 +95,6 @@ export class PerfilComponent implements OnInit {
   this.lineChartData.labels = fechasOrdenadas;
   this.lineChartData.datasets[0].data = cantidades;
 
-  console.log("📊 Bonos creados por día:");
   fechasOrdenadas.forEach(f => {
     console.log(`→ ${f}: ${agrupados[f]} bono(s)`);
   });

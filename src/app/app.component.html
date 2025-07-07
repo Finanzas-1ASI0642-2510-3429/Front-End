@@ -60,9 +60,8 @@
           </span>
 
           <div class="logo-centrado">
-            <img src="assets/logoSmartBlanco.png" alt="logo" /> 
+            <img src="assets/logoSmartBlanco.png" alt="logo" />
           </div>
-
 
           <div class="user-avatar">
             <div class="user-avatar-container" (click)="mostrarDropdown = !mostrarDropdown" #dropdownRef>
@@ -78,7 +77,7 @@
 
                 <div class="divider" (click)="toggleDropdown()"></div>
 
-                <div class="dropdown-item" (click)="abrirPerfil()">
+                <div class="dropdown-item" (click)="abrirPerfil()" routerLink="/perfil">
                   <span nz-icon nzType="user"></span>
                   <span class="label">Ver perfil</span>
                 </div>
@@ -109,8 +108,28 @@
       <nz-content>
         <div class="inner-content">
           <router-outlet></router-outlet>
+
         </div>
+
       </nz-content>
+      <div class="type">
+        <nz-float-button [nzIcon]="icon" (click)="mostrarQR = !mostrarQR"></nz-float-button>
+      
+        <div *ngIf="mostrarQR" class="qr-popup">
+          <div class="qr-content">
+            <h4>Escanea para chatear</h4>
+            <img src="assets/qr_code.png" alt="QR WhatsApp" />
+            <p class="qr-text">
+              o <a href="https://wa.me/51924171233" target="_blank">escríbeme por chat</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      
+      
+      <ng-template #icon>
+        <nz-icon nzType="whats-app" nzTheme="outline"></nz-icon>
+      </ng-template>
     </nz-layout>
   </nz-layout>
 </ng-template>
