@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UsuarioService } from '../../services/usuario.service';
+import { NzIconModule } from 'ng-zorro-antd/icon';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mis-inversiones',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NzIconModule],
   templateUrl: './mis-inversiones.component.html',
   styleUrl: './mis-inversiones.component.scss'
 })
@@ -31,11 +32,11 @@ export class MisInversionesComponent implements OnInit {
     dias: { numero: number; fechaISO: string }[];
   }[] = [];
 
-  constructor(private usuarioService: UsuarioService) { }
-
   get bonoActual() {
     return this.bonosInvertidos[this.bonoActualIndex];
   }
+
+  constructor(private usuarioService: UsuarioService) { }
 
 
   ngOnInit(): void {
@@ -69,6 +70,7 @@ export class MisInversionesComponent implements OnInit {
           bono.usuarioInversor.trim().toLowerCase() === this.username.trim().toLowerCase()
         );
 
+        console.log(this.bonosInvertidos)
         this.extraerFechasPago();
 
       },
@@ -121,39 +123,90 @@ export class MisInversionesComponent implements OnInit {
 
   extraerFechasPago(): void {
     const fechas: string[] = [];
+    const hoy = new Date().toISOString().split('T')[0];
+    this.pagosFuturos = [];
 
     for (const bono of this.bonosInvertidos) {
       if (bono.pagos?.length) {
         for (const pago of bono.pagos) {
           fechas.push(pago.fechaPago);
+          if (pago.fechaPago >= hoy) {
+            this.pagosFuturos.push({
+              ...pago,
+              bono 
+            });
+          }
         }
       }
     }
 
+
     this.fechasPagoSet = new Set(fechas);
+    this.buscarProximoPago();
     this.generarCalendariosDesdeFechas();
   }
+
+  pagosFuturos: any[] = [];
+
+  pagoActualIndex = 0;
+  pagoDireccionAnimacion = '';
+  mostrarPagoCard = true;
+
+  get pagoActual() {
+    return this.pagosFuturos[this.pagoActualIndex];
+  }
+
+  pagoAnterior() {
+    if (this.pagoActualIndex > 0) {
+      this.pagoDireccionAnimacion = 'izquierda';
+      this.reiniciarAnimacionPago(() => {
+        this.pagoActualIndex--;
+      });
+    }
+  }
+
+  pagoSiguiente() {
+    if (this.pagoActualIndex < this.pagosFuturos.length - 1) {
+      this.pagoDireccionAnimacion = 'derecha';
+      this.reiniciarAnimacionPago(() => {
+        this.pagoActualIndex++;
+      });
+    }
+  }
+
+
+  reiniciarAnimacionPago(callback: () => void) {
+    this.mostrarPagoCard = false;
+    setTimeout(() => {
+      callback();
+      this.mostrarPagoCard = true;
+    }, 50);
+  }
+
 
   generarCalendariosDesdeFechas(): void {
     this.calendarios = [];
 
     const fechas = Array.from(this.fechasPagoSet).sort();
 
-    const mapa = new Map<string, string[]>();
+    if (fechas.length === 0) return;
 
-    for (const fechaStr of fechas) {
-      const [anio, mes] = fechaStr.split('-');
-      const key = `${anio}-${mes}`;
-      if (!mapa.has(key)) {
-        mapa.set(key, []);
-      }
-      mapa.get(key)!.push(fechaStr);
-    }
+    const fechasDate = fechas.map(fechaStr => new Date(fechaStr));
 
-    for (const [key, fechasMes] of mapa.entries()) {
-      const [anioStr, mesStr] = key.split('-');
-      const anio = parseInt(anioStr);
-      const mes = parseInt(mesStr) - 1;
+    const fechaInicio = new Date(fechasDate[0].getFullYear(), fechasDate[0].getMonth(), 1);
+    const fechaFin = new Date(fechasDate[fechasDate.length - 1].getFullYear(), fechasDate[fechasDate.length - 1].getMonth(), 1);
+
+    const calendarios: {
+      anio: number;
+      mes: number;
+      dias: { numero: number; fechaISO: string }[];
+    }[] = [];
+
+    let current = new Date(fechaInicio);
+
+    while (current <= fechaFin) {
+      const anio = current.getFullYear();
+      const mes = current.getMonth();
 
       const dias: { numero: number; fechaISO: string }[] = [];
       const primerDia = new Date(anio, mes, 1);
@@ -170,15 +223,34 @@ export class MisInversionesComponent implements OnInit {
         dias.push({ numero: d, fechaISO: iso });
       }
 
-      this.calendarios.push({ anio, mes, dias });
+      calendarios.push({ anio, mes, dias });
+
+      current.setMonth(current.getMonth() + 1);
     }
 
-    this.calendarios.sort((a, b) => {
-      if (a.anio !== b.anio) return a.anio - b.anio;
-      return a.mes - b.mes;
-    });
+    this.calendarios = calendarios;
     this.mesActualIndex = 0;
+  }
 
+  proximoPago: { fechaPago: string; monto: number } | null = null;
+
+  buscarProximoPago(): void {
+    const hoy = new Date().toISOString().split('T')[0];
+
+    const pagosFuturos: { fechaPago: string; monto: number }[] = [];
+
+    for (const bono of this.bonosInvertidos) {
+      if (bono.pagos?.length) {
+        for (const pago of bono.pagos) {
+          if (pago.fechaPago >= hoy) {
+            pagosFuturos.push({ fechaPago: pago.fechaPago, monto: pago.monto });
+          }
+        }
+      }
+    }
+
+    pagosFuturos.sort((a, b) => a.fechaPago.localeCompare(b.fechaPago));
+    this.proximoPago = pagosFuturos.length > 0 ? pagosFuturos[0] : null;
   }
 
 }

@@ -1,46 +1,130 @@
 <div class="mis-inversiones-container">
-    <!-- Columna Izquierda -->
     <div class="carrusel-bonos">
-        <h3>Mis Inversiones</h3>
+        <h3 class="tit">Mis Inversiones</h3>
         <div class="bono-carousel">
             <button class="nav-btn" (click)="anteriorBono()" [disabled]="bonoActualIndex === 0">‹</button>
 
             <div class="bono-card-wrapper">
-                <div class="bono-card-animada" [class.slide-izquierda]="direccionAnimacion === 'izquierda'"
+                <div *ngIf="bonoActual" class="bono-card-animada"
+                    [class.slide-izquierda]="direccionAnimacion === 'izquierda'"
                     [class.slide-derecha]="direccionAnimacion === 'derecha'">
-                    <h4>{{ bonoActual.nombre }}</h4>
-                    <p><strong>Cliente:</strong> {{ bonoActual.nombreCliente }}</p>
-                    <p><strong>Monto Nominal:</strong> S/. {{ bonoActual.montoNominal }}</p>
-                    <p><strong>Precio Compra:</strong> S/. {{ bonoActual.precioCompra }}</p>
-                    <p><strong>Plazo:</strong> {{ bonoActual.plazoAnios }} años</p>
-                    <p><strong>Moneda:</strong> {{ bonoActual.tipoMoneda }}</p>
-                    <p><strong>Fecha de Creación:</strong> {{ bonoActual.fechaCreacion }}</p>
+
+                    <div class="bono-card-header">
+                        <div class="icono-bono">
+                            <i nz-icon nzType="dollar-circle" nzTheme="outline"></i>
+                        </div>
+                    </div>
+
+                    <div class="bono-card-body">
+                        <p class="cliente"><strong>Cliente:</strong> {{ bonoActual.nombreCliente }}</p>
+
+                        <div class="detalle-fila">
+                            <p><strong>Monto Nominal:</strong> S/. {{ bonoActual.montoNominal }}</p>
+                            <p><strong>Precio Compra:</strong> S/. {{ bonoActual.precioCompra }}</p>
+                        </div>
+
+                        <div class="detalle-fila">
+                            <p><strong>Tipo Tasa:</strong> {{ bonoActual.tipoTasa }}</p>
+                            <p><strong>Tasa Base:</strong> {{ bonoActual.tasaBase }}% ({{ bonoActual.tipoTasaBase }})
+                            </p>
+                        </div>
+
+                        <div class="detalle-fila">
+                            <p><strong>Capitalización:</strong> {{ bonoActual.capitalizacion || 'No aplica' }}</p>
+                            <p><strong>Tasa Convertida:</strong> {{ (bonoActual.tasaConvertida * 100) | number:'1.2-2'
+                                }}%</p>
+                        </div>
+
+                        <div class="detalle-fila">
+                            <p><strong>Plazo:</strong> {{ bonoActual.plazoAnios }} años</p>
+                            <p><strong>Frecuencia Pago:</strong> {{ bonoActual.frecuenciaPago }}</p>
+                        </div>
+
+                        <div class="detalle-fila">
+                            <p><strong>Tipo de Gracia:</strong> {{ bonoActual.tipoGracia }}</p>
+                            <p><strong>Periodo de Gracia:</strong> {{ bonoActual.periodoGracia }}</p>
+                        </div>
+
+                        <p><strong>Moneda:</strong> {{ bonoActual.tipoMoneda }}</p>
+                    </div>
+
+                    <div class="bono-card-footer">
+                    </div>
                 </div>
             </div>
-
             <button class="nav-btn" (click)="siguienteBono()"
                 [disabled]="bonoActualIndex === bonosInvertidos.length - 1">›</button>
         </div>
     </div>
 
-    <!-- Columna Derecha -->
-    <!-- Columna Derecha -->
     <div class="calendario-section" *ngIf="calendarios.length">
-        <!-- Encabezado del calendario -->
+
+        <div *ngIf="pagosFuturos.length" class="carrusel-pagos">
+            <h4 class="subtit">Próximos Pagos</h4>
+
+            <div class="pago-carousel">
+                <button class="nav-btn" (click)="pagoAnterior()" [disabled]="pagoActualIndex === 0">‹</button>
+
+                <div class="pago-card-wrapper">
+                    <div *ngIf="mostrarPagoCard" class="pago-card-horizontal"
+                        [class.slide-izquierda]="pagoDireccionAnimacion === 'izquierda'"
+                        [class.slide-derecha]="pagoDireccionAnimacion === 'derecha'">
+                        <div class="pago-icono">
+                            <i nz-icon nzType="calendar" nzTheme="outline"></i>
+                            <div *ngIf="pagoActual.bono" class="pago-nombre-bono">
+                                {{ pagoActual.bono.nombre }}
+                            </div>
+
+                        </div>
+
+                        <div class="pago-detalles-grid">
+                            <div class="detalle-item">
+                                <strong>Fecha Pago:</strong>
+                                <span>{{ pagoActual.fechaPago | date:'dd/MM/yyyy' }}</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Cuota N°:</strong>
+                                <span>{{ pagoActual.numeroCuota }}</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Interés:</strong>
+                                <span>S/. {{ pagoActual.interes }}</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Amortización:</strong>
+                                <span>S/. {{ pagoActual.amortizacion }}</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Total Cuota:</strong>
+                                <span>S/. {{ pagoActual.cuota }}</span>
+                            </div>
+                            <div class="detalle-item">
+                                <strong>Saldo:</strong>
+                                <span>S/. {{ pagoActual.saldo }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="nav-btn" (click)="pagoSiguiente()"
+                    [disabled]="pagoActualIndex === pagosFuturos.length - 1">›</button>
+            </div>
+        </div>
+
         <div class="calendario-encabezado">
             <div class="controles">
-                <button (click)="mesAnterior()">←</button>
+                <button (click)="mesAnterior()"><nz-icon nzType="caret-left" nzTheme="outline" /></button>
                 <span class="anio">{{ calendarios[mesActualIndex].anio }}</span>
-                <button (click)="mesSiguiente()">→</button>
+                <button (click)="mesSiguiente()"><nz-icon nzType="caret-right" nzTheme="outline" /></button>
             </div>
             <div class="mes">{{ meses[calendarios[mesActualIndex].mes] }}</div>
         </div>
 
-        <!-- Calendario -->
         <div class="calendario">
             <div class="cal-header">
                 <div *ngFor="let dia of diasSemana" class="dia-semana">{{ dia }}</div>
             </div>
+
             <div class="cal-body">
                 <div *ngFor="let dia of calendarios[mesActualIndex].dias"
                     [ngClass]="{'dia': true, 'activo': fechasPagoSet.has(dia.fechaISO)}">

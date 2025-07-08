@@ -257,8 +257,6 @@ nz-content {
   }
 }
 
-
-
 .usuario-info {
   padding: 4px 16px;
   font-size: 16px;
@@ -437,8 +435,8 @@ nz-icon {
     width: 250px !important;
 
     &.ant-layout-sider-collapsed {
-      max-width: 60px !important;
-      min-width: 60px !important;
+      max-width: 70px !important;
+      min-width: 70px !important;
     }
   }
 
@@ -456,40 +454,40 @@ nz-icon {
     height: 40px !important;
   }
 
-  .sidebar-logo[_ngcontent-ng-c1618874233] h1[_ngcontent-ng-c1618874233] {
+  .sidebar-logo h1 {
     color: #fff;
     font-weight: 550;
     font-size: 18px;
   }
 
-  .sidebar-logo[_ngcontent-ng-c1618874233] img[_ngcontent-ng-c1618874233] {
+  .sidebar-logo img {
     height: 38px;
     width: 38px;
   }
 
-  .sidebar-logo[_ngcontent-ng-c1618874233] {
+  .sidebar-logo {
     position: relative;
     height: 64px;
-    padding-left: 12px;
+    padding-left: 17px;
     line-height: 64px;
   }
 
-  .user-avatar[_ngcontent-ng-c1618874233] .user-avatar-container[_ngcontent-ng-c1618874233] .user-name[_ngcontent-ng-c1618874233] {
+  .user-avatar .user-avatar-container .user-name {
     margin: 0;
     padding-left: 15px;
     width: 100%;
     font-size: 15px;
   }
 
-  .user-avatar[_ngcontent-ng-c1618874233] .user-avatar-container[_ngcontent-ng-c1618874233] {
+  .user-avatar .user-avatar-container {
     min-width: 220px;
     cursor: pointer;
     padding: 0 12px;
     margin-right: 10px;
   }
 
-  .usuario-info[_ngcontent-ng-c1618874233] .nombre[_ngcontent-ng-c1618874233],
-  .usuario-info[_ngcontent-ng-c1618874233] .correo[_ngcontent-ng-c1618874233] {
+  .usuario-info .nombre,
+  .usuario-info .correo {
     color: #000000;
     line-height: 1.2;
     margin: 0;
@@ -497,12 +495,12 @@ nz-icon {
     font-size: 13px;
   }
 
-  .usuario-info[_ngcontent-ng-c1618874233] .nombre[_ngcontent-ng-c1618874233] {
+  .usuario-info .nombre {
     margin-bottom: 5px;
   }
 
 
-  .user-avatar[_ngcontent-ng-c1618874233] .user-avatar-container[_ngcontent-ng-c1618874233] .dropdown-usuario[_ngcontent-ng-c1618874233] .dropdown-item[_ngcontent-ng-c1618874233] {
+  .user-avatar .user-avatar-container .dropdown-usuario .dropdown-item {
     padding: 5px 14px;
     font-size: 13px;
     max-height: 45px;
@@ -526,14 +524,14 @@ nz-icon {
     transition: all 0.2s ease-in-out;
   }
 
-  .ant-anchor[_ngcontent-ng-c1618874233],
-  .ant-avatar[_ngcontent-ng-c1618874233] {
+  .ant-anchor,
+  .ant-avatar {
     font-size: 15px;
     font-feature-settings: "tnum";
     font-weight: 600;
   }
 
-  .ant-avatar[_ngcontent-ng-c1618874233] {
+  .ant-avatar {
     position: relative;
     display: inline-block;
     overflow: hidden;
@@ -546,7 +544,7 @@ nz-icon {
     border-radius: 50%;
   }
 
-  .icon_fold[_ngcontent-ng-c1618874233] {
+  .icon_fold {
     color: #fff !important;
     font-size: 14px !important;
   }
@@ -638,32 +636,32 @@ nz-icon {
   }
 
 
-  .sidebar-logo[_ngcontent-ng-c1618874233] h1[_ngcontent-ng-c1618874233] {
+  .sidebar-logo h1 {
     color: #fff;
     font-weight: 550;
     font-size: 18px;
   }
 
-  .sidebar-logo[_ngcontent-ng-c1618874233] img[_ngcontent-ng-c1618874233] {
+  .sidebar-logo img {
     height: 35px;
     width: 35px;
   }
 
-  .sidebar-logo[_ngcontent-ng-c1618874233] {
+  .sidebar-logo {
     position: relative;
     height: 64px;
     padding-left: 12px;
     line-height: 64px;
   }
 
-  .user-avatar[_ngcontent-ng-c1618874233] .user-avatar-container[_ngcontent-ng-c1618874233] .user-name[_ngcontent-ng-c1618874233] {
+  .user-avatar .user-avatar-container .user-name {
     margin: 0;
     padding-left: 15px;
     width: 100%;
     font-size: 13px;
   }
 
-  .user-avatar[_ngcontent-ng-c1618874233] .user-avatar-container[_ngcontent-ng-c1618874233] {
+  .user-avatar .user-avatar-container[_ngcontent-ng-c1618874233] {
     min-width: 200px;
     cursor: pointer;
     padding: 0 12px;
@@ -732,4 +730,13 @@ nz-icon {
     color: #fff !important;
     font-size: 15px !important;
   }
+
+  .sidebar-logo[_ngcontent-ng-c713569906] h1[_ngcontent-ng-c713569906] {
+    margin: 0px 0 0 10px;
+    color: #fff;
+    font-weight: 550;
+    font-size: 16px;
+    vertical-align: middle;
+  }
+
 }

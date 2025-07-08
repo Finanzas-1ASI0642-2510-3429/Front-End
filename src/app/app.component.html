@@ -33,19 +33,10 @@
             <li nz-menu-item>
               <a routerLink="/mis-inversiones">Mis Inversiones</a>
             </li>
-            <li nz-menu-item>
-              <a routerLink="/configuracion-cuenta">Configuración de cuenta</a>
-            </li>
           </ul>
         </li>
 
-        <li nz-submenu nzOpen nzTitle="Informacion del Sistema" nzIcon="exclamation-circle">
-          <ul>
-            <li nz-menu-item>
-              <a routerLink="/info-sistema">Acerca De</a>
-            </li>
-          </ul>
-        </li>
+
 
       </ul>
 
@@ -85,12 +76,6 @@
                 <div class="dropdown-item" (click)="toggleDropdown()">
                   <span nz-icon nzType="setting"></span>
                   <span class="label">Configuración</span>
-                </div>
-
-                <div class="dropdown-item modo-oscuro" (click)="$event.stopPropagation()">
-                  <span nz-icon nzType="moon"></span>
-                  <span class="label">Modo oscuro</span>
-                  <nz-switch [(ngModel)]="esOscuro" (ngModelChange)="toggleTheme($event)"></nz-switch>
                 </div>
 
                 <div class="divider" (click)="toggleDropdown()"></div>
